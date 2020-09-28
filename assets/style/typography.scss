@@ -1,0 +1,82 @@
+@mixin headline-1 () {
+  font-weight: $font-weight-regular;
+  font-family: $font-sans;
+  font-size: 1.6rem;
+  // font-style: italic;
+  line-height: 1.2;
+  // color: getColor(gray, 10);
+}
+
+.question {
+  @include headline-1();
+}
+
+h1 {
+	font-size: 2.5rem;
+  margin-bottom: 1em;
+}
+
+h2 {
+	font-size: 1.9rem;
+  margin: 0 0 0.2em;
+}
+
+h3 {
+	font-size: 1.2rem;
+	font-weight: $font-weight-regular;
+	font-style: italic;
+  margin: 0;
+}
+
+.caption {
+	text-transform: uppercase;
+	font-weight: $font-weight-regular;
+	font-size: 0.7rem;
+	color: getColor(gray, 70);
+}
+
+p {
+	margin-bottom: 1rem;
+}
+
+#introduction p {
+	font-style: italic;
+	font-size: 1.1rem;
+}
+
+p a {
+	color: $color-black;
+	text-decoration: underline;
+	text-decoration-color: $color-neon;
+	background: transparent;
+
+	&:hover, &:focus {
+		color: $color-neon;
+		background: transparent;
+	}
+}
+
+a {
+	&.btn {
+		background-color: $color-neon;
+		padding: 1em 2em;
+		border-radius: 4px;
+		color: $color-white;
+		position: relative;
+
+		&:hover, &:focus {
+			background-color: getColor(neon, 45);
+		}
+
+		i {
+			position: absolute;
+			font-size: 0.8em;
+			right: 3px;
+			top: 0;
+		}
+	}
+}
+
+ul {
+	margin-left: 1em;
+}

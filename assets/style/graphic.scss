@@ -1,0 +1,98 @@
+.text {
+  font-size: 24px;
+  transition: fill 0.3s;
+
+  &.text--blue {
+    fill: #1b799b;
+  }
+
+  &.text--green {
+    fill: #1b9562;
+  }
+
+  &.text--white {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 19px;
+    fill: #333333;
+  }
+
+  &.text--icon {
+    font-size: 17px;
+    fill: $color-neon;
+  }
+
+  &.text--small {
+    font-size: 19px;
+  }
+
+  &.text--big {
+    font-size: 30px;
+  }
+
+  &.text--alt {
+    font-size: 24px;
+    font-style: italic;
+    font-weight: 400;
+  }
+}
+
+.box {
+  .rect {
+    transition: fill 0.3s, stroke 0.3s;
+
+    &.rect--blue {
+      fill: #d2e8f5;
+      stroke: #a3d1ea;
+    }
+
+    &.rect--green {
+      fill: #d2f4df;
+      stroke: #a2e7c0;
+    }
+
+    &.rect--white {
+      fill: #ffffff;
+      stroke: #e4e4e4;
+    }
+  }
+
+  &.box--link {
+    .text--white {
+      // fill: $color-neon;
+    }
+
+    &:hover {
+      .text {
+        fill: getColor(neon, 45);
+      }
+
+      .rect--white, .rect--green, .rect--blue {
+        fill: #fff;
+        stroke: $color-neon;
+      }
+    }
+  }
+}
+
+.label {
+  &.label--link {
+    &:hover {
+      .text {
+        fill: getColor(neon, 45);
+      }
+    }
+  }
+}
+
+.path {
+  stroke: #75757a;
+  stroke-width: 2px;
+  fill: none;
+}
+
+.marker {
+  fill: none;
+  stroke: #75757a;
+  stroke-width: 2px;
+}
