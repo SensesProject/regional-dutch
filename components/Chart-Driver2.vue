@@ -8,7 +8,7 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <path v-for="path in paths2" :d="path" />
+      <polyline v-for="path in paths" :points="path" ref="path" />
     </svg>
   </div>
 </template>
@@ -16,10 +16,27 @@
 <script>
 import { mapGetters } from 'vuex'
 import { scaleLinear } from 'd3-scale'
-// import TWEEN from '@tweenjs/tween.js'
-import { isUndefined, map, range, flatten, values as getValues } from 'lodash'
+import anime from 'animejs/lib/anime.es.js';
+import { isUndefined, map, range, flatten, values as getValues, forEach } from 'lodash'
 
 const STEPS = 10
+
+const lines = [
+  'change to new business models',
+  'current agricultural practices',
+  'growing of local economy',
+  'environmental focussed policy',
+  'climate smart land use',
+  'demography population decline',
+  'public opinion (as in SSP1)',
+  'regional income from recreation',
+  'energy transition',
+  'spatial room for nature',
+  'landscape value importance',
+  'extreme climate events',
+  'biodiversity increase',
+  'technology investment'
+]
 
 export default {
   data () {
@@ -52,37 +69,13 @@ export default {
     xs () {
       return map(range(STEPS), i => this.scaleX(i))
     },
-    valueObj () {
-      const obj = {};
-      const values = flatten(this.values)
-      for (let i = 0; i < values.length; i++) {
-        obj[i] = values[i]
-      }
-      return obj
-    },
-    paths2 () {
-      console.log(getValues(this.valueObj))
-      const values = getValues(this.valueObj)
-      const paths = []
-      let line = []
-      for (let i = 0; i < values.length; i++) {
-        const x = i % STEPS
-        line.push([this.xs[x], this.scaleY(values[i])])
-        if (x === STEPS - 1) {
-          paths.push(`M ${line.join('L')}`)
-          line = []
-        }
-      }
-      return paths
-    },
     paths () {
-      console.log(this.valueObj)
-      console.log(this.paths2)
-      return map(this.values, (line) => {
-        const coords = map(line, (y, x) => {
-          return [this.xs[x], this.scaleY(y)]
+      const y = this.scaleY(0)
+      return map(lines, (line) => {
+        const coords = map(this.xs, (x) => {
+          return `${x} ${y}`
         })
-        return `M ${coords.join('L')}`
+        return coords.join(',')
       })
     }
   },
@@ -104,33 +97,28 @@ export default {
         const height = el.clientHeight || el.parentNode.clientHeight
         this.width = width
         this.height = height
+        this.anime(this.values)
       }
     },
-    tween (startValue, endValue) {
-      const vm = this
-      function animate () {
-        if (TWEEN.update()) {
-          requestAnimationFrame(animate)
-        }
-      }
+    anime (endValue) {
+      forEach(this.$refs.path, (path, i) => {
+        const coords = map(endValue[i], (y, x) => {
+          return `${this.xs[x]} ${this.scaleY(y)}`
+        }).join(',')
 
-      new TWEEN.Tween({ tweeningValue: startValue })
-        .to({ tweeningValue: endValue }, 100)
-        .onUpdate(({ tweeningValue }) => {
-          vm.tweenedXPosition = tweeningValue
-        })
-        .start()
-
-      animate()
+        anime({
+          targets: path,
+          points: coords,
+          easing: 'easeOutQuad',
+          duration: 1000,
+        });
+      })
     }
   },
   watch: {
-    valueObj (newPos, oldPos) {
-      this.tween(oldPos, newPos)
+    values (newPos) {
+      this.anime(newPos)
     }
-  },
-  mounted () {
-    this.tweenedXPosition = this.valueObj
   }
 }
 </script>
@@ -147,10 +135,9 @@ export default {
     height: 500px;
   }
 
-  path {
+  polyline {
     stroke: #000;
     fill: none;
-    transition: d 0.3s;
   }
 
 </style>

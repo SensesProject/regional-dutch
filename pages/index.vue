@@ -96,7 +96,7 @@
 <script>
   import { mapState, mapActions } from 'vuex'
   import Question from '~/components/Question'
-  import ChartDriver from '~/components/Chart-Driver'
+  import ChartDriver from '~/components/Chart-Driver2'
   import ChartNetwork from '~/components/Chart-Network'
   import ChartVision from '~/components/Chart-Vision'
   import ChartWildcards from '~/components/Chart-Wildcards'
