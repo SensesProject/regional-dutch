@@ -32,7 +32,8 @@ const DEFAULTS = {
 
 const state = () => {
   return {
-    drivers: DEFAULTS.drivers
+    drivers: DEFAULTS.drivers,
+    hover: null
   }
 }
 
@@ -72,12 +73,18 @@ const getters = {
 const mutations = {
   TOGGLE_DRIVER (state, index) {
     state.drivers.splice(index, 1, state.drivers[index] ? 0 : 1);
+  },
+  HOVER_DRIVER (state, index) {
+    state.hover = index
   }
 }
 
 const actions = {
   toggleDriver ({ state, commit }, index) {
     commit('TOGGLE_DRIVER', index)
+  },
+  hoverDriver ({ commit }, index) {
+    commit('HOVER_DRIVER', index)
   }
 }
 

@@ -13,12 +13,8 @@
         </header>
         <p>Scoping interviews with stakeholders in the Dutch case study region have been analysed with Fuzzy Cognitive Maps (Kosko 1986, Kok 2009)  to conduct a system analysis of perceptions in the region. A total of 14 concepts and 4 drivers represent perceptual system understanding around the focus of the interviews: climate smart land use. Climate smart land use is defined as the optimal trade-off between adaptive and mitigative land use for the Vecht, or more concrete, the optimal trade-off between land use for agriculture, nature and energy. Click on the drivers to see how they influence climate smart land use directly or indirectly.</p>
       </section>
-      <section class="graphic graphic--left">
-        <ChartNetwork />
-      </section>
-      <section class="graphic graphic--right">
-        <ChartDriver />
-        <p>Together, the drivers enhance climate smart land use to the highest state. Yet, current agricultural practices decline which negatively influences the growth of the local economy.</p>
+      <section class="graphic graphic--wide">
+        <ChartNetworkInteractive />
       </section>
       <section class="step">
         <header>
@@ -96,13 +92,14 @@
 <script>
   import { mapState, mapActions } from 'vuex'
   import Question from '~/components/Question'
-  import ChartDriver from '~/components/Chart-Driver2'
+  import ChartDrivers from '~/components/Chart-Drivers'
   import ChartNetwork from '~/components/Chart-Network'
   import ChartVision from '~/components/Chart-Vision'
   import ChartWildcards from '~/components/Chart-Wildcards'
   import Answer from '~/components/Answer'
   import Introduction from '~/components/Introduction'
   import Chart from '~/components/Chart'
+  import ChartNetworkInteractive from '~/components/Chart-Network-Interactive'
   import IntersectionObserver from 'library/src/components/IntersectionObserver'
 
   export default {
@@ -112,10 +109,11 @@
       Introduction,
       Chart,
       IntersectionObserver,
-      ChartDriver,
+      ChartDrivers,
       ChartNetwork,
       ChartVision,
-      ChartWildcards
+      ChartWildcards,
+      ChartNetworkInteractive
     },
     computed: {
       ...mapState('step', [
@@ -185,6 +183,11 @@
     }
 
     .graphic {
+      &.graphic--wide {
+        grid-column-start: 1;
+        grid-column-end: 6;
+      }
+
       &.graphic--left {
         grid-column-start: 1;
         grid-column-end: 4;

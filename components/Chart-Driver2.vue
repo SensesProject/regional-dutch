@@ -1,5 +1,5 @@
 <template>
-  <div ref="vis" class="vis-container">
+  <div ref="vis" class="vis-driver-container" @mouseenter="() => hoverDriver(index)" @mouseleave="() => hoverDriver(null)">
     <svg
       class="vis"
       :width="width + 'px'"
@@ -8,16 +8,19 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <polyline v-for="path in paths" :points="path" ref="path" />
+      <line class="tick base" x1="0" :x2="width" :y1="scaleY(0)" :y2="scaleY(0)" />
+      <polyline :points="pathHover" stroke-linejoin="round" class="hover" v-if="hover !== null && hover !== index" />
+      <polygon :points="area" ref="area" stroke-linejoin="round" class="visible" />
+      <polyline :points="path" ref="path" stroke-linejoin="round" class="visible" />
     </svg>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState, mapActions } from 'vuex'
 import { scaleLinear } from 'd3-scale'
 import anime from 'animejs/lib/anime.es.js';
-import { isUndefined, map, range, flatten, values as getValues, forEach } from 'lodash'
+import { isUndefined, map, range, flatten, values as getValues, forEach, every, last } from 'lodash'
 
 const STEPS = 10
 
@@ -39,20 +42,23 @@ const lines = [
 ]
 
 export default {
+  props: ['index'],
   data () {
     return {
       width: 0,
       height: 0,
       margin: {
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: 20
-      },
-      tweened: []
+        left: 10,
+        right: 10,
+        top: 5,
+        bottom: 5
+      }
     }
   },
   computed: {
+    ...mapState('driver', [
+      'hover'
+    ]),
     ...mapGetters('driver', [
       'values'
     ]),
@@ -64,32 +70,56 @@ export default {
     scaleY () {
       return scaleLinear()
         .range([this.height - this.margin.bottom, this.margin.top])
-        .domain([-1, 1]).nice()
+        .domain([-0.8, .8]).nice()
+    },
+    ticks () {
+      return map(this.scaleY.ticks(1), tick => {
+        const [x1, x2] = this.scaleX.range()
+        return {
+          x1,
+          x2,
+          y: this.scaleY(tick),
+          label: tick,
+          classes: { base: tick === 0 }
+        }
+      })
     },
     xs () {
       return map(range(STEPS), i => this.scaleX(i))
     },
-    paths () {
+    path () {
       const y = this.scaleY(0)
-      return map(lines, (line) => {
-        const coords = map(this.xs, (x) => {
-          return `${x} ${y}`
-        })
-        return coords.join(',')
+      const line = lines[this.index]
+      const coords = map(this.xs, (x) => {
+        return `${x} ${y}`
       })
+      return coords.join(',')
+    },
+    area () {
+      const x = this.xs[this.xs.length - 1]
+      const y = this.scaleY(0)
+      return `${this.path}, ${x} ${y}`
+    },
+    pathHover () {
+      const y = this.scaleY(0)
+      const line = this.values[this.hover]
+      const coords = map(this.xs, (x, i) => {
+        return `${x} ${this.scaleY(line[i])}`
+      })
+      return coords.join(',')
     }
   },
   mounted () {
     this.calcSizes()
     window.addEventListener('resize', this.calcSizes, false)
   },
-  updated () {
-    this.calcSizes()
-  },
   beforeDestroy () {
     window.removeEventListener('resize', this.calcSizes, false)
   },
   methods: {
+    ...mapActions('driver', [
+      'hoverDriver'
+    ]),
     calcSizes () {
       const { vis: el } = this.$refs
       if (!isUndefined(el)) {
@@ -101,18 +131,31 @@ export default {
       }
     },
     anime (endValue) {
-      forEach(this.$refs.path, (path, i) => {
-        const coords = map(endValue[i], (y, x) => {
-          return `${this.xs[x]} ${this.scaleY(y)}`
-        }).join(',')
+      const path = map(endValue[this.index], (y, x) => {
+        return `${this.xs[x]} ${this.scaleY(y)}`
+      }).join(',')
 
-        anime({
-          targets: path,
-          points: coords,
-          easing: 'easeOutQuad',
-          duration: 1000,
-        });
-      })
+      const x = this.xs[this.xs.length - 1]
+      const y = this.scaleY(0)
+      const area = `${path}, ${x} ${y}`
+
+      const isPositive = last(endValue[this.index]) > 0
+
+      anime({
+        targets: this.$refs.path,
+        points: path,
+        stroke: isPositive ? '#c8005f' : '#ffac00',
+        easing: 'easeOutQuad',
+        duration: 1000,
+      });
+
+      anime({
+        targets: this.$refs.area,
+        points: area,
+        fill: isPositive ? '#ed96ab' : '#ffd89a',
+        easing: 'easeOutQuad',
+        duration: 1000,
+      });
     }
   },
   watch: {
@@ -130,14 +173,63 @@ export default {
     font-size: 0.8rem;
   }
 
-  .vis-container, svg {
+  .vis-driver-container, .vis-driver-container > svg {
     width: 100%;
-    height: 500px;
+    height: 60px;
+  }
+
+  polygon {
+    // transition: fill 0.3s;
   }
 
   polyline {
     stroke: #000;
     fill: none;
+    // stroke-dasharray: 3, 1;
+    stroke-width: 1.5;
+    // stroke: rgb(46, 60, 133);
+    // transition: stroke 0.3s;
+    opacity: 0;
+
+    &.visible {
+      opacity: 1;
+    }
+
+    // &.full {
+    //   opacity: 0;
+    // }
+
+    &.hover {
+      opacity: 1;
+      stroke-width: 1;
+      // stroke-dasharray: 3, 1;
+      stroke: getColor(gray, 70);
+    }
+  }
+
+  line {
+    stroke-width: 0.35;
+    stroke: getColor(gray, 70);
+    stroke-dasharray: 3, 2;
+
+    &.base {
+      stroke-width: 1;
+      stroke: getColor(gray, 30);
+    }
+  }
+
+  text {
+    &.tick {
+      fill: $color-black;
+      font-size: 0.6rem;
+    }
+
+    &.direction {
+      fill: $color-black;
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
   }
 
 </style>
