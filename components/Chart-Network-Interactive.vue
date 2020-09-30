@@ -8,21 +8,9 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <line v-for="{ x1, x2, y1, y2 } in links" :x1="x1" :x2="x2" :y1="y1" :y2="y2" />
-      <g v-for="{ x, y, i } in nodes">
-        <circle
-          :cx="x"
-          :cy="y"
-          r="20" />
-        <text
-          :x="x"
-          :y="y"
-          text-anchor="middle">
-          {{ i }}
-        </text>
-      </g>
+      <path v-for="{ d, isCurved } in links" :d="d" :style="{ stroke: isCurved }" />
     </svg>
-    <div class="vis-interactive">
+    <div class="vis-interactive" v-if="true">
       <div
         v-for="{ label, x, y, i, isActive, isDriver } in nodes"
         :style="{ transform: `translate(${x}px, ${y}px)` }"
@@ -45,7 +33,8 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import { scalePoint } from 'd3-scale'
+import { scalePoint, scaleDiverging } from 'd3-scale'
+import { interpolateRdBu } from 'd3-scale-chromatic'
 import { isUndefined, map, range } from 'lodash'
 import ChartDriver from '~/components/Chart-Driver2'
 
@@ -74,10 +63,16 @@ export default {
         .range([this.margin.left, this.width - this.margin.right])
         .domain(range(5))
     },
+    dX () {
+      return Math.round(Math.abs(this.scaleX(1) - this.scaleX(0)))
+    },
     scaleY () {
       return scalePoint()
         .range([this.height - this.margin.bottom, this.margin.top])
         .domain(range(4))
+    },
+    dY () {
+      return Math.round(Math.abs(this.scaleY(1) - this.scaleY(0)))
     },
     nodes () {
       const drivers = [
@@ -86,7 +81,7 @@ export default {
         ['Local economy', 1, 2, false],
         ['Environmental policy', 2, 1, false],
         ['Smart land use', 3, 0, false],
-        ['Demography population', 1, 3, true],
+        ['Demography population', 2, 3, true],
         ['Public opinion', 2, 2, false],
         ['Income from recreation', 3, 3, false],
         ['Energy transition', 2, 0, false],
@@ -102,47 +97,132 @@ export default {
           isActive: this.drivers[i],
           isDriver,
           i,
-          x: this.scaleX(x),
-          y: this.scaleY(y)
+          x: Math.round(this.scaleX(x)),
+          y: Math.round(this.scaleY(y))
         }
       })
     },
     links () {
       const links = [
-        [1, 2],
-        [1, 3],
-        [2, 3],
-        [6, 3],
-        [6, 7],
-        [3, 7],
-        [8, 3],
-        [5, 2],
-        [4, 2],
-        [14, 2],
-        [4, 9],
-        [9, 5],
-        [5, 10],
-        [10, 11],
-        [11, 9],
-        [10, 13],
-        [11, 8],
-        [7, 11],
-        [12, 5],
-        [12, 7],
-        [14, 9],
-        [7, 4]
+        [1, 2, -0.6],
+        [1, 3, 0.5],
+        [2, 3, 0.3],
+        [6, 3, -0.5],
+        [6, 7, 0.2],
+        [3, 7, 0.2],
+        [8, 3, 0.5],
+        [5, 2, -0.5],
+        [4, 2, -0.5],
+        [14, 2, 0.5],
+        [4, 9, 0.5],
+        [9, 5, 0.8],
+        [5, 10, 0.5],
+        [10, 11, 0.5],
+        [11, 9, -0.9],
+        [10, 13, 0.5],
+        [11, 8, 0.5],
+        [7, 11, 0.5],
+        [12, 5, 0.2],
+        [12, 7, 0.2],
+        [14, 9, 0.5],
+        [7, 4, 0.5]
       ]
+
+      const scaleAnomalyPuOr = scaleDiverging()
+        .domain([-1, 0, 1])
+        .interpolator(interpolateRdBu)
       // console.log({ links }, this.nodes)
-      return map(links, ([s, t]) => {
+      return map(links, ([s, t, w], i) => {
         // console.log(this.nodes[s - 1])
         const { x: x1, y: y1 } = this.nodes[s - 1]
         const { x: x2, y: y2 } = this.nodes[t - 1]
-        // console.log(x1, x2, y1, y2)
+
+        let isCurved = false
+        let d = `M ${x1} ${y1}L${x2} ${y2}`
+
+        if (x1 !== x2 && y1 !== y2) {
+          let _x1 = x1
+          let _x2 = x2
+          let _y1 = y1
+          let _y2 = y2
+
+          if (_x2 < _x1) {
+            _x1 = x2
+            _x2 = x1
+            _y1 = y2
+            _y2 = y1
+          }
+
+          // const [_x2, _x1] = [x1, x2].sort()
+          // const [_y2, _y1] = [y1, y2].sort()
+
+          if (_y1 > _y2) {
+            if (_y1 - _y2 > this.dY + 2) {
+              d = `
+                M ${_x1} ${_y1}
+                C
+                ${_x1 + this.dX / 2} ${_y1},
+                ${_x1 + this.dX / 2} ${_y1},
+                ${_x1 + this.dX / 2} ${_y1 - this.dX / 2}
+                L ${_x2 - this.dX / 2} ${_y2 + this.dX / 2}
+                C
+                ${_x2 - this.dX / 2} ${_y2},
+                ${_x2 - this.dX / 2} ${_y2},
+                ${_x2} ${_y2}
+                `
+              isCurved = 'blue'
+            } else {
+              d = `
+                M ${_x1} ${_y1}
+                C
+                ${_x1} ${_y1 - this.dY / 2},
+                ${_x1} ${_y1 - this.dY / 2},
+                ${_x1 + this.dY / 2} ${_y1 - this.dY / 2}
+                L ${_x2 - this.dY / 2} ${_y2 + this.dY / 2}
+                C
+                ${_x2} ${_y2 + this.dY / 2}
+                ${_x2} ${_y2 + this.dY / 2}
+                ${_x2} ${_y2}`
+              isCurved = 'red'
+            }
+          } else {
+            if (_y2 - _y1 > this.dY + 2) {
+              d = `
+                M ${_x1} ${_y1}
+                C
+                ${_x1 + this.dX / 2} ${_y1},
+                ${_x1 + this.dX / 2} ${_y1},
+                ${_x1 + this.dX / 2} ${_y1 + this.dX / 2}
+                L ${_x2 - this.dX / 2} ${_y2 - this.dX / 2}
+                C
+                ${_x2 - this.dX / 2} ${_y2},
+                ${_x2 - this.dX / 2} ${_y2},
+                ${_x2} ${_y2}
+                `
+              isCurved = 'pink'
+            }
+            else {
+              d = `
+                M ${_x1} ${_y1}
+                C
+                ${_x1} ${_y1 + this.dY / 2},
+                ${_x1} ${_y1 + this.dY / 2},
+                ${_x1 + this.dY / 2} ${_y1 + this.dY / 2}
+                L ${_x2 - this.dY / 2} ${_y1 + this.dY / 2}
+                C
+                ${_x2} ${_y2 - this.dY / 2}
+                ${_x2} ${_y2 - this.dY / 2}
+                ${_x2} ${_y2}`
+              isCurved = 'green'
+            }
+          }
+        }
+
+        isCurved = scaleAnomalyPuOr(w)
+
         return {
-          x1,
-          x2,
-          y1,
-          y2
+          isCurved,
+          d
         }
       })
     }
@@ -237,8 +317,13 @@ export default {
     fill: $color-yellow;
   }
 
-  line {
+  path {
     stroke: getColor(gray, 70);
+    fill: none;
+
+    &.isCurved {
+      stroke: $color-neon;
+    }
   }
 
 </style>
