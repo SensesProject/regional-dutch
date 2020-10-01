@@ -8,24 +8,47 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <circle :cx="width / 2" :cy="height / 2" :r="(width / 3 * 3) / 2" class="vecht" />
-      <circle :cx="width / 2" :cy="height / 2" :r="(width / 3 * 2) / 2" class="vverijssel" />
-      <circle :cx="width / 2" :cy="height / 2" :r="(width / 3 * 1) / 2" class="netherlands" />
+      <ChartVisionBackground :center="(width) / 2" :radius="(this.height - this.margin.top) / 2" />
+      <!-- <circle :cx="width / 2" :cy="height / 2" :r="((width - margin.top) / 3 * 3) / 2" class="vecht" />
+      <circle :cx="width / 2" :cy="height / 2" :r="((width - margin.top) / 3 * 2) / 2" class="vverijssel" />
+      <circle :cx="width / 2" :cy="height / 2" :r="((width - margin.top) / 3 * 1) / 2" class="netherlands" /> -->
 
-      <text :x="width / 2" :y="10" text-anchor="middle">land use and agriculture</text>
-      <text :x="width / 2" :y="height" text-anchor="middle">climate & energy</text>
-      <text :x="10" :y="height / 2" transform="rotate(-90)" :style="{ 'transform-origin': `${10}px ${height / 2}px` }" text-anchor="middle">socioeconomic development</text>
-      <text :x="width - 10" :y="height / 2" transform="rotate(90)" :style="{ 'transform-origin': `${width - 10}px ${height / 2}px` }" text-anchor="middle">nature</text>
+      <text :x="width / 2" :y="10" text-anchor="middle" class="sector">land use and agriculture</text>
+      <text :x="width / 2" :y="height" text-anchor="middle" class="sector">nature</text>
+      <text :x="10" :y="height / 2" transform="rotate(-90)" :style="{ 'transform-origin': `${10}px ${height / 2}px` }" text-anchor="middle" class="sector">socioeconomic development</text>
+      <text :x="width - 10" :y="height / 2" transform="rotate(90)" :style="{ 'transform-origin': `${width - 10}px ${height / 2}px` }" text-anchor="middle" class="sector">energy</text>
+
+      <g v-for="{ x, y, label, rotate, anchor } in points">
+        <Point :x="x" :y="y" :label="label" />
+        <!-- <circle :cx="x" :cy="y" :r="3" class="vision" v-tooltip="{ content: label }" />
+        <text :x="x" :y="y" :text-anchor="anchor" :style="{ 'transform': `rotate(${rotate}deg)`}" :transform-origin="`${x} ${y}`">{{ label }}</text> -->
+      </g>
     </svg>
   </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import { scaleLinear } from 'd3-scale'
 import { isUndefined, map } from 'lodash'
+import ChartVisionBackground from '~/components/Chart-Vision-Background'
+import Point from '~/components/Helper/Point'
+
+function getCoordinatesForPercent (percent) {
+  const x = Math.cos(2 * Math.PI * percent)
+  const y = Math.sin(2 * Math.PI * percent)
+  return [x, y]
+}
+
+const scalePercent = scaleLinear()
+  .range([0, 0.25])
+  .domain([0, 100])
 
 export default {
+  components: {
+    ChartVisionBackground,
+    Point
+  },
   data () {
     return {
       width: 0,
@@ -33,31 +56,74 @@ export default {
       margin: {
         left: 20,
         right: 20,
-        top: 20,
+        top: 60,
         bottom: 20
       }
     }
   },
   computed: {
-    ...mapGetters('driver', [
-      'values'
+    ...mapState('vision', [
+      'visions'
     ]),
+    scaleScope () {
+      return scaleLinear()
+        .range([0, (this.height - this.margin.top) / 2])
+        .domain([0, 100])
+    },
     scaleX () {
       return scaleLinear()
         .range([this.margin.left, this.width - this.margin.right])
         .domain([0, 9])
     },
-    scaleY () {
-      return scaleLinear()
-        .range([this.height - this.margin.bottom, this.margin.top])
-        .domain([-1, 1]).nice()
-    },
-    paths () {
-      return map(this.values, (line) => {
-        const coords = map(line, (y, x) => {
-          return [this.scaleX(x), this.scaleY(y)]
-        })
-        return `M ${coords.join('L')}`
+    points () {
+      return map(this.visions, ([label, scope, socio, land, energy, nature]) => {
+        const r = this.scaleScope(scope)
+
+        let percent = 0
+        let x = 0
+        let y = 0
+        let rotate = 0
+        let anchor = 'start'
+
+        if (land && energy || land === 100) {
+          percent = scalePercent(land) - 0.5
+          const [_x, _y] = getCoordinatesForPercent(percent)
+          x = (this.width / 2) + _x * r
+          y = (this.height / 2) + _y * r
+          rotate = -45
+          // console.log({ label, land, energy, x, y, _x, _y, scope, r }, land, scalePercent(land), r)
+        } else if (energy && nature || energy) {
+          percent = scalePercent(energy) - 0.25
+          const [_x, _y] = getCoordinatesForPercent(percent)
+          x = (this.width / 2) + _x * r
+          y = (this.height / 2) - _y * r
+          rotate = 45
+        } else if (nature && socio || nature) {
+          percent = scalePercent(nature)
+          const [_x, _y] = getCoordinatesForPercent(percent)
+          x = (this.width / 2) - _x * r
+          y = (this.height / 2) + _y * r
+          rotate = -45
+          anchor = 'end'
+        } else if (socio && land || socio) {
+          percent = scalePercent(socio) + 0.25
+          const [_x, _y] = getCoordinatesForPercent(percent)
+          x = (this.width / 2) + _x * r
+          y = (this.height / 2) - _y * r
+          rotate = 45
+          anchor = 'end'
+        }
+        return {
+          x,
+          y,
+          label,
+          rotate,
+          anchor
+        }
+        // const coords = map(line, (y, x) => {
+        //   return [this.scaleX(x), this.scaleY(y)]
+        // })
+        // return `M ${coords.join('L')}`
       })
     }
   },
@@ -105,6 +171,20 @@ export default {
   circle {
     opacity: 0.2;
     fill: $color-yellow;
+  }
+
+  circle {
+    &.vision {
+      opacity: 1;
+      fill: black;
+    }
+  }
+
+  .sector {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: 0.8rem;
+    fill: #333333;
   }
 
 </style>
