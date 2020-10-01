@@ -8,17 +8,18 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <line class="tick base" x1="0" :x2="width" :y1="scaleY(0)" :y2="scaleY(0)" />
-      <polyline :points="pathHover" stroke-linejoin="round" class="hover" v-if="hover !== null && hover !== index" />
       <polygon :points="area" ref="area" stroke-linejoin="round" class="visible" />
       <polyline :points="path" ref="path" stroke-linejoin="round" class="visible" />
+      <polyline :points="pathHover" stroke-linejoin="round" class="hover" v-if="hover !== null && hover !== index" />
+      <line class="tick base" x1="0" :x2="width" :y1="scaleY(0)" :y2="scaleY(0)" />
     </svg>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState, mapActions } from 'vuex'
-import { scaleLinear } from 'd3-scale'
+import { scaleLinear, scaleDiverging } from 'd3-scale'
+import { interpolatePiYG } from 'd3-scale-chromatic'
 import anime from 'animejs/lib/anime.es.js';
 import { isUndefined, map, range, flatten, values as getValues, forEach, every, last } from 'lodash'
 
@@ -50,8 +51,8 @@ export default {
       margin: {
         left: 10,
         right: 10,
-        top: 5,
-        bottom: 5
+        top: 3,
+        bottom: 3
       }
     }
   },
@@ -139,12 +140,24 @@ export default {
       const y = this.scaleY(0)
       const area = `${path}, ${x} ${y}`
 
+      const scaleAnomalyPuOr = scaleDiverging()
+        .domain([-0.8, 0, 0.8])
+        .interpolator(interpolatePiYG)
+
+      const scaleAnomalyPuOr2 = scaleDiverging()
+        .domain([-2, 0, 2])
+        .interpolator(interpolatePiYG)
+
       const isPositive = last(endValue[this.index]) > 0
+      const color = scaleAnomalyPuOr(last(endValue[this.index]))
+      const fill = scaleAnomalyPuOr2(last(endValue[this.index]))
+
+      // console.log(endValue[this.index])
 
       anime({
         targets: this.$refs.path,
         points: path,
-        stroke: isPositive ? '#c8005f' : '#ffac00',
+        stroke: scaleAnomalyPuOr(isPositive ? 1 : -1), // isPositive ? '#c8005f' : '#ffac00',
         easing: 'easeOutQuad',
         duration: 1000,
       });
@@ -152,7 +165,7 @@ export default {
       anime({
         targets: this.$refs.area,
         points: area,
-        fill: isPositive ? '#ed96ab' : '#ffd89a',
+        fill: fill, // isPositive ? '#ed96ab' : '#ffd89a',
         easing: 'easeOutQuad',
         duration: 1000,
       });
@@ -186,9 +199,9 @@ export default {
     stroke: #000;
     fill: none;
     // stroke-dasharray: 3, 1;
-    stroke-width: 1.5;
+    stroke-width: 1.2;
     // stroke: rgb(46, 60, 133);
-    // transition: stroke 0.3s;
+    transition: opacity 0.3s;
     opacity: 0;
 
     &.visible {
@@ -202,19 +215,19 @@ export default {
     &.hover {
       opacity: 1;
       stroke-width: 1;
-      // stroke-dasharray: 3, 1;
-      stroke: getColor(gray, 70);
+      stroke-dasharray: 3, 2;
+      stroke: getColor(gray, 20);
     }
   }
 
   line {
     stroke-width: 0.35;
-    stroke: getColor(gray, 70);
+    stroke: getColor(gray, 90);
     stroke-dasharray: 3, 2;
 
     &.base {
       stroke-width: 1;
-      stroke: getColor(gray, 30);
+      stroke: getColor(gray, 70);
     }
   }
 

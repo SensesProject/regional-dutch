@@ -153,7 +153,7 @@
 
     display: grid;
     grid-template-columns: repeat(5, 1fr);
-    grid-row-gap: 4rem;
+    grid-row-gap: 8rem;
     grid-column-gap: 4rem;
 
     .introduction {

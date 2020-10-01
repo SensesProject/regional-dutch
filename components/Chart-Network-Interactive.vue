@@ -8,23 +8,41 @@
       xmlns="http://www.w3.org/2000/svg"
       xmlns:xlink="http://www.w3.org/1999/xlink"
     >
-      <path v-for="{ d, isCurved } in links" :d="d" :style="{ stroke: isCurved }" />
+      <defs>
+        <marker  v-for="({ color, arrow }, i) in links" :id="`arrow-${i}`" markerWidth="8" markerHeight="8" refX="4" refY="4" markerUnits="userSpaceOnUse" :orient="arrow">
+          <path class="marker" d="M0, 1 L4, 5 L8, 1" :style="{ stroke: color, 'stroke-width': '1.5' }" />
+        </marker>
+      </defs>
+      <g v-for="({ d, color, arrow, points }, i) in links">
+        <path :d="d" :style="{ stroke: '#fff', 'stroke-width': '5px' }" />
+        <path :d="d" :style="{ stroke: color }" :marker-end="`url(#arrow-${i})`" />
+        <circle v-for="([x, y]) in points" :cx="x" :cy="y" r="3" class="point" />
+        <!-- <path :d="d" :style="{ stroke: color }" marker-end="url(#arrow-270)" /> -->
+      </g>
+      <text class="label" dominant-baseline="middle" :x="labelDriver.x - 100" :y="labelDriver.y" text-anchor="end">{{ labelDriver.label }}</text>
+      <line :x1="labelDriver.x" :x2="labelDriver.x - 95" :y1="labelDriver.y" :y2="labelDriver.y" class="label" />
+
+      <text class="label" dominant-baseline="middle" :y="labelConcept.y" text-anchor="end">
+        <tspan dy="-8" :x="labelConcept.x - 98">{{ labelConcept.label[0] }}</tspan>
+        <tspan dy="16" :x="labelConcept.x - 100">{{ labelConcept.label[1] }}</tspan>
+      </text>
+      <line :x1="labelConcept.x" :x2="labelConcept.x - 95" :y1="labelConcept.y" :y2="labelConcept.y" class="label" />
     </svg>
     <div class="vis-interactive" v-if="true">
       <div
         v-for="{ label, x, y, i, isActive, isDriver } in nodes"
         :style="{ transform: `translate(${x}px, ${y}px)` }"
         class="driver">
-        <div class="wrapper" :class="{ isActive }">
-          <label
-            v-if="isDriver"
-            @click="() => toggleDriver(i)"
-            :for="i">
-            <input type="checkbox" :checked="Boolean(isActive)" />
-            <h5 :name="i">{{ label }}</h5>
-          </label>
-          <h5 v-else>{{ label }}</h5>
-          <ChartDriver v-if="!isDriver" :index="i" />
+        <div class="wrapper" :class="{ isActive, isDriver }" v-if="isDriver" @click="() => toggleDriver(i)">
+          <svg class="switch">
+            <rect x="1" y="1" :class="{ isActive }" width="26" height="14" rx="7" ry="7" />
+            <circle cy="8" cx="8" :class="{ isActive }" r="5" />
+          </svg>
+          <h5>{{ label }}</h5>
+        </div>
+        <div v-else class="wrapper">
+          <h5 >{{ label }}</h5>
+          <ChartDriver :index="i" />
         </div>
       </div>
     </div>
@@ -34,9 +52,131 @@
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
 import { scalePoint, scaleDiverging } from 'd3-scale'
-import { interpolateRdBu } from 'd3-scale-chromatic'
-import { isUndefined, map, range } from 'lodash'
+import { interpolatePiYG } from 'd3-scale-chromatic'
+import { isUndefined, map, range, last } from 'lodash'
 import ChartDriver from '~/components/Chart-Driver2'
+
+const v = 60
+const h = 80
+const c = 20
+
+function getDy (ttb, y1, y2) {
+  return (y2 - y1 + c * (ttb ? -2 : 2)) / 2
+}
+
+function getDx (ltr, x1, x2) {
+  return (x2 - x1 + c * (ltr ? -2 : 2)) / 2
+}
+
+function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
+  const ltr = Boolean(cx2 - cx1 > 0)
+  const ttb = Boolean(cy1 - cy2 > 0)
+  const cx = ltr ? c / 2 : c / -2
+  const cy = ttb ? c / 2 : c / -2
+
+  if (x1 !== x2 && y1 !== y2) {
+    // console.log({ cy1, cy2 }, Math.abs(cy1 - cy2))
+    if (Math.abs(cy1 - cy2) > 1) { // vertical
+      // Offset anchor points
+      y1 = y1 + (ttb ? 20 : -20)
+      y2 = y2 + (ttb ? -20 : 20)
+
+      const dy = getDy(ttb, y1, y2)
+      const dx = getDx(ltr, x1, x2)
+
+      const points = [
+        // [x1, y1],
+        // [x1 + dx, y1],
+        // [x1 + dx + cx * 1.5, y1],
+        // [x1 + dx + cx * 2, y1 + cy * 0.5],
+        // [x1 + dx + cx * 2, y1 + cy * 2],
+        // [x2 - dx - cx * 2, y2 - cy * 2],
+        // [x2 - dx - cx * 2, y2 - cy * 0.5],
+        // [x2 - dx - cx * 1.5, y2],
+        // [x2 - dx, y2],
+        // [x2, y2],
+      ]
+
+      const d = `
+        M ${x1} ${y1}
+        L ${x1 + dx} ${y1}
+        C
+        ${x1 + dx + cx * 1.5} ${y1},
+        ${x1 + dx + cx * 2} ${y1 + cy * 0.5},
+        ${x1 + dx + cx * 2} ${y1 + cy * 2}
+        L ${x2 - dx - cx * 2} ${y2 - cy * 2}
+        C
+        ${x2 - dx - cx * 2} ${y2 - cy * 0.5}
+        ${x2 - dx - cx * 1.5} ${y2}
+        ${x2 - dx} ${y2}
+        L
+        ${x2 + 80 * (ltr ? -1 : 1)} ${y2}`
+      return {
+        d,
+        color: 'red',
+        arrow: ltr ? '270' : '90',
+        points
+      }
+    } else {
+      // Offset anchor points
+      x1 = x1 + (ltr ? 25 : -25)
+      x2 = x2 + (ltr ? -25 : 25)
+
+      const dy = getDy(ttb, y1, y2)
+
+      const points = [
+        // [x1, y1],
+        // [x1, y1 + dy],
+        // [x1, y1 + dy + cy * 1.5],
+        // [x1 + cx * 0.5, y1 + dy + cy * 2],
+        // [x1 + cx * 2, y1 + dy + cy * 2],
+        // [x2 - cx * 2, y2 - dy - cy * 2],
+        // [x2 - cx * 0.5, y2 - dy - cy * 2],
+        // [x2, y2 - dy - cy * 1.5],
+        // [x2, y2 - dy],
+        // [x2, y2],
+      ]
+
+      const d = `
+        M ${x1} ${y1}
+        L ${x1} ${y1 + dy}
+        C
+        ${x1} ${y1 + dy + cy * 1.5},
+        ${x1 + cx * 0.5} ${y1 + dy + cy * 2},
+        ${x1 + cx * 2} ${y1 + dy + cy * 2}
+        L ${x2 - cx * 2} ${y2 - dy - cy * 2}
+        C
+        ${x2 - cx} ${y2 - dy - cy * 2}
+        ${x2} ${y2 - dy - cy * 1.5}
+        ${x2} ${y2 - dy}
+        L
+        ${x2} ${y2 + 60 * (ttb ? -1 : 1)}`
+      return {
+        d,
+        color: 'green',
+        arrow: ttb ? '0' : '180',
+        points
+      }
+    }
+  } else {
+    if (cx1 === cx2) {
+      return {
+        d: `M ${x1} ${y1} L ${x2} ${y2 + (ttb ? -v : v)}`,
+        color: 'green',
+        arrow: ttb ? '0' : '180',
+        points: []
+      }
+    } else {
+      return {
+        d: `M ${x1} ${y1} L ${x2 + (ltr ? -h : h)} ${y2}`,
+        color: 'green',
+        arrow: ltr ? '270' : '90',
+        points: []
+      }
+    }
+  }
+
+}
 
 export default {
   components: {
@@ -58,6 +198,9 @@ export default {
     ...mapState('driver', [
       'drivers'
     ]),
+    ...mapGetters('driver', [
+      'values'
+    ]),
     scaleX () {
       return scalePoint()
         .range([this.margin.left, this.width - this.margin.right])
@@ -74,6 +217,31 @@ export default {
     dY () {
       return Math.round(Math.abs(this.scaleY(1) - this.scaleY(0)))
     },
+    labelDriver () {
+      return {
+        x: this.scaleX(1),
+        y: this.scaleY(3),
+        label: `${this.drivers[5] ? 'activated' : 'deactivated'} driver`
+      }
+    },
+    labelConcept () {
+      const value = last(this.values[2])
+      let word
+      if (value < -0.3) {
+        word = 'very negatively'
+      } else if (value < 0) {
+        word = 'negatively'
+      } else if (value > 0.3) {
+        word = 'very positively'
+      } else {
+        word = 'positively'
+      }
+      return {
+        x: this.scaleX(1),
+        y: this.scaleY(2),
+        label: [word, 'developing concept']
+      }
+    },
     nodes () {
       const drivers = [
         ['Business models', 0, 1, true],
@@ -81,7 +249,7 @@ export default {
         ['Local economy', 1, 2, false],
         ['Environmental policy', 2, 1, false],
         ['Smart land use', 3, 0, false],
-        ['Demography population', 2, 3, true],
+        ['Demography population', 1, 3, true],
         ['Public opinion', 2, 2, false],
         ['Income from recreation', 3, 3, false],
         ['Energy transition', 2, 0, false],
@@ -98,7 +266,9 @@ export default {
           isDriver,
           i,
           x: Math.round(this.scaleX(x)),
-          y: Math.round(this.scaleY(y))
+          y: Math.round(this.scaleY(y)),
+          cx: x,
+          cy: y
         }
       })
     },
@@ -130,14 +300,21 @@ export default {
 
       const scaleAnomalyPuOr = scaleDiverging()
         .domain([-1, 0, 1])
-        .interpolator(interpolateRdBu)
+        .interpolator(interpolatePiYG)
       // console.log({ links }, this.nodes)
       return map(links, ([s, t, w], i) => {
         // console.log(this.nodes[s - 1])
-        const { x: x1, y: y1 } = this.nodes[s - 1]
-        const { x: x2, y: y2 } = this.nodes[t - 1]
+        const { x: x1, y: y1, cx: cx1, cy: cy1, isDriver: d1 } = this.nodes[s - 1]
+        const { x: x2, y: y2, cx: cx2, cy: cy2, isDriver: d2 } = this.nodes[t - 1]
 
-        let isCurved = false
+        const ltr = cx2 - cx1
+        const ttb = cy1 - cy2
+
+        // console.log({cx1, cx1, ltr}, Boolean(ltr))
+
+        let color = false
+        let points = []
+        let arrow = '90'
         let d = `M ${x1} ${y1}L${x2} ${y2}`
 
         if (x1 !== x2 && y1 !== y2) {
@@ -158,71 +335,90 @@ export default {
 
           if (_y1 > _y2) {
             if (_y1 - _y2 > this.dY + 2) {
-              d = `
-                M ${_x1} ${_y1}
-                C
-                ${_x1 + this.dX / 2} ${_y1},
-                ${_x1 + this.dX / 2} ${_y1},
-                ${_x1 + this.dX / 2} ${_y1 - this.dX / 2}
-                L ${_x2 - this.dX / 2} ${_y2 + this.dX / 2}
-                C
-                ${_x2 - this.dX / 2} ${_y2},
-                ${_x2 - this.dX / 2} ${_y2},
-                ${_x2} ${_y2}
-                `
-              isCurved = 'blue'
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              // _y1 = _y1 - 25
+              // _y2 = _y2 + 25
+              // d = `
+              //   M ${_x1 + 70} ${_y1}
+              //   C
+              //   ${_x1 + this.dX / 2} ${_y1},
+              //   ${_x1 + this.dX / 2} ${_y1},
+              //   ${_x1 + this.dX / 2} ${_y1 - this.dX / 2}
+              //   L ${_x2 - this.dX / 2} ${_y2 + this.dX / 2}
+              //   C
+              //   ${_x2 - this.dX / 2} ${_y2},
+              //   ${_x2 - this.dX / 2} ${_y2},
+              //   ${_x2 - 80} ${_y2}
+              //   `
+              // color = 'blue'
             } else {
-              d = `
-                M ${_x1} ${_y1}
-                C
-                ${_x1} ${_y1 - this.dY / 2},
-                ${_x1} ${_y1 - this.dY / 2},
-                ${_x1 + this.dY / 2} ${_y1 - this.dY / 2}
-                L ${_x2 - this.dY / 2} ${_y2 + this.dY / 2}
-                C
-                ${_x2} ${_y2 + this.dY / 2}
-                ${_x2} ${_y2 + this.dY / 2}
-                ${_x2} ${_y2}`
-              isCurved = 'red'
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              // _x1 = _x1 + 35
+              // _x2 = _x2 - 35
+              // d = `
+              //   M ${_x1} ${_y1 - 55}
+              //   C
+              //   ${_x1} ${_y1 - this.dY / 2},
+              //   ${_x1} ${_y1 - this.dY / 2},
+              //   ${_x1 + this.dY / 2} ${_y1 - this.dY / 2}
+              //   L ${_x2 - this.dY / 2} ${_y2 + this.dY / 2}
+              //   C
+              //   ${_x2} ${_y2 + this.dY / 2}
+              //   ${_x2} ${_y2 + this.dY / 2}
+              //   ${_x2} ${_y2 + 55}`
+              // color = 'red'
             }
           } else {
             if (_y2 - _y1 > this.dY + 2) {
-              d = `
-                M ${_x1} ${_y1}
-                C
-                ${_x1 + this.dX / 2} ${_y1},
-                ${_x1 + this.dX / 2} ${_y1},
-                ${_x1 + this.dX / 2} ${_y1 + this.dX / 2}
-                L ${_x2 - this.dX / 2} ${_y2 - this.dX / 2}
-                C
-                ${_x2 - this.dX / 2} ${_y2},
-                ${_x2 - this.dX / 2} ${_y2},
-                ${_x2} ${_y2}
-                `
-              isCurved = 'pink'
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              // _y1 += 25
+              // _y2 -= 25
+              // d = `
+              //   M ${_x1} ${_y1}
+              //   C
+              //   ${_x1 + this.dX / 2} ${_y1},
+              //   ${_x1 + this.dX / 2} ${_y1},
+              //   ${_x1 + this.dX / 2} ${_y1 + this.dX / 2}
+              //   L ${_x2 - this.dX / 2} ${_y2 - this.dX / 2}
+              //   C
+              //   ${_x2 - this.dX / 2} ${_y2},
+              //   ${_x2 - this.dX / 2} ${_y2},
+              //   ${_x2} ${_y2}
+              //   `
+              // color = 'pink'
             }
             else {
-              d = `
-                M ${_x1} ${_y1}
-                C
-                ${_x1} ${_y1 + this.dY / 2},
-                ${_x1} ${_y1 + this.dY / 2},
-                ${_x1 + this.dY / 2} ${_y1 + this.dY / 2}
-                L ${_x2 - this.dY / 2} ${_y1 + this.dY / 2}
-                C
-                ${_x2} ${_y2 - this.dY / 2}
-                ${_x2} ${_y2 - this.dY / 2}
-                ${_x2} ${_y2}`
-              isCurved = 'green'
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              // _x1 += 35
+              // _x2 -= 35
+              // d = `
+              //   M ${_x1} ${_y1}
+              //   C
+              //   ${_x1} ${_y1 + this.dY / 2},
+              //   ${_x1} ${_y1 + this.dY / 2},
+              //   ${_x1 + this.dY / 2} ${_y1 + this.dY / 2}
+              //   L ${_x2 - this.dY / 2} ${_y1 + this.dY / 2}
+              //   C
+              //   ${_x2} ${_y2 - this.dY / 2}
+              //   ${_x2} ${_y2 - this.dY / 2}
+              //   ${_x2} ${_y2}`
+              // color = 'green'
             }
           }
+          // color = 'blue' // scaleAnomalyPuOr(w)
+
+        } else {
+          ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
         }
 
-        isCurved = scaleAnomalyPuOr(w)
+        // color = ltr > 0 ? 'red' : 'blue'
+        color = scaleAnomalyPuOr(w)
 
         return {
-          isCurved,
-          d
+          color,
+          d,
+          arrow,
+          points
         }
       })
     }
@@ -268,7 +464,7 @@ export default {
 
   .vis-container, svg {
     width: 100%;
-    height: 500px;
+    height: 600px;
   }
 
   .vis-interactive {
@@ -285,44 +481,123 @@ export default {
       .wrapper {
         background-color: #ffffff;
         border: 1px solid #e4e4e4;
-        border-radius: 3px;
+        box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 6px;
         width: 150px;
-        height: 100px;
+        height: 110px;
         transform: translate(-50%, -50%);
         display: flex;
         flex-direction: column;
         justify-content: space-between;
-        padding: 0.5rem;
+        padding: 0.7rem;
         transition: border-color 0.3s;
 
+        // h5 {
+        //   margin-left: 2px;
+        //   margin-top: 2px;
+        // }
+
+        &.isDriver {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          height: 80px;
+          width: 140px;
+          border-radius: 20px;
+
+          &:hover {
+            border-color: getColor(gray, 70);
+          }
+
+          h5 {
+            text-align: center;
+            color: $color-dark-gray;
+            margin: 0;
+            // transition: color 1s;
+          }
+
+          // &.isActive {
+          //   color: $color-black;
+          // }
+        }
+
         &.isActive {
-          border-color: $color-neon;
+          // border-color: $color-neon;
+          h5 {
+            // color: $color-black;
+            color: $color-black;
+            // animation-name: flash;
+            // animation-duration: 600ms;
+            // animation-iteration-count: 1;
+            // animation-timing-function: ease-in-out;
+          }
         }
 
         label, h5 {
           display: inline-block;
           line-height: 1.1;
           font-weight: $font-weight-bold;
-        }
-
-        label {
-          display: flex;
-          color: $color-neon;
+          font-size: 0.85rem;
         }
       }
     }
   }
 
+  text.label {
+    fill: $color-dark-gray;
+    font-style: italic;
+  }
+
+  line.label {
+    stroke: $color-light-gray;
+  }
+
   circle {
     fill: $color-yellow;
+    // stroke: black;
   }
 
   path {
-    stroke: getColor(gray, 70);
     fill: none;
+    stroke-width: 1.5px;
+    // opacity: 0.3;
+  }
 
-    &.isCurved {
-      stroke: $color-neon;
+  @-webkit-keyframes flash {
+    0% {
+      color: $color-neon;
+    }
+    100% {
+      color: $color-black;
+    }
+  }
+
+  .switch {
+    width: 28px;
+    height: 16px;
+    margin-bottom: 0.5rem;
+
+    rect {
+      // stroke-width: 10px;
+      transition: fill 0.3s, stroke 0.3s;
+      fill: $color-pale-gray;
+      stroke: $color-pale-gray;
+
+      &.isActive {
+        fill: $color-neon;
+        stroke: getColor(neon, 45);
+      }
+    }
+
+    circle {
+      transition: transform 0.3s;
+      transform: translate(0);
+      fill: $color-white;
+
+      &.isActive {
+        transform: translate(12px);
+      }
     }
   }
 

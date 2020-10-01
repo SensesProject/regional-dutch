@@ -1,143 +1,104 @@
 <template>
-  <div ref="vis" class="vis-container">
-    <svg
-      class="vis"
-      :width="width + 'px'"
-      :height="height + 'px'"
-      :viewBox="`0 0 ${width} ${height}`"
-      xmlns="http://www.w3.org/2000/svg"
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-    >
-      <polyline v-for="path in paths" :points="path" ref="path" />
-    </svg>
-  </div>
+  <g>
+    <line
+      class="axis"
+      :x1="axis.x"
+      :x2="axis.x"
+      :y1="margin.top"
+      :y2="height - margin.bottom"
+    />
+    <transition-group name="fade" tag="g">
+      <g
+        v-for="tick in axis.ticks"
+        :key="tick.key"
+      >
+        <text
+          :y="tick.y + 'px'"
+          :x="d * 5.5 + 'px'"
+          text-anchor="end"
+          dominant-baseline="middle"
+          class="tick"
+        >
+          {{ tick.label }}
+        </text>
+        <line
+          :x1="margin.left + 'px'"
+          :y1="tick.y + 'px'"
+          :x2="d * 6 + 'px'"
+          :y2="tick.y + 'px'"
+          class="tick"
+        />
+      </g>
+    </transition-group>
+    <g>
+      <rect
+        class="background"
+        :x="scaleX.range()[0] - 1"
+        :width="2"
+        :height="boxHeight + boxMargin"
+        :y="boxY - boxOffset"
+      />
+      <text
+        v-for="group in ['label label--background', 'axis']"
+        :key="group"
+        ref="text"
+        :class="`${group} axis--reading outline`"
+        :y="label.today[1] + 'px'"
+        text-anchor="start"
+      >
+        <tspan
+          v-for="(text, i) in label.texts"
+          :key="text"
+          :ref="i === 0 ? 'value' : 'texts'"
+          :dominant-baseline="i === 0 ? 'middle' : 'baseline'"
+          :x="0 + 'px'"
+          :dy="i === 0 ? '' : '1.5em'"
+        >
+          {{ text }}
+        </tspan>
+      </text>
+      <line
+        class="swoop"
+        :x1="boxWidth + 5"
+        :x2="label.today[0]"
+        :y1="label.today[1]"
+        :y2="label.today[1]"
+      />
+    </g>
+  </g>
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-import { scaleLinear } from 'd3-scale'
-import anime from 'animejs/lib/anime.es.js';
-import { isUndefined, map, range, flatten, values as getValues, forEach } from 'lodash'
-
-const STEPS = 10
-
-const lines = [
-  'change to new business models',
-  'current agricultural practices',
-  'growing of local economy',
-  'environmental focussed policy',
-  'climate smart land use',
-  'demography population decline',
-  'public opinion (as in SSP1)',
-  'regional income from recreation',
-  'energy transition',
-  'spatial room for nature',
-  'landscape value importance',
-  'extreme climate events',
-  'biodiversity increase',
-  'technology investment'
-]
+import { mapState, mapGetters } from 'vuex'
+import { map, mean, last, find, get, inRange } from 'lodash'
 
 export default {
-  data () {
-    return {
-      width: 0,
-      height: 0,
-      margin: {
-        left: 20,
-        right: 20,
-        top: 20,
-        bottom: 20
-      },
-      tweened: []
-    }
-  },
+  props: ['margin', 'scaleY', 'scaleX'],
   computed: {
-    ...mapGetters('driver', [
-      'values'
-    ]),
-    scaleX () {
-      return scaleLinear()
-        .range([this.margin.left, this.width - this.margin.right])
-        .domain([0, STEPS - 1])
+    d () {
+      return this.margin.left / 7
     },
-    scaleY () {
-      return scaleLinear()
-        .range([this.height - this.margin.bottom, this.margin.top])
-        .domain([-1, 1]).nice()
-    },
-    xs () {
-      return map(range(STEPS), i => this.scaleX(i))
-    },
-    paths () {
-      const y = this.scaleY(0)
-      return map(lines, (line) => {
-        const coords = map(this.xs, (x) => {
-          return `${x} ${y}`
-        })
-        return coords.join(',')
-      })
-    }
-  },
-  mounted () {
-    this.calcSizes()
-    window.addEventListener('resize', this.calcSizes, false)
-  },
-  updated () {
-    this.calcSizes()
-  },
-  beforeDestroy () {
-    window.removeEventListener('resize', this.calcSizes, false)
-  },
-  methods: {
-    calcSizes () {
-      const { vis: el } = this.$refs
-      if (!isUndefined(el)) {
-        const width = el.clientWidth || el.parentNode.clientWidth
-        const height = el.clientHeight || el.parentNode.clientHeight
-        this.width = width
-        this.height = height
-        this.anime(this.values)
+    axis () {
+      const { scaleY, scaleX, d } = this
+      const x = scaleX(scaleX.domain()[0])
+      return {
+        label,
+        x,
+        y,
+        ticks: map(scaleY.ticks(6), (tick, i) => {
+          const y = scaleY(tick)
+          const threshold = 10
+          const isVisible = !inRange(y, this.boxY - this.boxOffset - threshold, this.boxY + this.boxHeight + this.boxMargin + threshold)
+          return {
+            key: i,
+            label: f(tick / 1000),
+            y,
+            isVisible,
+            x: d
+          }
+        }).filter(d => d.isVisible)
       }
-    },
-    anime (endValue) {
-      forEach(this.$refs.path, (path, i) => {
-        const coords = map(endValue[i], (y, x) => {
-          return `${this.xs[x]} ${this.scaleY(y)}`
-        }).join(',')
-
-        anime({
-          targets: path,
-          points: coords,
-          easing: 'easeOutQuad',
-          duration: 1000,
-        });
-      })
-    }
-  },
-  watch: {
-    values (newPos) {
-      this.anime(newPos)
     }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-  @import "~@/assets/style/global";
-
-  .values {
-    font-size: 0.8rem;
-  }
-
-  .vis-container, svg {
-    width: 100%;
-    height: 500px;
-  }
-
-  polyline {
-    stroke: #000;
-    fill: none;
-  }
-
-</style>
