@@ -73,29 +73,32 @@
   .areas {
     transition-duration: 0.5s;
     transition-delay: 0s;
-    fill-opacity: 0.3;
-    stroke-opacity: 0.4;
+    stroke-opacity: 0.3;
   }
 
   .area-4 {
-    stroke: getColor(gray, 80);
+    fill-opacity: 0.3;
+    stroke: getColor(yellow, 80);
     stroke-width: 1px;
-    fill: getColor(gray, 90);
+    fill: getColor(yellow, 100);
   }
   .area-3 {
-    stroke: getColor(gray, 80);
+    fill-opacity: 0.9;
+    stroke: getColor(yellow, 80);
     stroke-width: 1px;
-    fill: getColor(gray, 90);
+    fill: getColor(yellow, 100);
   }
   .area-2 {
-    stroke: getColor(gray, 80);
+    fill-opacity: 0.4;
+    stroke: getColor(yellow, 80);
     stroke-width: 1px;
-    fill: getColor(gray, 90);
+    fill: getColor(yellow, 100);
   }
   .area-1 {
-    stroke: getColor(gray, 80);
+    fill-opacity: 0.2;
+    stroke: getColor(yellow, 80);
     stroke-width: 1px;
-    fill: getColor(gray, 90);
+    fill: getColor(yellow, 100);
   }
 
   path {
@@ -103,7 +106,7 @@
   }
 
   .areaLabels {
-    fill: getColor(gray, 70);
+    fill: getColor(yellow, 80);
     pointer-events: none;
     font-size: 26px;
     font-weight: bold;
