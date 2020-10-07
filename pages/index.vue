@@ -27,15 +27,25 @@
       </section>
       <section class="step">
         <header>
-          <h2>Robust pathway</h2>
+          <h2>Steps for developing robust pathways across scenarios and scales</h2>
         </header>
         <IntersectionObserver :step="0" :noStyling="true">
-          <p>A robust pathway towards the multi-scale vision was developed during a stakeholder workshop. We used a back-casting method to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
+          <p>We developed a robust pathway towards the multi-scale vision participatorily, and tested its robustness across scenarios (Step 1) and scales (Step 2).</p>
+          <h3>Step 1</h3>
+          <p>We used a back-casting method [hyperlink] to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
+          <p>Wildcards are useful to test the robustness of pathways across scenarios. Concrete examples of questions could be:</p>
+          <ol>
+            <li class="link clickable" @click="() => scrollTo('ssp1-wildcard')">Question for SSP1-wildcard: International supply chains and links to local production</li>
+            <li class="link clickable" @click="() => scrollTo('ssp3-wildcard')">Question for SSP3-wildcard: Security, international instability, migration fluxes</li>
+            <li class="link clickable" @click="() => scrollTo('ssp4-wildcard')">Question for SSP4-wildcard: Dependence on centralised green-energy systems</li>
+            <li class="link clickable" @click="() => scrollTo('ssp5-wildcard')">Question for SSP5-wildcard: Interconnection of international IT-infrastructure</li>
+          </ol>
         </IntersectionObserver>
       </section>
       <ChartWildcards :isSmall="false" />
       <section class="steps">
-        <IntersectionObserver :step="1" :noStyling="true" classes="wildcard">
+        <h4>Wildcards</h4>
+        <IntersectionObserver :step="1" :noStyling="true" classes="wildcard" id="ssp1-wildcard">
           <figure class="image">
             <img src="img/ssp1.jpg" />
           </figure>
@@ -51,7 +61,7 @@
             <p>Most households count on their own food supply. The strong bond in neighbourhoods has led to joint production. After one day all supplies are exhausted and people are forced to look outside their area to get food.</p>
           </main>
         </IntersectionObserver>
-        <IntersectionObserver :step="3" :noStyling="true" classes="wildcard">
+        <IntersectionObserver :step="3" :noStyling="true" classes="wildcard" id="ssp3-wildcard">
           <figure class="image">
             <img src="img/ssp3.jpg" />
           </figure>
@@ -67,7 +77,7 @@
             <p>Overijssel is faced with a huge population increase. This makes land scarce and the housing market exploded. Refugees from the Randstad try to fight for a place with their few possessions.</p>
           </main>
         </IntersectionObserver>
-        <IntersectionObserver :step="4" :noStyling="true" classes="wildcard">
+        <IntersectionObserver :step="4" :noStyling="true" classes="wildcard" id="ssp4-wildcard">
           <figure class="image">
             <img src="img/ssp4.jpg" />
           </figure>
@@ -82,7 +92,7 @@
             <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out in phases. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other steam eaters have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, "Otherwise the Dutch economy collapses".</p>
           </main>
         </IntersectionObserver>
-        <IntersectionObserver :step="5" :noStyling="true" classes="wildcard">
+        <IntersectionObserver :step="5" :noStyling="true" classes="wildcard" class="ssp5-wildcard">
           <figure class="image">
             <img src="img/ssp5.jpg" />
           </figure>
@@ -101,9 +111,67 @@
       </section>
       <section class="step">
         <header>
-          <h2>Robust across socioeconomic scenarios</h2>
+          <h4>Robust across socioeconomic scenarios</h4>
         </header>
-        <p>…</p>
+      </section>
+      <section class="step">
+        <header>
+          <h4>Synergies</h4>
+        </header>
+        <ul>
+          <li>Agriculture and the farmer are at the centre of all themes, scales and scenarios and crucial for transformation.</li>
+          <li>Agriculture can be transformed if it is complemented with energy generation.</li>
+          <li>Solar panels and energy projects are considered to become a promising source of income for the region.</li>
+        </ul>
+      </section>
+      <section class="step">
+        <header>
+          <h4>Challenges</h4>
+        </header>
+        <ul>
+          <li>Land based adaptation and mitigation by using nature (e.g. plant coniferous trees, room for the river, change in crop types, invest in healthy soils) while maintaining income for the farmer as agriculture is iconic for the stability and identity of the region.</li>
+          <li>Identifying who should take the lead (e.g. farmers, government, investors)</li>
+        </ul>
+      </section>
+      <section class="step">
+        <header>
+          <h2>Robust across climate impact scenarios</h2>
+        </header>
+        <p>Climate change does not limit itself to borders, and it is therefore important to test robustness of f pathways in relation to impacts outside the borders.  In the Dutch case study, we tested this by interpreting IMAGE and MAgPIE impact model results on crops and food production to guide the discussion on the implications of the pathways.</p>
+        <p>Questions from global climate and combined climate-socioeconomic impact models may include:</p>
+      </section>
+      <section class="step">
+        <header>
+          <h3>Question 1</h3>
+        </header>
+        <p>Socio-economic and climate impacts: What are the effects of changing diets towards less environmentally intensive consumption (less meat etc.) associated with a decrease in global food prices?</p>
+        <h4>Change in diet</h4>
+        <ul>
+          <li>Discussion if less meat also means less dairy, maybe even an increase in local dairy consumption. Which can enhance niche-markets.</li>
+          <li>Farmers who are ‘front runners’ will try other crops such as nuts which could be lucrative and drought resistant. These farmers act as an example for niche-markets.</li>
+          <li>Regional circular economies emerge at different speeds.</li>
+        </ul>
+      </section>
+      <section class="step">
+        <header>
+          <h3>Question 2</h3>
+        </header>
+        <p>Climate impacts: Grasslands might be affected negatively across Europe from climate change. What are the opportunities and challenges for the use of land for energy?</p>
+        <h4>Bio-energy</h4>
+        <ul>
+          <li>If farmers use their land to produce energy, for example use their grassland for biofuel, energy prices need to rise. Grasslands can handle drought shocks better compared to other cops.</li>
+        </ul>
+      </section>
+      <section class="step">
+        <header>
+          <h3>Question 3</h3>
+        </header>
+        <p>Global mitigation policies: What are the effects of mitigation policies on land-use trade-offs?</p>
+        <h4>Land-use for mitigation</h4>
+        <ul>
+          <li>Using land with fertile soils to make a solar field is a waste of your soil. Soil quality should be leading in this decision. Same is for reforestation, soil quality should enable tree growing and not the other way around.</li>
+          <li>Trade-offs between buy-out or subsidising mitigation.</li>
+        </ul>
       </section>
     </div>
   </main>
@@ -144,7 +212,10 @@
     methods: {
       ...mapActions('step', [
         'setStep'
-      ])
+      ]),
+      scrollTo (id) {
+        document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+      }
     },
     mounted () {
       this.$on('step', (step) => {

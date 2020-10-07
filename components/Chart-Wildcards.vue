@@ -9,7 +9,7 @@
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
-        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" :text="['SSP 5', '“Fossil Fuel”']" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" :text="['SSP 5', '“Fossil Fuel”']" @click="() => scrollTo('ssp1-wildcard')" />
         <Box :x="width / 3 * 1" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 1" :text="['SSP 1', '“Sustainability”']" />
         <Box :x="width / 3 * 2" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 3" :text="['SSP 3', '“Regional Rivalry”']" />
         <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" :text="['SSP 4', '“Inequality”']" />
@@ -86,6 +86,9 @@ export default {
         this.width = width
         this.height = width / 3 * 2
       }
+    },
+    scrollTo (id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
   }
 }
