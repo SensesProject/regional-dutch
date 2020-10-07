@@ -9,15 +9,19 @@
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
-        <circle :class="{ isSmall, isActive: step === 5 }" :cx="width / 3 * 1" :cy="height / 3 * 1" :r="(width / 5) / 2" />
-        <circle :class="{ isSmall, isActive: step === 1 }" :cx="width / 3 * 1" :cy="width / 3 * 2" :r="(width / 5) / 2" />
-        <circle :class="{ isSmall, isActive: step === 3 }" :cx="width / 3 * 2" :cy="width / 3 * 1" :r="(width / 5) / 2" />
-        <circle :class="{ isSmall, isActive: step === 4 }" :cx="width / 3 * 2" :cy="width / 3 * 2" :r="(width / 5) / 2" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" :text="['SSP 5', '“Fossil Fuel”']" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 1" :text="['SSP 1', '“Sustainability”']" />
+        <Box :x="width / 3 * 2" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 3" :text="['SSP 3', '“Regional Rivalry”']" />
+        <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" :text="['SSP 4', '“Inequality”']" />
 
-        <text v-if="!isSmall" :x="width / 3 * 1" :y="height / 3 * 1" text-anchor="middle">Wildcard “Fossil Fuel” SSP5</text>
-        <text v-if="!isSmall" :x="width / 3 * 1" :y="width / 3 * 2" text-anchor="middle">Wildcard SSP1 “Sustainability”</text>
-        <text v-if="!isSmall" :x="width / 3 * 2" :y="width / 3 * 1" text-anchor="middle">Wildcard SSP3 “Regional Rivalry”</text>
-        <text v-if="!isSmall" :x="width / 3 * 2" :y="width / 3 * 2" text-anchor="middle">Wildcard “Inequality” SSP4</text>
+        <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
+        <text :x="width / 2" :y="height - 20" text-anchor="middle" class="axis label">Challenges to adaptation</text>
+        <text :x="20" :y="height - 20" text-anchor="start" class="axis" transform="rotate(-45)" dominant-baseline="middle" :style="{ 'transform-origin': `${20}px ${height - 20}px` }">Low</text>
+        <text :x="width - 20" :y="height - 20" text-anchor="end" class="axis">High</text>
+
+        <line :x1="10" :x2="10" :y1="20" :y2="height - 20" class="axis" />
+        <text :x="20" :y="height / 2" text-anchor="middle" class="axis label" transform="rotate(-90)" dominant-baseline="hanging" :style="{ 'transform-origin': `${20}px ${height / 2}px` }">Challenges to mitigation</text>
+        <text :x="20" :y="20" text-anchor="end" class="axis" transform="rotate(-90)" dominant-baseline="hanging" :style="{ 'transform-origin': `${20}px ${20}px` }">High</text>
       </svg>
     </div>
   </section>
@@ -27,8 +31,12 @@
 import { mapGetters, mapState } from 'vuex'
 import { scaleLinear } from 'd3-scale'
 import { isUndefined, map } from 'lodash'
+import Box from '~/components/Helper/Box'
 
 export default {
+  components: {
+    Box
+  },
   props: {
     isSmall: {
       type: Boolean,
@@ -76,7 +84,7 @@ export default {
         const width = el.clientWidth || el.parentNode.clientWidth
         // const height = el.clientHeight || el.parentNode.clientHeight
         this.width = width
-        this.height = width
+        this.height = width / 3 * 2
       }
     }
   }

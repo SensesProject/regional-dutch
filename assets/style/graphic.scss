@@ -13,8 +13,13 @@
   &.text--white {
     text-transform: uppercase;
     letter-spacing: 0.02em;
-    font-size: 19px;
+    font-size: 0.7rem;
     fill: #333333;
+
+    .isFirst {
+      font-weight: bold;
+      font-size: 1rem;
+    }
   }
 
   &.text--icon {
@@ -37,9 +42,21 @@
   }
 }
 
+text {
+  &.axis {
+    fill: $color-dark-gray;
+
+    &.label {
+      font-weight: bold;
+      fill: $color-deep-gray;
+    }
+  }
+}
+
 .box {
   .rect {
     transition: fill 0.3s, stroke 0.3s;
+    filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.05));
 
     &.rect--blue {
       fill: #d2e8f5;
@@ -73,6 +90,18 @@
       }
     }
   }
+
+  &.isActive {
+    .rect {
+      fill: $color-neon;
+      stroke: getColor(neon, 45);
+      filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.1));
+    }
+
+    .text--white {
+      fill: $color-white;
+    }
+  }
 }
 
 .label {
@@ -89,6 +118,10 @@
   stroke: #75757a;
   stroke-width: 2px;
   fill: none;
+}
+
+line {
+  stroke: #75757a;
 }
 
 .marker {

@@ -21,6 +21,12 @@ h2 {
   margin: 0 0 0.2em;
 }
 
+.wildcard h2 {
+	border-bottom: 1px solid #e4e4e4;
+	margin: 0.5em 0 0.5em;
+	padding-bottom: 0.3em;
+}
+
 h3 {
 	font-size: 1.2rem;
 	font-weight: $font-weight-regular;

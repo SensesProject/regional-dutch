@@ -1,17 +1,13 @@
 <template>
-  <component
-    :is="link ? 'a' : 'g'"
-    :href="link ? link : false"
+  <g
     class="box"
-    :class="{ 'box--link': link }"
-    target="_blank">
-    <title v-if="false">Open techniques in the Finder</title>
+    :class="{ isActive }">
     <rect :x="x - width / 2" :y="y - height / 2" :width="width" :height="height" :class="`rect rect--${color}`" rx="2" ry="2" />
-    <text :y="y + 10 - (text.length - 1) * (lineHeight / 2)" text-anchor="middle" :class="`text text--${color} text--${font}`">
-      <tspan v-for="(t, i) in text" :x="x" :dy="i * lineHeight">{{ t }}</tspan>
+    <text :y="y + 5 - (text.length - 1) * (lineHeight / 2)" text-anchor="middle" :class="`text text--${color} text--${font}`">
+      <tspan v-for="(t, i) in text" :x="x" :dy="i * lineHeight" :class="{ isFirst: i === 0}">{{ t }}</tspan>
     </text>
     <text v-if="link" class="text text--icon" :x="x + width / 2 - 8" :y="y - height / 2 + 20" text-anchor="end">↗</text>
-  </component>
+  </g>
 </template>
 
 <script>
@@ -30,12 +26,12 @@ export default {
       default: 'default'
     },
     w: {
-      type: String,
-      default: 'wide'
+      type: Number,
+      default: 150
     },
     h: {
-      type: String,
-      default: 'tall'
+      type: Number,
+      default: 150
     },
     color: {
       type: String,
@@ -48,28 +44,18 @@ export default {
     link: {
       type: [String, Boolean],
       default: false
+    },
+    isActive: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
     width () {
-      switch (this.w) {
-        case 'side':
-          return 350
-        case 'default':
-          return 320
-        case 'narrow':
-          return 180
-        default:
-          return 300
-      }
+      return this.w
     },
     height () {
-      switch (this.h) {
-        case 'default':
-          return 60
-        default:
-          return 100
-      }
+      return this.h
     },
     lineHeight () {
       switch (this.font) {

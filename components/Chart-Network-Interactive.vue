@@ -201,6 +201,9 @@ export default {
     ...mapGetters('driver', [
       'values'
     ]),
+    combination () {
+      return [this.values[0], this.values[5], this.values[11], this.values[13]]
+    },
     scaleX () {
       return scalePoint()
         .range([this.margin.left, this.width - this.margin.right])
@@ -336,73 +339,15 @@ export default {
           if (_y1 > _y2) {
             if (_y1 - _y2 > this.dY + 2) {
               ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
-              // _y1 = _y1 - 25
-              // _y2 = _y2 + 25
-              // d = `
-              //   M ${_x1 + 70} ${_y1}
-              //   C
-              //   ${_x1 + this.dX / 2} ${_y1},
-              //   ${_x1 + this.dX / 2} ${_y1},
-              //   ${_x1 + this.dX / 2} ${_y1 - this.dX / 2}
-              //   L ${_x2 - this.dX / 2} ${_y2 + this.dX / 2}
-              //   C
-              //   ${_x2 - this.dX / 2} ${_y2},
-              //   ${_x2 - this.dX / 2} ${_y2},
-              //   ${_x2 - 80} ${_y2}
-              //   `
-              // color = 'blue'
             } else {
               ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
-              // _x1 = _x1 + 35
-              // _x2 = _x2 - 35
-              // d = `
-              //   M ${_x1} ${_y1 - 55}
-              //   C
-              //   ${_x1} ${_y1 - this.dY / 2},
-              //   ${_x1} ${_y1 - this.dY / 2},
-              //   ${_x1 + this.dY / 2} ${_y1 - this.dY / 2}
-              //   L ${_x2 - this.dY / 2} ${_y2 + this.dY / 2}
-              //   C
-              //   ${_x2} ${_y2 + this.dY / 2}
-              //   ${_x2} ${_y2 + this.dY / 2}
-              //   ${_x2} ${_y2 + 55}`
-              // color = 'red'
             }
           } else {
             if (_y2 - _y1 > this.dY + 2) {
               ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
-              // _y1 += 25
-              // _y2 -= 25
-              // d = `
-              //   M ${_x1} ${_y1}
-              //   C
-              //   ${_x1 + this.dX / 2} ${_y1},
-              //   ${_x1 + this.dX / 2} ${_y1},
-              //   ${_x1 + this.dX / 2} ${_y1 + this.dX / 2}
-              //   L ${_x2 - this.dX / 2} ${_y2 - this.dX / 2}
-              //   C
-              //   ${_x2 - this.dX / 2} ${_y2},
-              //   ${_x2 - this.dX / 2} ${_y2},
-              //   ${_x2} ${_y2}
-              //   `
-              // color = 'pink'
             }
             else {
               ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
-              // _x1 += 35
-              // _x2 -= 35
-              // d = `
-              //   M ${_x1} ${_y1}
-              //   C
-              //   ${_x1} ${_y1 + this.dY / 2},
-              //   ${_x1} ${_y1 + this.dY / 2},
-              //   ${_x1 + this.dY / 2} ${_y1 + this.dY / 2}
-              //   L ${_x2 - this.dY / 2} ${_y1 + this.dY / 2}
-              //   C
-              //   ${_x2} ${_y2 - this.dY / 2}
-              //   ${_x2} ${_y2 - this.dY / 2}
-              //   ${_x2} ${_y2}`
-              // color = 'green'
             }
           }
           // color = 'blue' // scaleAnomalyPuOr(w)

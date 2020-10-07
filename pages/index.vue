@@ -29,12 +29,17 @@
         <header>
           <h2>Robust pathway</h2>
         </header>
-        <p>A robust pathway towards the multi-scale vision was developed during a stakeholder workshop. We used a back-casting method to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
+        <IntersectionObserver :step="0" :noStyling="true">
+          <p>A robust pathway towards the multi-scale vision was developed during a stakeholder workshop. We used a back-casting method to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
+        </IntersectionObserver>
       </section>
-      <section class="wildcards">
-        <ChartWildcards :isSmall="false" />
-        <section class="steps">
-          <IntersectionObserver :step="1" :noStyling="true" classes="wildcard">
+      <ChartWildcards :isSmall="false" />
+      <section class="steps">
+        <IntersectionObserver :step="1" :noStyling="true" classes="wildcard">
+          <figure class="image">
+            <img src="img/ssp1.jpg" />
+          </figure>
+          <main class="content">
             <header>
               <span class="caption">Wildcard SSP1 “Sustainability”</span>
               <h2>Chicken epidemics</h2>
@@ -44,8 +49,13 @@
             <h3>Impacts</h3>
             <p>Most people depend on their own (or in small groups) garden and animals for daily food supplies. The food supply is vulnerable because of the ban on pesticides. The death of the chickens is the first wave, after which it is discovered that crops will no longer generate a harvest.</p>
             <p>Most households count on their own food supply. The strong bond in neighbourhoods has led to joint production. After one day all supplies are exhausted and people are forced to look outside their area to get food.</p>
-          </IntersectionObserver>
-          <IntersectionObserver :step="3" :noStyling="true" classes="wildcard">
+          </main>
+        </IntersectionObserver>
+        <IntersectionObserver :step="3" :noStyling="true" classes="wildcard">
+          <figure class="image">
+            <img src="img/ssp3.jpg" />
+          </figure>
+          <main class="content">
             <header>
               <span class="caption">Wildcard SSP3 “Regional Rivalry”</span>
               <h2>Canary Islands volcano eruption</h2>
@@ -55,8 +65,13 @@
             <p>A few hours ago, the volcano erupted on one of the Canary Islands. This causes a huge tidal wave that is coming towards the Dutch coast. All new dike reinforcement projects in recent years are not designed for a tidal wave. After hours of tension, the advice is therefore given to evacuate the Randstad as much as possible and to regard the Randstad as lost.</p>
             <h3>Impacts</h3>
             <p>Overijssel is faced with a huge population increase. This makes land scarce and the housing market exploded. Refugees from the Randstad try to fight for a place with their few possessions.</p>
-          </IntersectionObserver>
-          <IntersectionObserver :step="4" :noStyling="true" classes="wildcard">
+          </main>
+        </IntersectionObserver>
+        <IntersectionObserver :step="4" :noStyling="true" classes="wildcard">
+          <figure class="image">
+            <img src="img/ssp4.jpg" />
+          </figure>
+          <main class="content">
             <header>
               <span class="caption">Wildcard “Inequality” SSP4</span>
               <h2>The week with no wind</h2>
@@ -65,8 +80,13 @@
             <p>Jan puts his hand out of the window, "he still has no wind" he tells his son Piet. The weather has been totally silent for a week. The Netherlands is in the eye of a large hurricane that is slowly weakening but not displaced. It feels sultry in Overijssel and the mosquitoes cannot be hardened. "I hope we will get the fridge back from the municipality soon."</p>
             <h3>Impacts</h3>
             <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out in phases. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other steam eaters have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, "Otherwise the Dutch economy collapses".</p>
-          </IntersectionObserver>
-          <IntersectionObserver :step="5" :noStyling="true" classes="wildcard">
+          </main>
+        </IntersectionObserver>
+        <IntersectionObserver :step="5" :noStyling="true" classes="wildcard">
+          <figure class="image">
+            <img src="img/ssp5.jpg" />
+          </figure>
+          <main class="content">
             <header>
               <span class="caption">Wildcard “Fossil Fuel” SSP5</span>
               <h2>Google stopped working</h2>
@@ -76,8 +96,8 @@
             <h3>Impacts</h3>
             <p>Many systems depend on Google. The shutdown of Google causes chaos on the roads and public transport. Supermarket doors no longer work and people can only reach each other over the telephone, "but then again, who still has call minutes if everything can be done via Google".</p>
             <p>Paying via Google-pay no longer works, luckily there are people who arrange their payments through other apps.</p>
-          </IntersectionObserver>
-        </section>
+          </main>
+        </IntersectionObserver>
       </section>
       <section class="step">
         <header>
@@ -134,7 +154,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   @import "~@/assets/style/global";
 
   .page {
@@ -175,8 +195,27 @@
       grid-column-gap: 4rem;
     }
 
+    .wildcard {
+      background-color: #ffffff;
+      border: 1px solid #e4e4e4;
+      box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.05);
+      border-radius: 6px;
+      padding: 1rem;
+
+      & > * {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-column-gap: 1rem;
+
+        .content {
+          grid-column-start: 2;
+          grid-column-end: 4;
+        }
+      }
+    }
+
     .steps {
-      grid-column-start: 2;
+      grid-column-start: 1;
       grid-column-end: 4;
       display: grid;
       grid-row-gap: 4rem;
