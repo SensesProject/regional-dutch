@@ -113,10 +113,51 @@ export default {
           rotate = 45
           anchor = 'end'
         }
+
+        const t = 5
+
+        let location
+        if (scope < 33 - t) {
+          location = 'It is situated in the Vecht.'
+        } else if (scope >= 33 - t && scope < 33 + t) {
+          location = 'It is situated between the Vecht and the Overijssel.'
+        } else if (scope >= 33 + t && scope < 66 - t) {
+          location = 'It is situated in the Overijssel.'
+        } else if (scope >= 66 + t && scope < 66 + t) {
+          location = 'It is situated between the Overijssel and the Netherlands.'
+        } else {
+          location = 'It is situated in the Netherlands.'
+        }
+
+        let field
+        if (land === 100) {
+          field = 'It is a »land use and agriculture« vision.'
+        } else if (energy === 100) {
+          field = 'It is a »energy« vision.'
+        } else if (energy === 100) {
+          field = 'It is a »energy« vision.'
+        } else if (nature === 100) {
+          field = 'It is a »nature« vision.'
+        } else if (socio === 100) {
+          field = 'It is a »socioeconomic development« vision.'
+        } else if (land && energy && nature && socio) {
+          field = 'It is a »land use and agriculture«, »energy«, »nature« and »socioeconomic development« vision.'
+        } else if (land && energy) {
+          field = 'It is a »land use and agriculture« and »energy« vision.'
+        } else if (energy && nature) {
+          field = 'It is a »energy« and »nature« vision.'
+        } else if (nature && socio) {
+          field = 'It is a »nature« and »socioeconomic development« vision.'
+        } else if (socio && land) {
+          field = 'It is a »socioeconomic development« and »land use and agriculture« vision.'
+        }
+
+        const tooltip = `<h5>${label}</h5><p>Lorem ipsum dolor</p><small>${field} ${location}</small>`
+
         return {
           x,
           y,
-          label,
+          label: tooltip,
           rotate,
           anchor
         }

@@ -37,10 +37,10 @@
           'r': 1,
           'label': 'Netherlands'
         }, {
-          'r': 0.6,
+          'r': 0.6666,
           'label': 'Overijssel'
         }, {
-          'r': 0.3,
+          'r': 0.3333,
           'label': 'Vecht'
         }]
       }
@@ -78,27 +78,27 @@
 
   .area-4 {
     fill-opacity: 0.3;
-    stroke: getColor(yellow, 80);
+    stroke: #d8d8d8;
     stroke-width: 1px;
-    fill: getColor(yellow, 100);
+    fill: #f5f5f5;
   }
   .area-3 {
     fill-opacity: 0.9;
-    stroke: getColor(yellow, 80);
+    stroke: #d8d8d8;
     stroke-width: 1px;
-    fill: getColor(yellow, 100);
+    fill: #f5f5f5;
   }
   .area-2 {
     fill-opacity: 0.4;
-    stroke: getColor(yellow, 80);
+    stroke: #d8d8d8;
     stroke-width: 1px;
-    fill: getColor(yellow, 100);
+    fill: #f5f5f5;
   }
   .area-1 {
     fill-opacity: 0.2;
-    stroke: getColor(yellow, 80);
+    stroke: #d8d8d8;
     stroke-width: 1px;
-    fill: getColor(yellow, 100);
+    fill: #f5f5f5;
   }
 
   path {
@@ -106,7 +106,7 @@
   }
 
   .areaLabels {
-    fill: getColor(yellow, 80);
+    fill: #d8d8d8;
     pointer-events: none;
     font-size: 26px;
     font-weight: bold;

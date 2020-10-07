@@ -11,6 +11,17 @@
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   max-width: 500px;
   font-size: 0.8rem;
+
+  h5 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5em;
+    line-height: 1.2;
+  }
+
+  small {
+    line-height: 1.3;
+    display: inline-block;
+  }
 }
 
 .tooltip .tooltip-arrow {

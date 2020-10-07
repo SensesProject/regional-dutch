@@ -12,7 +12,7 @@ const visions = [
   ['Quality of the landscape improved', 20, 60, 0, 0, 40],
   ['Economics and nature benefit from each other', 40, 70, 0, 0, 30],
   ['Space for local initiatives in cooperation with government', 40, 100, 0, 0, 0],
-  ['Healthier lifestyles (less meat, less waste etc.)' , 80, 100, 0, 0, 0],
+  ['Healthier lifestyles (less meat, less waste etc.)', 80, 100, 0, 0, 0],
   ['Flood safety. Space for the river', 30, 30, 0, 0, 70],
   ['Dynamic banks-meanders', 20, 0, 0, 0, 100],
   ['Increased water quality', 20, 20, 0, 0, 80],
