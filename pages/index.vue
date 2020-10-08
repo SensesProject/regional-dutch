@@ -7,6 +7,8 @@
         </header>
         <p>Transformative pathways for the Dutch Overijsselse Vecht region</p>
       </section>
+    </div>
+    <div class="container">
       <section class="step">
         <header>
           <h2>System analysis</h2>
@@ -16,6 +18,8 @@
       <section class="graphic graphic--wide">
         <ChartNetworkInteractive />
       </section>
+    </div>
+    <div class="container">
       <section class="step">
         <header>
           <h2>Multi-scale vision</h2>
@@ -25,12 +29,16 @@
       <section class="graphic graphic--vision">
         <ChartVision />
       </section>
+    </div>
+    <div class="container">
       <section class="step">
         <header>
           <h2>Steps for developing robust pathways across scenarios and scales</h2>
         </header>
+        <p>We developed a robust pathway towards the multi-scale vision participatorily, and tested its robustness across scenarios (Step 1) and scales (Step 2).</p>
+      </section>
+      <section class="step">
         <IntersectionObserver :step="0" :noStyling="true">
-          <p>We developed a robust pathway towards the multi-scale vision participatorily, and tested its robustness across scenarios (Step 1) and scales (Step 2).</p>
           <h3>Step 1</h3>
           <p>We used a back-casting method [hyperlink] to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
           <p>Wildcards are useful to test the robustness of pathways across scenarios. Concrete examples of questions could be:</p>
@@ -42,7 +50,7 @@
           </ol>
         </IntersectionObserver>
       </section>
-      <ChartWildcards :isSmall="false" />
+      <ChartWildcards />
       <section class="steps">
         <h4>Wildcards</h4>
         <IntersectionObserver :step="1" :noStyling="true" classes="wildcard" id="ssp1-wildcard">
@@ -109,11 +117,14 @@
           </main>
         </IntersectionObserver>
       </section>
+    </div>
+    <div class="container">
       <section class="step">
         <header>
           <h4>Robust across socioeconomic scenarios</h4>
         </header>
       </section>
+      <ChartPathway />
       <section class="step">
         <header>
           <h4>Synergies</h4>
@@ -133,14 +144,14 @@
           <li>Identifying who should take the lead (e.g. farmers, government, investors)</li>
         </ul>
       </section>
-      <section class="step">
+      <IntersectionObserver :step="6" :noStyling="true" classes="step">
         <header>
           <h2>Robust across climate impact scenarios</h2>
         </header>
         <p>Climate change does not limit itself to borders, and it is therefore important to test robustness of f pathways in relation to impacts outside the borders.  In the Dutch case study, we tested this by interpreting IMAGE and MAgPIE impact model results on crops and food production to guide the discussion on the implications of the pathways.</p>
         <p>Questions from global climate and combined climate-socioeconomic impact models may include:</p>
-      </section>
-      <section class="step">
+      </IntersectionObserver>
+      <IntersectionObserver :step="7" :noStyling="true" classes="step">
         <header>
           <h3>Question 1</h3>
         </header>
@@ -151,8 +162,8 @@
           <li>Farmers who are ‘front runners’ will try other crops such as nuts which could be lucrative and drought resistant. These farmers act as an example for niche-markets.</li>
           <li>Regional circular economies emerge at different speeds.</li>
         </ul>
-      </section>
-      <section class="step">
+      </IntersectionObserver>
+      <IntersectionObserver :step="8" :noStyling="true" classes="step">
         <header>
           <h3>Question 2</h3>
         </header>
@@ -161,8 +172,8 @@
         <ul>
           <li>If farmers use their land to produce energy, for example use their grassland for biofuel, energy prices need to rise. Grasslands can handle drought shocks better compared to other cops.</li>
         </ul>
-      </section>
-      <section class="step">
+      </IntersectionObserver>
+      <IntersectionObserver :step="9" :noStyling="true" classes="step">
         <header>
           <h3>Question 3</h3>
         </header>
@@ -172,7 +183,10 @@
           <li>Using land with fertile soils to make a solar field is a waste of your soil. Soil quality should be leading in this decision. Same is for reforestation, soil quality should enable tree growing and not the other way around.</li>
           <li>Trade-offs between buy-out or subsidising mitigation.</li>
         </ul>
-      </section>
+      </IntersectionObserver>
+    </div>
+    <div class="container">
+      <SensesMeta id="primer" />
     </div>
   </main>
 </template>
@@ -184,11 +198,13 @@
   import ChartNetwork from '~/components/Chart-Network'
   import ChartVision from '~/components/Chart-Vision'
   import ChartWildcards from '~/components/Chart-Wildcards'
+  import ChartPathway from '~/components/Chart-Pathway'
   import Answer from '~/components/Answer'
   import Introduction from '~/components/Introduction'
   import Chart from '~/components/Chart'
   import ChartNetworkInteractive from '~/components/Chart-Network-Interactive'
   import IntersectionObserver from 'library/src/components/IntersectionObserver'
+  import SensesMeta from 'library/src/components/SensesMeta.vue'
 
   export default {
     components: {
@@ -199,9 +215,11 @@
       IntersectionObserver,
       ChartDrivers,
       ChartNetwork,
+      ChartPathway,
       ChartVision,
       ChartWildcards,
-      ChartNetworkInteractive
+      ChartNetworkInteractive,
+      SensesMeta
     },
     computed: {
       ...mapState('step', [
@@ -229,23 +247,24 @@
   @import "~@/assets/style/global";
 
   .page {
-    @include center();
+    min-height: 96vh;
+    margin: 4vh 2vw;
+    display: grid;
+    grid-row-gap: 8rem;
+    justify-content: center;
   }
 
   .container {
     width: 96vw;
     max-width: 1300px;
-    min-height: 96vh;
-    margin: 4vh 2vw;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-row-gap: 4rem;
+    grid-column-gap: 4rem;
 
     img {
       width: 100%;
     }
-
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-row-gap: 8rem;
-    grid-column-gap: 4rem;
 
     .introduction {
       grid-column-start: 1;
@@ -292,6 +311,11 @@
       grid-row-gap: 4rem;
     }
 
+    .module-meta {
+      grid-column-start: 1;
+      grid-column-end: 6;
+    }
+
     .graphic {
       &.graphic--wide {
         grid-column-start: 1;
@@ -313,6 +337,13 @@
         grid-column-end: 6;
       }
 
+      &.graphic--pathway {
+        position: sticky;
+        grid-column-start: 3;
+        grid-column-end: 6;
+        grid-row-end: span 3;
+      }
+
       &.graphic--wildcards {
         // grid-row-start: 1;
         grid-column-start: 4;
@@ -320,6 +351,7 @@
         position: sticky;
         // top: 60px;
         display: block;
+        grid-row-end: span 3;
       }
     }
 

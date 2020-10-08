@@ -9,10 +9,10 @@
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
-        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" :text="['SSP 5', '“Fossil Fuel”']" @click="() => scrollTo('ssp1-wildcard')" />
-        <Box :x="width / 3 * 1" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 1" :text="['SSP 1', '“Sustainability”']" />
-        <Box :x="width / 3 * 2" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 3" :text="['SSP 3', '“Regional Rivalry”']" />
-        <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" :text="['SSP 4', '“Inequality”']" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" classes="ssp" :text="['SSP 5', '“Fossil Fuel”']" @click="() => scrollTo('ssp1-wildcard')" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 1" classes="ssp" :text="['SSP 1', '“Sustainability”']" />
+        <Box :x="width / 3 * 2" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 3" classes="ssp" :text="['SSP 3', '“Regional Rivalry”']" />
+        <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" classes="ssp" :text="['SSP 4', '“Inequality”']" />
 
         <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
         <text :x="width / 2" :y="height - 20" text-anchor="middle" class="axis label">Challenges to adaptation</text>
@@ -38,10 +38,6 @@ export default {
     Box
   },
   props: {
-    isSmall: {
-      type: Boolean,
-      default: true
-    },
     active: {
       type: Number,
       default: 0

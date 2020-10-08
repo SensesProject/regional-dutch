@@ -1,5 +1,5 @@
 .text {
-  font-size: 24px;
+  font-size: 0.7rem;
   transition: fill 0.3s;
 
   &.text--blue {
@@ -11,16 +11,13 @@
   }
 
   &.text--white {
-    text-transform: uppercase;
-    letter-spacing: 0.02em;
-    font-size: 0.7rem;
     fill: #333333;
-
-    .isFirst {
-      font-weight: bold;
-      font-size: 1rem;
-    }
   }
+
+  &.text--red {
+    fill: $color-red;
+  }
+
 
   &.text--icon {
     font-size: 17px;
@@ -32,13 +29,25 @@
   }
 
   &.text--big {
-    font-size: 30px;
+    font-size: 1.0rem;
   }
 
   &.text--alt {
     font-size: 24px;
     font-style: italic;
     font-weight: 400;
+  }
+}
+
+.box.ssp {
+  .text--white {
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+
+    .isFirst {
+      font-weight: bold;
+      font-size: 1rem;
+    }
   }
 }
 
@@ -53,7 +62,7 @@ text {
   }
 }
 
-.box {
+.box, .ball {
   .rect {
     transition: fill 0.3s, stroke 0.3s;
     filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.05));
@@ -71,6 +80,11 @@ text {
     &.rect--white {
       fill: #ffffff;
       stroke: #e4e4e4;
+    }
+
+    &.rect--red {
+      fill: getColor(red, 100);
+      stroke: getColor(red, 80);
     }
   }
 

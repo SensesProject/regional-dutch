@@ -189,8 +189,8 @@ export default {
       margin: {
         left: 75,
         right: 75,
-        top: 20,
-        bottom: 20
+        top: 60,
+        bottom: 60
       }
     }
   },

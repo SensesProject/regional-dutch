@@ -1,12 +1,11 @@
 <template>
   <g
-    class="box"
+    class="ball"
     :class="[classes, { isActive }]">
-    <rect :x="x - width / 2" :y="y - height / 2" :width="width" :height="height" :class="`rect rect--${color}`" rx="2" ry="2" />
+    <rect :x="x - width / 2" :y="y - height / 2" :width="width" :height="height" :class="`rect rect--${color}`" :rx="width / 2" :ry="width / 2" />
     <text :y="y + 5 - (text.length - 1) * (lineHeight / 2)" text-anchor="middle" :class="`text text--${color} text--${font}`">
-      <tspan v-for="(t, i) in text" :x="x" :dy="i ? lineHeight : 0" :class="{ isFirst: i === 0}">{{ t }}</tspan>
+      <tspan v-for="(t, i) in text" :x="x" :dy="i ? lineHeight : 0">{{ t }}</tspan>
     </text>
-    <text v-if="link" class="text text--icon" :x="x + width / 2 - 8" :y="y - height / 2 + 20" text-anchor="end">↗</text>
   </g>
 </template>
 
@@ -64,9 +63,9 @@ export default {
     lineHeight () {
       switch (this.font) {
         case 'big':
-          return 17
+          return 30
         default:
-          return 20
+          return 15
       }
     }
   }
