@@ -27,14 +27,23 @@
         <Ball :x="x(453)" :y="y(417)" :w="w" :h="h" :text="['successful', 'nice markets']" />
         <Ball :x="x(298)" :y="y(417)" :w="w" :h="h" :text="['Farmer as', 'land steward']" />
 
-        <Ball v-if="step === 7" :x="x(208)" :y="y(365)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
-        <Ball v-if="step === 7" :x="x(388)" :y="y(365)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
-        <Ball v-if="step === 7" :x="x(298)" :y="y(508)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
+        <Loop :x="x(461)" :y="y(129)" :m="true" />
+        <Loop :x="x(1019)" :y="y(236)" />
+        <Loop :x="x(673)" :y="y(272)" />
+        <Loop :x="x(375)" :y="y(417)" :n="2" />
+
+        <Ball v-if="step === 7" :x="x(208)" :y="y(370)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
+        <Ball v-if="step === 7" :x="x(388)" :y="y(370)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
+        <Ball v-if="step === 7" :x="x(298)" :y="y(503)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
+
+        <Loop v-if="step === 7" :x="x(298)" :y="y(412)" :m="true" color="red" />
 
         <Ball v-if="step === 8" :x="x(843)" :y="y(165)" :w="w" :h="h" color="green" :text="['Farmer as', 'land steward']" />
 
         <Ball v-if="step === 9" :x="x(83)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Farmer as', 'land steward']" />
         <Ball v-if="step === 9" :x="x(238)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Farmer as', 'land steward']" />
+
+        <Loop v-if="step === 9" :x="x(160.5)" :y="y(165)" :n="2" color="blue" />
 
         <g v-if="step < 7">
           <Dot :x="x(461)" :y="y(129)" label="In the near future, the development of regional energy strategies provide the opportunity to link various energy strategies, linked to small scale energy projects that fit into the landscape. This stimulates a change in concession rights to enhance, for instance, energy-smart and efficient farms. Various stakeholders reach the agreement that Natura 2000 nature conservation objectives are not feasible. At least not in its current form. Altogether, this stimulates a more systematic way of thinking. " />
@@ -46,6 +55,7 @@
         <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
         <text :x="20" :y="height - 20" text-anchor="start" class="axis">Now</text>
         <text :x="width - 20" :y="height - 20" text-anchor="end" class="axis">2050</text>
+
       </svg>
     </div>
   </section>
@@ -58,12 +68,14 @@ import { isUndefined, map } from 'lodash'
 import Ball from '~/components/Helper/Ball'
 import Dot from '~/components/Helper/Dot'
 import Box from '~/components/Helper/Box'
+import Loop from '~/components/Helper/Loop'
 
 export default {
   components: {
     Ball,
     Dot,
-    Box
+    Box,
+    Loop
   },
   props: {
     active: {
