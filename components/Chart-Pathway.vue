@@ -1,5 +1,5 @@
 <template>
-  <section class="graphic graphic--pathway" :style="styling">
+  <section class="graphic graphic--pathway layout--right-wide" :style="styling">
     <div ref="vis" class="vis-container">
       <svg
         class="vis"
@@ -141,6 +141,11 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
+
+  .graphic--pathway {
+    position: sticky;
+    grid-row-end: span 3;
+  }
 
   .values {
     font-size: 0.8rem;

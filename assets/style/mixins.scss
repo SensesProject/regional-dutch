@@ -1,0 +1,73 @@
+@mixin headline-1 () {
+  font-weight: $font-weight-regular;
+  font-family: $font-sans;
+  font-size: 1.6rem;
+  // font-style: italic;
+  line-height: 1.2;
+  // color: getColor(gray, 10);
+}
+
+@mixin text-note () {
+	// This is used for sidenotes, figure captions, …
+  font-size: 0.8rem;
+  color: getColor(gray, 30);
+  font-style: italic;
+}
+
+@mixin text-1 () {
+	line-height: 1.5;
+	font-size: 1rem;
+}
+
+@mixin text-table-1 () {
+  line-height: 1.3;
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+@mixin text-table-2 () {
+  line-height: 1.3;
+  font-size: 0.85rem;
+  font-weight: normal;
+}
+
+@mixin headline-4 () {
+  // Grey, uppercase text for captions, …
+  text-transform: uppercase;
+  font-weight: $font-weight-regular;
+  letter-spacing: 0.02em;
+  font-size: 0.75rem;
+  color: getColor(gray, 60);
+  fill: getColor(gray, 60);
+}
+
+@mixin headline-graphic () {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+@mixin graphic-text-tick () {
+  font-size: 0.6rem;
+  fill: $color-light-gray;
+}
+
+@mixin graphic-text-label () {
+  fill: $color-dark-gray;
+
+  tspan:first-child {
+    fill: #222;
+  }
+}
+
+@mixin graphic-line-tick () {
+  stroke: getColor(gray, 90);
+  stroke-width: 1px;
+}
+
+@mixin box () {
+  background-color: #ffffff;
+  border: 1px solid #e4e4e4;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 6px;
+  padding: 1rem;
+}

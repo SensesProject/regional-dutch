@@ -1,5 +1,5 @@
 <template>
-  <section class="graphic graphic--wildcards" :style="styling">
+  <section class="graphic layout--right graphic--wildcards" :style="styling">
     <div ref="vis" class="vis-container">
       <svg
         class="vis"
@@ -92,6 +92,12 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
+
+  .graphic--wildcards {
+    position: sticky;
+    display: block;
+    grid-row-end: span 3;
+  }
 
   .values {
     font-size: 0.8rem;

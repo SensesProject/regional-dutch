@@ -1,6 +1,75 @@
 @charset "utf-8";
 $font-prefix: "../../node_modules/library/src/assets/fonts";
 @import "library/src/style/base.scss";
+@import "./global.scss";
 @import "./typography.scss";
 @import "./graphic.scss";
 @import "./tooltip.scss";
+@import "./layout.scss";
+
+table.style {
+	$padding: 0.5rem;
+
+  td, th {
+    vertical-align: top;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  thead {
+    padding-bottom: 5px;
+
+    th {
+      @include text-table-1();
+      border-bottom: 1px solid $color-light-gray;
+      padding-bottom: $padding;
+
+      &:first-child {
+        @include text-table-2();
+      }
+    }
+  }
+
+  tbody {
+    tr:first-child {
+      td {
+        padding-top: $padding;
+      }
+    }
+
+    tr {
+      td {
+        padding-top: $padding;
+        padding-bottom: $padding;
+        border-bottom: 1px solid $color-pale-gray;
+        @include text-table-2();
+
+        &:first-child, &.first {
+          @include text-table-1();
+          max-width: 20vw;
+        }
+
+        ul {
+          li {
+            margin-bottom: $padding;
+          }
+        }
+      }
+
+      $border-radius: 5px;
+
+      &:first-child td {
+        border-radius: $border-radius $border-radius 0 0;
+      }
+
+      &:last-child td {
+        border-radius: 0 0 $border-radius $border-radius;
+      }
+    }
+
+    tr:last-child {
+      td {
+        border: 0;
+      }
+    }
+  }
+}
