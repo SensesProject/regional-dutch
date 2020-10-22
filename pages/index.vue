@@ -55,7 +55,7 @@
         <h4>Wildcards</h4>
         <IntersectionObserver :step="1" :noStyling="true" classes="wildcard" id="ssp1-wildcard">
           <figure class="image">
-            <img src="img/ssp1.jpg" />
+            <i class="e">🐔</i>
           </figure>
           <main class="content">
             <header>
@@ -71,7 +71,7 @@
         </IntersectionObserver>
         <IntersectionObserver :step="3" :noStyling="true" classes="wildcard" id="ssp3-wildcard">
           <figure class="image">
-            <img src="img/ssp3.jpg" />
+            <i class="e">🌋</i>
           </figure>
           <main class="content">
             <header>
@@ -87,7 +87,7 @@
         </IntersectionObserver>
         <IntersectionObserver :step="4" :noStyling="true" classes="wildcard" id="ssp4-wildcard">
           <figure class="image">
-            <img src="img/ssp4.jpg" />
+            <i class="e">💨</i>
           </figure>
           <main class="content">
             <header>
@@ -102,7 +102,7 @@
         </IntersectionObserver>
         <IntersectionObserver :step="5" :noStyling="true" classes="wildcard" class="ssp5-wildcard">
           <figure class="image">
-            <img src="img/ssp5.jpg" />
+            <i class="e">☹️</i>
           </figure>
           <main class="content">
             <header>
@@ -300,6 +300,18 @@
         .content {
           grid-column-start: 2;
           grid-column-end: 4;
+        }
+      }
+
+      figure {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 10vw;
+
+        i.e {
+          font-style: normal;
+          font-size: 3rem;
         }
       }
     }
