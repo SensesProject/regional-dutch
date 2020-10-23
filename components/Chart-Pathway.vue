@@ -10,8 +10,11 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
         <g v-if="step < 7">
-          <Box :x="x(106)" :y="y(165)" :w="w * 1.3" :h="h" color="white" :text="['Nature &', 'Climate and', 'Energy']" font="big" />
+          <Box :x="x(106)" :y="y(201)" :w="w * 1.3" :h="h" color="white" :text="['Nature &', 'Climate and', 'Energy']" font="big" />
           <Box :x="x(106)" :y="y(417)" :w="w * 1.3" :h="h" color="white" :text="['Agriculture &', 'socio-', 'economics']" font="big" />
+
+          <Arc :x1="x(106 + 95)" :y1="y(417 + 30)" :x2="x(1150)" :y2="y(453)" :isArrow="true" :isThick="true" />
+          <Arc :x1="x(106 + 95)" :y1="y(201 - 30)" :x2="x(1150)" :y2="y(93)" :isArrow="true" :isTop="true" :isThick="true" />
         </g>
 
         <Ball :x="x(384)" :y="y(93)" :w="w" :h="h" :text="['Regional energy', 'strategies']" />
@@ -23,8 +26,8 @@
         <Ball :x="x(1019)" :y="y(165)" :w="w" :h="h" :text="['Agriculture as', 'energy supplier']" />
         <Ball :x="x(942)" :y="y(273)" :w="w" :h="h" :text="['Agricultural', ' sector as', ' a buffer']" />
         <Ball :x="x(1097)" :y="y(273)" :w="w" :h="h" :text="['Extensive', 'agriculture']" />
-        <Ball :x="x(876)" :y="y(417)" :w="w" :h="h" :text="['Farmer has', 'a new business', 'model']" />
-        <Ball :x="x(453)" :y="y(417)" :w="w" :h="h" :text="['successful', 'nice markets']" />
+        <Ball :x="x(751)" :y="y(453)" :w="w" :h="h" :text="['Farmer has', 'a new business', 'model']" />
+        <Ball :x="x(453)" :y="y(417)" :w="w" :h="h" :text="['Successful', 'nice markets']" />
         <Ball :x="x(298)" :y="y(417)" :w="w" :h="h" :text="['Farmer as', 'land steward']" />
 
         <Loop :x="x(461)" :y="y(129)" :m="true" />
@@ -32,16 +35,24 @@
         <Loop :x="x(673)" :y="y(272)" />
         <Loop :x="x(375)" :y="y(417)" :n="2" />
 
-        <Ball v-if="step === 7" :x="x(208)" :y="y(370)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
-        <Ball v-if="step === 7" :x="x(388)" :y="y(370)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
-        <Ball v-if="step === 7" :x="x(298)" :y="y(503)" :w="w" :h="h" color="red" :text="['Farmer as', 'land steward']" />
+        <g class="arcs">
+          <Arc :x1="x(461)" :y1="y(201 + 60)" :x2="x(596 - 75)" :y2="y(309)" />
+          <Arc :x1="x(751 + 75)" :y1="y(453)" :x2="x(942)" :y2="y(273 + 60)" />
+          <Arc :x1="x(453 + 55)" :y1="y(417 + 40)" :x2="x(751 - 55)" :y2="y(453 + 40)" />
+          <Arc :x1="x(453 + 75)" :y1="y(417)" :x2="x(596)" :y2="y(309 + 60)" />
+          <Arc :x1="x(673 + 55)" :y1="y(201 - 40)" :x2="x(1019 - 55)" :y2="y(165 - 40)" :isTop="true" />
+        </g>
+
+        <Ball v-if="step === 7" :x="x(208)" :y="y(370)" :w="w" :h="h" color="red" :text="['Front', 'runners']" />
+        <Ball v-if="step === 7" :x="x(388)" :y="y(370)" :w="w" :h="h" color="red" :text="['Different', 'speeds']" />
+        <Ball v-if="step === 7" :x="x(298)" :y="y(503)" :w="w" :h="h" color="red" :text="['Increase in', 'local diary', 'consumption']" />
 
         <Loop v-if="step === 7" :x="x(298)" :y="y(412)" :m="true" color="red" />
 
-        <Ball v-if="step === 8" :x="x(843)" :y="y(165)" :w="w" :h="h" color="green" :text="['Farmer as', 'land steward']" />
+        <Ball v-if="step === 8" :x="x(843)" :y="y(129)" :w="w" :h="h" color="green" :text="['Energy prices', 'need to rise']" />
 
-        <Ball v-if="step === 9" :x="x(83)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Farmer as', 'land steward']" />
-        <Ball v-if="step === 9" :x="x(238)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Farmer as', 'land steward']" />
+        <Ball v-if="step === 9" :x="x(83)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Soil', 'quality']" />
+        <Ball v-if="step === 9" :x="x(238)" :y="y(165)" :w="w" :h="h" color="blue" :text="['Buy-out or', 'subsidising']" />
 
         <Loop v-if="step === 9" :x="x(160.5)" :y="y(165)" :n="2" color="blue" />
 
@@ -69,13 +80,15 @@ import Ball from '~/components/Helper/Ball'
 import Dot from '~/components/Helper/Dot'
 import Box from '~/components/Helper/Box'
 import Loop from '~/components/Helper/Loop'
+import Arc from '~/components/Helper/Arc'
 
 export default {
   components: {
     Ball,
     Dot,
     Box,
-    Loop
+    Loop,
+    Arc
   },
   props: {
     active: {
