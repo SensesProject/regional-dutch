@@ -1,12 +1,12 @@
 <template>
   <g
     class="box"
-    :class="[classes, { isActive }]">
+    :class="[classes, { isActive, isLink: !!link }]"
+    @click="() => scrollTo(link)">
     <rect :x="x - width / 2" :y="y - height / 2" :width="width" :height="height" :class="`rect rect--${color}`" rx="2" ry="2" />
     <text :y="y + 5 - (text.length - 1) * (lineHeight / 2)" text-anchor="middle" :class="`text text--${color} text--${font}`">
-      <tspan v-for="(t, i) in text" :x="x" :dy="i ? lineHeight : 0" :class="{ isFirst: i === 0}">{{ t }}</tspan>
+      <tspan v-for="(t, i) in text" :x="x" :dy="i ? lineHeight + (wasActive ? 5 : 0) : 0" :class="{ isFirst: i === 0, bigger: i === 1 && wasActive }">{{ t }}</tspan>
     </text>
-    <text v-if="link" class="text text--icon" :x="x + width / 2 - 8" :y="y - height / 2 + 20" text-anchor="end">↗</text>
   </g>
 </template>
 
@@ -49,6 +49,10 @@ export default {
       type: Boolean,
       default: false
     },
+    wasActive: {
+      type: Boolean,
+      default: false
+    },
     classes: {
       type: String,
       default: ''
@@ -68,6 +72,11 @@ export default {
         default:
           return 20
       }
+    }
+  },
+  methods: {
+    scrollTo (id) {
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
   }
 }

@@ -69,7 +69,7 @@
           <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out in phases. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other steam eaters have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, "Otherwise the Dutch economy collapses".</p>
         </main>
       </IntersectionObserver>
-      <IntersectionObserver :step="5" :noStyling="true" classes="wildcard" class="ssp5-wildcard">
+      <IntersectionObserver :step="5" :noStyling="true" classes="wildcard" id="ssp5-wildcard">
         <figure class="image">
           <i class="e">☹️</i>
         </figure>

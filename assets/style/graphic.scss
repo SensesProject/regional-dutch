@@ -48,6 +48,10 @@
       font-weight: bold;
       font-size: 1rem;
     }
+
+    .bigger {
+      font-size: 1.3rem;
+    }
   }
 }
 
@@ -114,6 +118,14 @@ text {
 
     .text--white {
       fill: $color-white;
+    }
+  }
+
+  &.isLink:hover {
+    cursor: pointer;
+
+    rect {
+      stroke: $color-neon;
     }
   }
 }
