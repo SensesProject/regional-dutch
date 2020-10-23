@@ -247,13 +247,13 @@ export default {
     },
     nodes () {
       const drivers = [
-        ['Business models', 0, 1, true],
-        ['Agricultural practices', 1, 1, false],
+        ['Alternative business models', 0, 1, true],
+        ['Current agricultural practices', 1, 1, false],
         ['Local economy', 1, 2, false],
         ['Environmental policy', 2, 1, false],
-        ['Smart land use', 3, 0, false],
-        ['Demography population', 1, 3, true],
-        ['Public opinion', 2, 2, false],
+        ['Climate smart land use', 3, 0, false],
+        ['Population decline', 1, 3, true],
+        ['Public climate awareness', 2, 2, false],
         ['Income from recreation', 3, 3, false],
         ['Energy transition', 2, 0, false],
         ['Room for nature', 4, 0, false],

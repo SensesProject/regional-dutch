@@ -37,7 +37,15 @@
         <h3>Question 1</h3>
       </header>
       <p>Socio-economic and climate impacts: What are the effects of changing diets towards less environmentally intensive consumption (less meat etc.) associated with a decrease in global food prices?</p>
-      <h4>Change in diet</h4>
+      <ChartTime>
+        <template v-slot:header>
+          <h4>Food price</h4>
+          <h6>Relative change projections of food price</h6>
+        </template>
+        <template v-slot:footer>
+          <span>Figure 4. Projections of GDP, based on the SSP database hosted by the IIASA Energy Program at https://tntcat.iiasa.ac.at/SspDb</span>
+        </template>
+      </ChartTime>
       <ul>
         <li>Discussion if less meat also means less dairy, maybe even an increase in local dairy consumption. Which can enhance niche-markets.</li>
         <li>Farmers who are ‘front runners’ will try other crops such as nuts which could be lucrative and drought resistant. These farmers act as an example for niche-markets.</li>
@@ -50,6 +58,12 @@
       </header>
       <p>Climate impacts: Grasslands might be affected negatively across Europe from climate change. What are the opportunities and challenges for the use of land for energy?</p>
       <h4>Bio-energy</h4>
+      <figure class="grasslands">
+        <img src="img/pastures in rcp26soc_gfdl-esm2m_landuse-15crops_annual-2006.jpg" />
+        <img src="img/pastures in rcp26soc_gfdl-esm2m_landuse-15crops_annual-2020.jpg" />
+        <img src="img/pastures in rcp26soc_gfdl-esm2m_landuse-15crops_annual-2035.jpg" />
+        <img src="img/pastures in rcp26soc_gfdl-esm2m_landuse-15crops_annual-2050.jpg" />
+      </figure>
       <ul>
         <li>If farmers use their land to produce energy, for example use their grassland for biofuel, energy prices need to rise. Grasslands can handle drought shocks better compared to other cops.</li>
       </ul>
@@ -71,11 +85,13 @@
 <script>
 import { mapActions } from 'vuex'
 import ChartPathway from '~/components/Chart-Pathway'
+import ChartTime from '~/components/Chart-Time'
 import IntersectionObserver from 'library/src/components/IntersectionObserver'
 
 export default {
   components: {
     ChartPathway,
+    ChartTime,
     IntersectionObserver
   },
   methods: {
@@ -93,5 +109,15 @@ export default {
 
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
+
+  .grasslands {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    
+    img {
+      width: 100%;
+    }
+  }
 
 </style>
