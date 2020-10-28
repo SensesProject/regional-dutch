@@ -156,8 +156,10 @@ export default {
   @import "~@/assets/style/global";
 
   .graphic--pathway {
-    position: sticky;
-    grid-row-end: span 3;
+    @include query($wide) {
+      position: sticky;
+      grid-row-end: span 3;
+    }
   }
 
   .values {

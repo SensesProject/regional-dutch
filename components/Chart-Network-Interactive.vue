@@ -19,30 +19,39 @@
         <circle v-for="([x, y]) in points" :cx="x" :cy="y" r="3" class="point" />
         <!-- <path :d="d" :style="{ stroke: color }" marker-end="url(#arrow-270)" /> -->
       </g>
-      <text class="label" dominant-baseline="middle" :x="labelDriver.x - 100" :y="labelDriver.y" text-anchor="end">{{ labelDriver.label }}</text>
-      <line :x1="labelDriver.x" :x2="labelDriver.x - 95" :y1="labelDriver.y" :y2="labelDriver.y" class="label" />
+      <text class="label" dominant-baseline="middle" :x="labelDriver.x + 100" :y="labelDriver.y" text-anchor="start">{{ labelDriver.label }}</text>
+      <line :x1="labelDriver.x" :x2="labelDriver.x + 95" :y1="labelDriver.y" :y2="labelDriver.y" class="label" />
 
-      <text class="label" dominant-baseline="middle" :y="labelConcept.y" text-anchor="end">
-        <tspan dy="-8" :x="labelConcept.x - 98">{{ labelConcept.label[0] }}</tspan>
-        <tspan dy="16" :x="labelConcept.x - 100">{{ labelConcept.label[1] }}</tspan>
+      <text class="label" dominant-baseline="hanging" :y="labelConcept.y + 75" text-anchor="middle">
+        <tspan dy="8" :x="labelConcept.x">{{ labelConcept.label[0] }}</tspan>
+        <tspan dy="16" :x="labelConcept.x">{{ labelConcept.label[1] }}</tspan>
       </text>
-      <line :x1="labelConcept.x" :x2="labelConcept.x - 95" :y1="labelConcept.y" :y2="labelConcept.y" class="label" />
+      <line :x1="labelConcept.x" :x2="labelConcept.x" :y1="labelConcept.y" :y2="labelConcept.y + 75" class="label" />
     </svg>
-    <div class="vis-interactive" v-if="true">
+    <div class="vis-interactive">
+      <div
+        v-if="interpretation"
+        class="interpretation"
+        :style="{ width: `${Math.max(scaleX.step() - 25, 120)}px`, transform: `translate(0px, ${margin.top - 40}px)` }">
+        <h5>Interpretation</h5>
+        <transition name="fade" mode="out-in">
+          <p :key="combination">{{ interpretation }}</p>
+        </transition>
+      </div>
       <div
         v-for="{ label, x, y, i, isActive, isDriver } in nodes"
         :style="{ transform: `translate(${x}px, ${y}px)` }"
         class="driver">
-        <div class="wrapper" :class="{ isActive, isDriver }" v-if="isDriver" @click="() => toggleDriver(i)">
+        <div class="wrapper" :class="{ isActive, isDriver }" v-if="isDriver" @click="() => toggleDriver(i)" :style="{ width: `${driverWidth}px` }">
           <svg class="switch">
             <rect x="1" y="1" :class="{ isActive }" width="26" height="14" rx="7" ry="7" />
             <circle cy="8" cx="8" :class="{ isActive }" r="5" />
           </svg>
           <h5>{{ label }}</h5>
         </div>
-        <div v-else class="wrapper">
+        <div v-else class="wrapper" :style="{ width: `${driverWidth + 10}px` }">
           <h5 >{{ label }}</h5>
-          <ChartDriver :index="i" />
+          <ChartDriver :index="i" :w="driverWidth" />
         </div>
       </div>
     </div>
@@ -51,9 +60,9 @@
 
 <script>
 import { mapState, mapGetters, mapActions } from 'vuex'
-import { scalePoint, scaleDiverging } from 'd3-scale'
+import { scalePoint, scaleDiverging, scaleLinear } from 'd3-scale'
 import { interpolatePiYG } from 'd3-scale-chromatic'
-import { isUndefined, map, range, last } from 'lodash'
+import { isUndefined, map, range, last, get } from 'lodash'
 import ChartDriver from '~/components/Chart-Driver2'
 
 const v = 60
@@ -68,18 +77,38 @@ function getDx (ltr, x1, x2) {
   return (x2 - x1 + c * (ltr ? -2 : 2)) / 2
 }
 
-function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
+const offsetScale = scaleLinear()
+  .range([0, 25])
+  .domain([0, 140])
+
+const distanceScale = scaleLinear()
+  .range([0, 25])
+  .domain([0, 140])
+
+function getDistanceToBox(dx, driverWidth, ltr) {
+  return Math.abs(dx) > 90 ? ((driverWidth / 2) + 15) * (ltr ? -1 : 1) : 0
+}
+
+function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth) {
   const ltr = Boolean(cx2 - cx1 > 0)
   const ttb = Boolean(cy1 - cy2 > 0)
   const cx = ltr ? c / 2 : c / -2
   const cy = ttb ? c / 2 : c / -2
 
+  // We offset the anchors if they are coming from a different vertical or horionztal concept
+  const OFFSET_VERTICAL = 20
+  const OFFSET_HORIZONTAL = offsetScale(driverWidth)
+
+  // The anchor should not touch the box at the end
+  const DISTANCE_BOX_VERTICAL = 60
+  const DISTANCE_BOX_HORIZONTAL = getDistanceToBox(getDx(ltr, x1, x2), driverWidth, ltr)
+
   if (x1 !== x2 && y1 !== y2) {
     // console.log({ cy1, cy2 }, Math.abs(cy1 - cy2))
     if (Math.abs(cy1 - cy2) > 1) { // vertical
-      // Offset anchor points
-      y1 = y1 + (ttb ? 20 : -20)
-      y2 = y2 + (ttb ? -20 : 20)
+      // Vertically offset anchor points
+      y1 = y1 + (ttb ? OFFSET_VERTICAL : -OFFSET_VERTICAL)
+      y2 = y2 + (ttb ? -OFFSET_VERTICAL : OFFSET_VERTICAL)
 
       const dy = getDy(ttb, y1, y2)
       const dx = getDx(ltr, x1, x2)
@@ -110,7 +139,7 @@ function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
         ${x2 - dx - cx * 1.5} ${y2}
         ${x2 - dx} ${y2}
         L
-        ${x2 + 80 * (ltr ? -1 : 1)} ${y2}`
+        ${x2 + DISTANCE_BOX_HORIZONTAL} ${y2}`
       return {
         d,
         color: 'red',
@@ -118,9 +147,9 @@ function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
         points
       }
     } else {
-      // Offset anchor points
-      x1 = x1 + (ltr ? 25 : -25)
-      x2 = x2 + (ltr ? -25 : 25)
+      // Horizontally Offset anchor points
+      x1 = x1 + (ltr ? OFFSET_HORIZONTAL : -OFFSET_HORIZONTAL)
+      x2 = x2 + (ltr ? -OFFSET_HORIZONTAL : OFFSET_HORIZONTAL)
 
       const dy = getDy(ttb, y1, y2)
 
@@ -150,7 +179,7 @@ function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
         ${x2} ${y2 - dy - cy * 1.5}
         ${x2} ${y2 - dy}
         L
-        ${x2} ${y2 + 60 * (ttb ? -1 : 1)}`
+        ${x2} ${y2 + DISTANCE_BOX_VERTICAL * (ttb ? -1 : 1)}`
       return {
         d,
         color: 'green',
@@ -168,14 +197,13 @@ function generateCurve (x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2) {
       }
     } else {
       return {
-        d: `M ${x1} ${y1} L ${x2 + (ltr ? -h : h)} ${y2}`,
-        color: 'green',
+        d: `M ${x1} ${y1} L ${x2 + DISTANCE_BOX_HORIZONTAL} ${y2}`,
+        color: 'blue',
         arrow: ltr ? '270' : '90',
         points: []
       }
     }
   }
-
 }
 
 export default {
@@ -190,7 +218,7 @@ export default {
         left: 75,
         right: 75,
         top: 60,
-        bottom: 60
+        bottom: 120
       }
     }
   },
@@ -201,12 +229,27 @@ export default {
     ...mapGetters('driver', [
       'values'
     ]),
+    driverWidth () {
+      const { width } = this
+      if (width < 580) {
+        return 70
+      } else if (width < 650) {
+        return 90
+      } else if (width < 800) {
+        return 110
+      } else {
+        return 130
+      }
+    },
+    marginHorizontal () {
+      return (this.driverWidth + 10) / 2 + 5
+    },
     combination () {
-      return [this.values[0], this.values[5], this.values[11], this.values[13]]
+      return [last(this.values[0]), last(this.values[5]), last(this.values[11]), last(this.values[13])].join('')
     },
     scaleX () {
       return scalePoint()
-        .range([this.margin.left, this.width - this.margin.right])
+        .range([Math.max(this.marginHorizontal, 75), this.width - this.marginHorizontal])
         .domain(range(5))
     },
     dX () {
@@ -228,10 +271,12 @@ export default {
       }
     },
     labelConcept () {
-      const value = last(this.values[2])
+      const value = last(this.values[4])
       let word
       if (value < -0.3) {
         word = 'very negatively'
+      } else if (value === 0) {
+        word = 'steadily'
       } else if (value < 0) {
         word = 'negatively'
       } else if (value > 0.3) {
@@ -240,12 +285,14 @@ export default {
         word = 'positively'
       }
       return {
-        x: this.scaleX(1),
-        y: this.scaleY(2),
+        // The coordinates of Climate smart land use
+        x: this.scaleX(3),
+        y: this.scaleY(0),
         label: [word, 'developing concept']
       }
     },
     nodes () {
+      // List of concepts/drivers with lavel, x-position, y-position and if it is a driver
       const drivers = [
         ['Alternative business models', 0, 1, true],
         ['Current agricultural practices', 1, 1, false],
@@ -276,6 +323,8 @@ export default {
       })
     },
     links () {
+      const { driverWidth } = this
+      // Links between concepts/drivers with strength
       const links = [
         [1, 2, -0.6],
         [1, 3, 0.5],
@@ -304,23 +353,21 @@ export default {
       const scaleAnomalyPuOr = scaleDiverging()
         .domain([-1, 0, 1])
         .interpolator(interpolatePiYG)
-      // console.log({ links }, this.nodes)
+
       return map(links, ([s, t, w], i) => {
-        // console.log(this.nodes[s - 1])
         const { x: x1, y: y1, cx: cx1, cy: cy1, isDriver: d1 } = this.nodes[s - 1]
         const { x: x2, y: y2, cx: cx2, cy: cy2, isDriver: d2 } = this.nodes[t - 1]
 
+        // Left to Right and Top to Bottom
         const ltr = cx2 - cx1
         const ttb = cy1 - cy2
 
-        // console.log({cx1, cx1, ltr}, Boolean(ltr))
-
         let color = false
         let points = []
-        let arrow = '90'
+        let arrow = '90' // Angle
         let d = `M ${x1} ${y1}L${x2} ${y2}`
 
-        if (x1 !== x2 && y1 !== y2) {
+        if (x1 !== x2 && y1 !== y2) { // Check if we the points are on the same level vertically or horizontally
           let _x1 = x1
           let _x2 = x2
           let _y1 = y1
@@ -333,30 +380,24 @@ export default {
             _y2 = y1
           }
 
-          // const [_x2, _x1] = [x1, x2].sort()
-          // const [_y2, _y1] = [y1, y2].sort()
-
           if (_y1 > _y2) {
             if (_y1 - _y2 > this.dY + 2) {
-              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth))
             } else {
-              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth))
             }
           } else {
             if (_y2 - _y1 > this.dY + 2) {
-              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth))
             }
             else {
-              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+              ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth))
             }
           }
-          // color = 'blue' // scaleAnomalyPuOr(w)
-
-        } else {
-          ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2))
+        } else { // Drawing a straight line
+          ({ d, color, arrow, points } = generateCurve(x1, x2, y1, y2, cx1, cx2, cy1, cy2, d1, d2, driverWidth))
         }
 
-        // color = ltr > 0 ? 'red' : 'blue'
         color = scaleAnomalyPuOr(w)
 
         return {
@@ -366,6 +407,26 @@ export default {
           points
         }
       })
+    },
+    interpretation () {
+      const combinations = {
+        '1111': 'Together, the drivers enhance climate smart land use to the highest state. Yet, current agricultural practices decline which negatively influences the growth of the local economy.',
+        '1000': 'Whit only new business models, the local economy will get a boost, even though current agricultural practices decline. Climate smart land use is not enhanced by this diver.',
+        '0100': 'With a declining population, the local economy declines as well. Climate smart land use is not enhanced by this driver alone.',
+        '0010': 'With an increase in extreme climate events such as flooding and drought episodes, the public opinion will shift towards a more sustainable oriented mentality. This enhances environmental focussed policy and eventually leads to a decline in current agricultural practices. Climate smart land use increases slightly.',
+        '0001': 'Technology investments enhance the energy transition which increases climate smart land use. With only technology investments, current agricultural practices remain and the local economy grows.',
+        '1100': 'New business models and population decline, current agricultural practices will also decline. Furthermore, the local economy shrinks while a sustainability focussed public opinion increases. Both slightly decrease climate smart land use.',
+        '1101': 'The three drivers enhance the energy transition which increases climate smart land use. Note that this is mostly due to climate mitigation.',
+        '1110': 'Business models, demography changes and extreme events increase a sustainability focussed public opinion. While current agricultural practices decline, climate smart land use increases. Note that this is mostly due to climate adaptation.',
+        '1001': 'New business models and technology investments give a boost to the local economy while current agricultural practices decline. Via the energy transition, climate smart land use increases.',
+        '1010': 'Climate events and business models increase the local economy and increase a more sustainable oriented public opinion. Therefore, current agricultural practices decline strongly and climate smart land use increases slightly.',
+        '1011': 'The three drivers together have the largest impact on climate smart land use. This is both climate adaptation and mitigation.',
+        '0111': 'Although the local economy declines, technology investments increase current agricultural practices while also enhancing the energy transition.',
+        '0101': 'Population decline and technology investments bring a continuation in current agricultural practices while climate smart land use increases. Note that this is mainly climate mitigation.',
+        '0110': 'By more extreme climate events, the sustainability oriented public opinion increases, leading to more environmentally focussed policy. The increase in landscape value slows the energy transition but increases climate smart land use. Note that this is mainly climate adaptation.',
+        '0011': 'Technology investments and extreme climate events, climate smart land use increases while current agricultural practices also increase.'
+      }
+      return get(combinations, this.combination, false)
     }
   },
   mounted () {
@@ -399,6 +460,17 @@ export default {
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
 
+  .fade-enter-active {
+    transition: all .3s ease;
+  }
+  .fade-leave-active {
+    transition: all .3s ease;
+  }
+  .fade-enter, .fade-leave-to
+  /* .slide-fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
+
   .values {
     font-size: 0.8rem;
   }
@@ -409,7 +481,7 @@ export default {
 
   .vis-container, svg {
     width: 100%;
-    height: 600px;
+    height: 720px;
   }
 
   .vis-interactive {
@@ -418,6 +490,21 @@ export default {
     right: 0;
     left: 0;
     bottom: 0;
+    overflow: hidden;
+
+    .interpretation {
+      position: absolute;
+
+      h5 {
+        line-height: 1.6;
+        font-weight: $font-weight-bold;
+        font-size: 0.85rem;
+      }
+
+      p {
+        @include text-note();
+      }
+    }
 
     .driver {
       display: inline-block;
@@ -428,7 +515,6 @@ export default {
         border: 1px solid #e4e4e4;
         box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.05);
         border-radius: 6px;
-        width: 150px;
         height: 110px;
         transform: translate(-50%, -50%);
         display: flex;
@@ -437,18 +523,12 @@ export default {
         padding: 0.7rem;
         transition: border-color 0.3s;
 
-        // h5 {
-        //   margin-left: 2px;
-        //   margin-top: 2px;
-        // }
-
         &.isDriver {
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           height: 80px;
-          width: 140px;
           border-radius: 20px;
 
           &:hover {
@@ -459,23 +539,12 @@ export default {
             text-align: center;
             color: $color-dark-gray;
             margin: 0;
-            // transition: color 1s;
           }
-
-          // &.isActive {
-          //   color: $color-black;
-          // }
         }
 
         &.isActive {
-          // border-color: $color-neon;
           h5 {
-            // color: $color-black;
             color: $color-black;
-            // animation-name: flash;
-            // animation-duration: 600ms;
-            // animation-iteration-count: 1;
-            // animation-timing-function: ease-in-out;
           }
         }
 
@@ -483,7 +552,11 @@ export default {
           display: inline-block;
           line-height: 1.1;
           font-weight: $font-weight-bold;
-          font-size: 0.85rem;
+          font-size: 0.65rem;
+
+          @include query($medium) {
+            font-size: 0.85rem;
+          }
         }
       }
     }

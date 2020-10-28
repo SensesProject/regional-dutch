@@ -9,10 +9,10 @@
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
-        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" classes="ssp" :text="['SSP 5', step >= 5 ? '☹️' : '“Fossil Fuel”']" :wasActive="step >= 5" link="ssp5-wildcard" />
+        <Box :x="width / 3 * 1" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 5" classes="ssp" :text="['SSP 5', step >= 5 ? '😱' : '“Fossil Fuel”']" :wasActive="step >= 5" link="ssp5-wildcard" />
         <Box :x="width / 3 * 1" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 1" classes="ssp" :text="['SSP 1', step >= 1 ? '🐔' : '“Sustainability”']" :wasActive="step >= 1" link="ssp1-wildcard" />
         <Box :x="width / 3 * 2" :y="height / 3 * 1" :w="width / 3.6" :h="height / 4" :isActive="step === 3" classes="ssp" :text="['SSP 3', step >= 3 ? '🌋' : '“Regional Rivalry”']" :wasActive="step >= 3" link="ssp3-wildcard" />
-        <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" classes="ssp" :text="['SSP 4', step >= 4 ? '💨' : '“Inequality”']" :wasActive="step >= 4" link="ssp4-wildcard" />
+        <Box :x="width / 3 * 2" :y="height / 3 * 2" :w="width / 3.6" :h="height / 4" :isActive="step === 4" classes="ssp" :text="['SSP 4', step >= 4 ? '🌬️' : '“Inequality”']" :wasActive="step >= 4" link="ssp4-wildcard" />
 
         <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
         <text :x="width / 2" :y="height - 20" text-anchor="middle" class="axis label">Challenges to adaptation</text>
@@ -91,9 +91,12 @@ export default {
   @import "~@/assets/style/global";
 
   .graphic--wildcards {
-    position: sticky;
     display: block;
-    grid-row-end: span 3;
+
+    @include query($wide) {
+      position: sticky;
+      grid-row-end: span 3;
+    }
   }
 
   .values {

@@ -59,7 +59,6 @@ export default {
     },
     radius () {
       const distance = Math.sqrt(Math.abs((this.x1 - this.x2) ** 2 + (this.y1 - this.y2) ** 2))
-      console.log(distance, distance * 15, distance * 2, distance ^ 2)
       return distance;
     }
   }

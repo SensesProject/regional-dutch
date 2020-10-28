@@ -7,10 +7,6 @@
   // color: getColor(gray, 10);
 }
 
-.question {
-  @include headline-1();
-}
-
 h1 {
 	font-size: 2.5rem;
   margin-bottom: 1em;
@@ -32,6 +28,13 @@ h3 {
 	font-weight: $font-weight-regular;
 	font-style: italic;
   margin: 0;
+}
+
+h4 {
+	font-size: 0.85em;
+	line-height: 1.5;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
 }
 
 .caption {
@@ -85,4 +88,10 @@ a {
 
 ul {
 	margin-left: 1em;
+}
+
+.graphic {
+	footer {
+    @include text-note();
+  }
 }

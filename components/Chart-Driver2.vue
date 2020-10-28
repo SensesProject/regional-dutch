@@ -43,7 +43,7 @@ const lines = [
 ]
 
 export default {
-  props: ['index'],
+  props: ['index', 'w'],
   data () {
     return {
       width: 0,
@@ -128,6 +128,7 @@ export default {
         const height = el.clientHeight || el.parentNode.clientHeight
         this.width = width
         this.height = height
+        console.log({ width })
         this.anime(this.values)
       }
     },
@@ -174,6 +175,9 @@ export default {
   watch: {
     values (newPos) {
       this.anime(newPos)
+    },
+    w () {
+      this.calcSizes()
     }
   }
 }

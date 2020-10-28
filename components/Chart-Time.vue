@@ -251,8 +251,4 @@ export default {
     }
   }
 
-  footer {
-    @include text-note();
-  }
-
 </style>

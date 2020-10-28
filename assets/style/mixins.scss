@@ -71,3 +71,9 @@
   border-radius: 6px;
   padding: 1rem;
 }
+
+@mixin query($device) {
+  @media screen and (min-width: $device) {
+    @content;
+  }
+}

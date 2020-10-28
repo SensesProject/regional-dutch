@@ -18,8 +18,18 @@ export default {}
 
   #introduction {
     grid-column-start: 1;
-    grid-column-end: 4;
+    grid-column-end: 6;
     margin: 5vh 0;
+
+    @include query($medium) {
+      grid-column-start: 2;
+      grid-column-end: 5;
+    }
+
+    @include query($wide) {
+      grid-column-start: 1;
+      grid-column-end: 4;
+    }
   }
 
 </style>
