@@ -17,23 +17,19 @@
   .layout--narrow, .step, .step header {
     grid-column-start: 1;
     grid-column-end: 6;
-    background-color: blue;
 
     @include query($narrow) {
       grid-column-end: 5;
-      background-color: red;
     }
 
     @include query($medium) {
       grid-column-start: 2;
       grid-column-end: 5;
-      background-color: yellow;
     }
 
     @include query($wide) {
       grid-column-start: 1;
       grid-column-end: 3;
-      background-color: green;
     }
   }
 
@@ -79,13 +75,11 @@
     @include query($medium) {
       grid-column-start: 2;
       grid-column-end: 5;
-      background-color: yellow;
     }
 
     @include query($wide) {
       grid-column-start: 3;
       grid-column-end: 6;
-      background-color: yellow;
     }
   }
 
@@ -96,13 +90,11 @@
     @include query($medium) {
       grid-column-start: 2;
       grid-column-end: 5;
-      background-color: yellow;
     }
 
     @include query($wide) {
       grid-column-start: 1;
       grid-column-end: 4;
-      background-color: red;
     }
   }
 
@@ -113,19 +105,16 @@
     @include query($narrow) {
       grid-column-start: 1;
       grid-column-end: 5;
-      background-color: yellow;
     }
 
     @include query($medium) {
       grid-column-start: 2;
       grid-column-end: 5;
-      background-color: yellow;
     }
 
     @include query($wide) {
       grid-column-start: 4;
       grid-column-end: 6;
-      background-color: yellow;
     }
   }
 }

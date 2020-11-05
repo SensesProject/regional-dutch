@@ -17,6 +17,17 @@ h2 {
   margin: 0 0 0.2em;
 }
 
+sub {
+	font-size: 0.6em;
+	vertical-align: baseline;
+  position: relative;
+  top: 0.4em;
+}
+
+.figcaption, .footnotes {
+	@include text-note();
+}
+
 .wildcard h2 {
 	border-bottom: 1px solid #e4e4e4;
 	margin: 0.5em 0 0.5em;
@@ -24,17 +35,29 @@ h2 {
 }
 
 h3 {
-	font-size: 1.2rem;
+	margin-top: 0.2rem;
+	font-size: 1.6rem;
 	font-weight: $font-weight-regular;
 	font-style: italic;
+	line-height: 1.2;
   margin: 0;
 }
 
 h4 {
-	font-size: 0.85em;
+	font-size: 0.95rem;
 	line-height: 1.5;
 	text-transform: uppercase;
 	letter-spacing: 0.03em;
+	margin-bottom: 0.8rem;
+}
+
+h5 {
+	font-size: 0.95rem;
+}
+
+h6 {
+	font-weight: $font-weight-regular;
+	font-size: 0.8rem;
 }
 
 .caption {
@@ -42,6 +65,11 @@ h4 {
 	font-weight: $font-weight-regular;
 	font-size: 0.7rem;
 	color: getColor(gray, 70);
+
+	&.caption--2 {
+		font-size: 0.6rem;
+		color: getColor(gray, 50);
+	}
 }
 
 p {
@@ -53,7 +81,7 @@ p {
 	font-size: 1.1rem;
 }
 
-p a {
+p a, li a {
 	color: $color-black;
 	text-decoration: underline;
 	text-decoration-color: $color-neon;

@@ -121,6 +121,17 @@ text {
     }
   }
 
+  &.isHover {
+    .rect {
+      stroke: $color-neon;
+      filter: drop-shadow(1px 1px 10px rgba(0, 0, 0, 0.1));
+    }
+
+    .text--white {
+      fill: #000;
+    }
+  }
+
   &.isLink:hover {
     cursor: pointer;
 

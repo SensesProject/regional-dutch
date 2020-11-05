@@ -2,15 +2,24 @@
   <div class="container">
     <section class="step">
       <header>
-        <h2>Steps for developing robust pathways across scenarios and scales</h2>
+        <span class="caption">Part 3</span>
+        <h2>Robust pathways</h2>
       </header>
-      <p>We developed a robust pathway towards the multi-scale vision participatorily, and tested its robustness across scenarios (Step 1) and scales (Step 2).</p>
+      <p>The third and last part of this module explains how we developed pathways to achieve the multiscale vision for the Overijsselse Vecht by linking top-down information from socioeconomic and climate change impact scenarios with bottom-up knowledge. We used two co-production techniques, including <a href="https://climatescenarios.org/finder/?name=BACKCASTING%20/%20NORMATIVE%20FORECASTING" target="_blank">back-casting</a> and <a href="https://climatescenarios.org/finder/?name=WILD%20CARDS" target="_blank">wildcards</a>. The pathways were co-produced during two stakeholder workshops in 2019. The four overarching themes relate to the multi-scale vision in Part 2.</p>
+      <p>The robust pathways development process is explained in two steps:</p>
+      <p>In Step 1 we show how we co-produced a pathway and enhanced its the robustness across socio-economic scenarios by translating them to wildcards. In Step 2 we re-iterate the pathways by testing them across (global) climate impact scenarios by translated into visuals and relevant questions to strengthen robustness across climate and socioeconomic impacts.</p>
     </section>
+    <ChartPathway id="pathway-1" />
     <section class="step">
       <IntersectionObserver :step="0" :noStyling="true">
-        <h3>Step 1</h3>
-        <p>We used a back-casting method [hyperlink] to develop actions to reach the multi-scale vision. To increase robustness of the pathway, we ‘stress tested’ it with wildcards, based on the four shared socioeconomic pathways (ssp source) and results from two climate impact models (IMAGE and MAgPIE). Note that robust refers to robustness across scenarios that represent a broad socioeconomic context, associated worldviews (Simona paper) and robustness across climate scenarios that represent a broad climatic context (source). The discussion and pathway reveals opportunities, in the form of synergies between themes and challenges, in the form of trade-offs between four focus themes.</p>
-        <p>Wildcards are useful to test the robustness of pathways across scenarios. Concrete examples of questions could be:</p>
+        <header>
+          <span class="caption caption--2">Step 1</span>
+          <h3>Robustness across socioeconomic scenarios</h3>
+        </header>
+        <p>During the first workshop, we presented the multiscale vision to stakeholders to guide the thinking and identification of actions to develop a pathway aimed at achieving the multiscale vision for 2050. This pathway has been tested for its robustness across <a href="https://climatescenarios.org/primer/socioeconomic-development" target="_blank"><strong>S</strong>hared <strong>S</strong>ocioeconomic <strong>P</strong>athways</a> to capture unexpected events that could happen under future and broad socioeconomic developments. The rationale behind the use of socioeconomic scenarios is that it is well known that the severity of climate impacts and capacity to adapt and mitigate is strongly affected by the socioeconomic circumstances. Therefore, we applied the concept of <a href="https://climatescenarios.org/finder/?name=WILD%20CARDS" target="_blank">wildcards</a> defined as low-probability, high-impact events to four SSPs (1, 3, 4 and 5) that represent different broad challenges to adaptation and mitigation.</p>
+        <h4>Wildcards</h4>
+        <p>The use of SSP-based wildcards raises issues and questions usually not considered in a narrow local perspective and stimulated out-of-the box thinking to strengthen the future pathways.</p>
+        <p>Concrete examples of questions derived from presenting the wildcards include:</p>
         <ol class="anchor-list">
           <li class="link clickable" @click="() => scrollTo('ssp1-wildcard')">SSP1: International supply chains and links to local production</li>
           <li class="link clickable" @click="() => scrollTo('ssp3-wildcard')">SSP3: Security, international instability, migration fluxes</li>
@@ -21,9 +30,6 @@
     </section>
     <ChartWildcards />
     <section class="layout--left wildcards">
-      <header>
-        <h4>Wildcards</h4>
-      </header>
       <div class="steps">
         <IntersectionObserver :step="1" :noStyling="true" classes="wildcard" id="ssp1-wildcard">
           <figure class="image">
@@ -34,9 +40,9 @@
               <span class="caption">Wildcard SSP1 “Sustainability”</span>
               <h2>Chicken epidemics</h2>
             </header>
-            <h3>Event sketch</h3>
+            <h4>Event sketch</h4>
             <p>On a sunny Sunday morning in Overijssel, Sanne gets up to feed her chickens, as always. As soon as she arrives at the chicken coop there is no movement. All chickens are dead. She looks at the fence or maybe a marten has come through. "Oh," she thinks, "That is how nature works, they must have been eaten." Unsuspectingly, she goes to visit the neighbour. All the chickens are dead there too. "Quite strange". After having made a tour through the living commune, the chickens are found dead everywhere. Also, with her sister, who lives in a residential group in Zeeland, all the chickens are dead.</p>
-            <h3>Impacts</h3>
+            <h4>Impacts</h4>
             <p>Most people depend on their own (or in small groups) garden and animals for daily food supplies. The food supply is vulnerable because of the ban on pesticides. The death of the chickens is the first wave, after which it is discovered that crops will no longer generate a harvest.</p>
             <p>Most households count on their own food supply. The strong bond in neighbourhoods has led to joint production. After one day all supplies are exhausted and people are forced to look outside their area to get food.</p>
           </main>
@@ -50,10 +56,10 @@
               <span class="caption">Wildcard SSP3 “Regional Rivalry”</span>
               <h2>Canary Islands volcano eruption</h2>
             </header>
-            <h3>Event sketch</h3>
+            <h4>Event sketch</h4>
             <p>Kirsten follows the news with interest. Her bed & breakfast in Overijssel is fully booked and all the extra beds that she could find are crammed into the rooms. The minister has just indicated that the Randstad will be evacuated. "And now those Randstatters want to go this way," she thinks, slightly frustrated. "They also benefit from our windmills".</p>
             <p>A few hours ago, the volcano erupted on one of the Canary Islands. This causes a huge tidal wave that is coming towards the Dutch coast. All new dike reinforcement projects in recent years are not designed for a tidal wave. After hours of tension, the advice is therefore given to evacuate the Randstad as much as possible and to regard the Randstad as lost.</p>
-            <h3>Impacts</h3>
+            <h4>Impacts</h4>
             <p>Overijssel is faced with a huge population increase. This makes land scarce and the housing market exploded. Refugees from the Randstad try to fight for a place with their few possessions.</p>
           </main>
         </IntersectionObserver>
@@ -66,9 +72,9 @@
               <span class="caption">Wildcard “Inequality” SSP4</span>
               <h2>The week with no wind</h2>
             </header>
-            <h3>Event sketch</h3>
+            <h4>Event sketch</h4>
             <p>Jan puts his hand out of the window, "he still has no wind" he tells his son Piet. The weather has been totally silent for a week. The Netherlands is in the eye of a large hurricane that is slowly weakening but not displaced. It feels sultry in Overijssel and the mosquitoes cannot be hardened. "I hope we will get the fridge back from the municipality soon."</p>
-            <h3>Impacts</h3>
+            <h4>Impacts</h4>
             <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out in phases. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other steam eaters have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, "Otherwise the Dutch economy collapses".</p>
           </main>
         </IntersectionObserver>
@@ -81,9 +87,9 @@
               <span class="caption">Wildcard “Fossil Fuel” SSP5</span>
               <h2>Google stopped working</h2>
             </header>
-            <h3>Event sketch</h3>
+            <h4>Event sketch</h4>
             <p>Lisa is on her way to a meeting in her self-driving car. "I should have gone to sleep a bit earlier," she thinks, while slightly indulging in the car. Suddenly she suddenly sees a car shooting to the left in front of her. Less than a second later, her navigation system makes a loud beep and it drops out.</p>
-            <h3>Impacts</h3>
+            <h4>Impacts</h4>
             <p>Many systems depend on Google. The shutdown of Google causes chaos on the roads and public transport. Supermarket doors no longer work and people can only reach each other over the telephone, "but then again, who still has call minutes if everything can be done via Google".</p>
             <p>Paying via Google-pay no longer works, luckily there are people who arrange their payments through other apps.</p>
           </main>
@@ -96,11 +102,13 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import ChartWildcards from '~/components/Chart-Wildcards'
+import ChartPathway from '~/components/Chart-Pathway'
 import IntersectionObserver from 'library/src/components/IntersectionObserver'
 
 export default {
   components: {
     ChartWildcards,
+    ChartPathway,
     IntersectionObserver
   },
   computed: {
@@ -127,6 +135,13 @@ export default {
 
 <style lang="scss">
   @import "~@/assets/style/global";
+
+  #pathway-1 {
+    display: flex;
+    align-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
 
   .wildcards {
     header {

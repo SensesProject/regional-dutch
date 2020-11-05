@@ -1,5 +1,5 @@
 <template>
-  <section class="graphic graphic--pathway layout--right-wide" :style="styling">
+  <figure class="graphic graphic--pathway layout--right-wide" :class="{ isSticky }" :style="styling">
     <div ref="vis" class="vis-container">
       <svg
         class="vis"
@@ -17,18 +17,22 @@
           <Arc :x1="x(106 + 95)" :y1="y(201 - 30)" :x2="x(1150)" :y2="y(93)" :isArrow="true" :isTop="true" :isThick="true" />
         </g>
 
-        <Ball :x="x(384)" :y="y(93)" :w="w" :h="h" :text="['Regional energy', 'strategies']" />
-        <Ball :x="x(539)" :y="y(93)" :w="w" :h="h" :text="['Change of', 'the concept', 'of ’nature‘']" />
-        <Ball :x="x(461)" :y="y(201)" :w="w" :h="h" :text="['Change laws', 'and regulations', 'e.g. concession']" />
-        <Ball :x="x(673)" :y="y(201)" :w="w" :h="h" :text="['Accepting', 'variabiltiy']" />
-        <Ball :x="x(596)" :y="y(309)" :w="w" :h="h" :text="['System', 'thinking']" />
-        <Ball :x="x(751)" :y="y(309)" :w="w" :h="h" :text="['Mentality', 'change']" />
-        <Ball :x="x(1019)" :y="y(165)" :w="w" :h="h" :text="['Agriculture as', 'energy supplier']" />
-        <Ball :x="x(942)" :y="y(273)" :w="w" :h="h" :text="['Agricultural', ' sector as', ' a buffer']" />
-        <Ball :x="x(1097)" :y="y(273)" :w="w" :h="h" :text="['Extensive', 'agriculture']" />
-        <Ball :x="x(751)" :y="y(453)" :w="w" :h="h" :text="['Farmer has', 'a new business', 'model']" />
-        <Ball :x="x(453)" :y="y(417)" :w="w" :h="h" :text="['Successful', 'nice markets']" />
-        <Ball :x="x(298)" :y="y(417)" :w="w" :h="h" :text="['Farmer as', 'land steward']" />
+        <Ball :x="x(384)" :y="y(93)" :w="w" :h="h" :text="['Regional energy', 'strategies']" :isHover="loop === 'strategies'" />
+        <Ball :x="x(539)" :y="y(93)" :w="w" :h="h" :text="['Change of', 'the concept', 'of ’nature‘']" :isHover="loop === 'strategies'" />
+        <Ball :x="x(461)" :y="y(201)" :w="w" :h="h" :text="['Change laws', 'and regulations', 'e.g. concession']" :isHover="loop === 'strategies'" />
+
+        <Ball :x="x(673)" :y="y(201)" :w="w" :h="h" :text="['Accepting', 'variabiltiy']" :isHover="loop === 'system'" />
+        <Ball :x="x(596)" :y="y(309)" :w="w" :h="h" :text="['System', 'thinking']" :isHover="loop === 'system'" />
+        <Ball :x="x(751)" :y="y(309)" :w="w" :h="h" :text="['Mentality', 'change']" :isHover="loop === 'system'" />
+
+        <Ball :x="x(942)" :y="y(273)" :w="w" :h="h" :text="['Agricultural', ' sector as', ' a buffer']" :isHover="loop === 'agriculture'" />
+        <Ball :x="x(1097)" :y="y(273)" :w="w" :h="h" :text="['Extensive', 'agriculture']" :isHover="loop === 'agriculture'" />
+        <Ball :x="x(1019)" :y="y(165)" :w="w" :h="h" :text="['Agriculture as', 'energy supplier']" :isHover="loop === 'agriculture'" />
+
+        <Ball :x="x(453)" :y="y(417)" :w="w" :h="h" :text="['Successful', 'nice markets']" :isHover="loop === 'farmer'" />
+        <Ball :x="x(298)" :y="y(417)" :w="w" :h="h" :text="['Farmer as', 'land steward']" :isHover="loop === 'farmer'" />
+
+        <Ball :x="x(751)" :y="y(453)" :w="w" :h="h" :text="['Farmer has', 'a new business', 'model']" :isHover="loop === 'business'" />
 
         <Loop :x="x(461)" :y="y(129)" :m="true" />
         <Loop :x="x(1019)" :y="y(236)" />
@@ -69,7 +73,8 @@
 
       </svg>
     </div>
-  </section>
+    <figcaption class="cap figcaption">Figure x. Something</figcaption>
+  </figure>
 </template>
 
 <script>
@@ -94,6 +99,10 @@ export default {
     active: {
       type: Number,
       default: 0
+    },
+    isSticky: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -112,8 +121,15 @@ export default {
     ...mapState('step', [
       'step'
     ]),
+    ...mapState('path', [
+      'loop'
+    ]),
     styling () {
-      return { top: `calc(50% - ${this.height / 2}px)`, height: `${this.height}px` }
+      if (this.isSticky) {
+        return { top: `calc(50% - ${this.height / 2}px)`, height: `${this.height}px` }
+      } else {
+        return {}
+      }
     },
     w () {
       return 140 / 1200 * this.width
@@ -155,7 +171,7 @@ export default {
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
 
-  .graphic--pathway {
+  .graphic--pathway.isSticky {
     @include query($wide) {
       position: sticky;
       grid-row-end: span 3;

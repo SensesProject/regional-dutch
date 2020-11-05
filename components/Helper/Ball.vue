@@ -1,7 +1,6 @@
 <template>
   <g
-    class="ball"
-    :class="[classes, { isActive }]">
+    :class="['ball', classes, { isActive, isHover }]">
     <rect :x="x - width / 2" :y="y - height / 2" :width="width" :height="height" :class="`rect rect--${color}`" :rx="width / 2" :ry="width / 2" />
     <text :y="y + 5 - (text.length - 1) * (lineHeight / 2)" text-anchor="middle" :class="`text text--${color} text--${font}`">
       <tspan v-for="(t, i) in text" :x="x" :dy="i ? lineHeight : 0">{{ t }}</tspan>
@@ -45,6 +44,10 @@ export default {
       default: false
     },
     isActive: {
+      type: Boolean,
+      default: false
+    },
+    isHover: {
       type: Boolean,
       default: false
     },
