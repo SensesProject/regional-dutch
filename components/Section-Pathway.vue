@@ -33,17 +33,17 @@
           <h6>Relative change projections of food price</h6>
         </template>
         <template v-slot:footer>
-          <span>Figure 4. Projections of GDP, based on the SSP database hosted by the IIASA Energy Program at https://tntcat.iiasa.ac.at/SspDb</span>
+          <span>Figure 4. MAGE projections of relative change in food price between 2000 and 2100 for different SSP scenarios. With the courtesy of Jonathan Doelman (PBL, The Netherlands)</span>
         </template>
       </ChartTime>
       <strong>Change in diet</strong>
       <ul class="question-1">
-        <li><span>Discussion if less meat also means less dairy, maybe even an increase in local dairy consumption. Which can enhance niche-markets.</span></li>
-        <li><span>Farmers who are ‘front runners’ will try other crops such as nuts which could be lucrative and drought resistant. These farmers act as an example for niche-markets.</span></li>
-        <li><span>Regional circular economies emerge at different speeds.</span></li>
+        <li><span>Discussion if less meat also means less dairy, maybe even an <strong>increase in local dairy consumption</strong>. This can enhance niche markets.</span></li>
+        <li><span>Farmers who are <strong>‘front runners’</strong> will try other crops such as nuts which could be lucrative and drought resistant. These farmers act as an example for niche markets.</span></li>
+        <li><span>Regional circular economies emerge at <strong>different speeds</strong>.</span></li>
       </ul>
     </IntersectionObserver>
-    <IntersectionObserver :step="8" :noStyling="true" classes="step question">
+    <IntersectionObserver :step="8" :noStyling="true" classes="step question wildcard">
       <h4>Question 2</h4>
       <p>Climate impacts: Grasslands might be affected negatively across Europe from climate change. What are the opportunities and challenges for the use of land for energy?</p>
       <div class="graphic">
@@ -51,20 +51,20 @@
         <video src="videos/pastures_in_rcp26soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop></video>
         <h5>Managed grasslands (RCP6.0)</h5>
         <video src="videos/pastures_in_rcp60soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop></video>
-        <footer><span>Figure 4. Projections of GDP, based on the SSP database hosted by the IIASA Energy Program at https://tntcat.iiasa.ac.at/SspDb</span></footer>
+        <footer><span>Figure 4. MAgPIE projections of managed grassland cover for RCP 6.0. With the courtesy of Jan Volkholz (PIK, Germany).</span></footer>
       </div>
       <strong>Bio-energy</strong>
       <ul class="question-2">
-        <li><span>If farmers use their land to produce energy, for example use their grassland for biofuel, energy prices need to rise. Grasslands can handle drought shocks better compared to other cops.</span></li>
+        <li><span>If farmers use their land to produce energy, for example by using their grassland for biofuel, <strong>energy prices need to rise</strong>. Grasslands can handle drought shocks better compared to other crops.</span></li>
       </ul>
     </IntersectionObserver>
-    <IntersectionObserver :step="9" :noStyling="true" classes="step question">
+    <IntersectionObserver :step="9" :noStyling="true" classes="step question wildcard">
       <h4>Question 3</h4>
       <p>Global mitigation policies: What are the effects of mitigation policies on land-use trade-offs?</p>
       <strong>Land-use for mitigation</strong>
       <ul class="question-3">
-        <li><span>Using land with fertile soils to make a solar field is a waste of your soil. Soil quality should be leading in this decision. Same is for reforestation, soil quality should enable tree growing and not the other way around.</span></li>
-        <li><span>Trade-offs between buy-out or subsidising mitigation.</span></li>
+        <li><span>Converting land with fertile soils into solar fields is considered a waste of soil. <strong>Soil quality</strong> should be leading in this decision. The same holds for reforestation; soil quality should enable tree growing and not the other way around.</span></li>
+        <li><span>Trade-offs between <strong>buy-out or subsidising</strong> mitigation</span></li>
       </ul>
     </IntersectionObserver>
   </div>
@@ -137,6 +137,10 @@ export default {
   // h5 {
   //   margin-top: 0.5rem;
   // }
+
+  .question {
+    @include box();
+  }
 
   .question ul {
     margin-top: 0.5rem;

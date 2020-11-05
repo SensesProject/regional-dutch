@@ -34,8 +34,28 @@
   }
 
   .step {
-    .step--wider {
-      grid-column-end: 4;
+    &.step--wider {
+      grid-column-end: 6;
+
+      @include query($narrow) {
+        grid-column-end: 5;
+      }
+
+      @include query($medium) {
+        grid-column-start: 1;
+        grid-column-end: 5;
+      }
+
+      @include query($wide) {
+        grid-column-start: 1;
+        grid-column-end: 5;
+      }
+
+      .columns {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-column-gap: 4rem;
+      }
     }
 
     header {

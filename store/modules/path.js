@@ -9,7 +9,6 @@ const state = () => {
 const mutations = {
   SET_LOOP (state, loop) {
     state.loop = isString(loop) ? loop : undefined
-    console.log(state.loop)
   }
 }
 
