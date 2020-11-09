@@ -76,7 +76,7 @@ export default {
         .domain([0, 9])
     },
     points () {
-      return map(this.visions, ([label, scope, socio, land, energy, nature]) => {
+      return map(this.visions, ([label, scope, socio, land, energy, nature, description, source]) => {
         const r = this.scaleScope(scope)
 
         let percent = 0
@@ -152,19 +152,20 @@ export default {
           field = 'It is a »socioeconomic development« and »land use and agriculture« vision.'
         }
 
-        const tooltip = `<h5>${label}</h5><p>Lorem ipsum dolor</p><small>${field} ${location}</small>`
+        let tooltip = [`<h5>${label}</h5>`]
+
+        if (description) { tooltip.push(`<p>${description}`) }
+        if (source) { tooltip.push(`<br /><small>${source}</small>`) }
+        if (description) { tooltip.push(`</p>`) }
+        tooltip.push(`<small>${field} ${location}</small>`)
 
         return {
           x,
           y,
-          label: tooltip,
+          label: tooltip.join(''),
           rotate,
           anchor
         }
-        // const coords = map(line, (y, x) => {
-        //   return [this.scaleX(x), this.scaleY(y)]
-        // })
-        // return `M ${coords.join('L')}`
       })
     }
   },
