@@ -16,12 +16,12 @@
 
         <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
         <text :x="width / 2" :y="height - 20" text-anchor="middle" class="axis label">Challenges to adaptation</text>
-        <text :x="20" :y="height - 20" text-anchor="start" class="axis" transform="rotate(-45)" dominant-baseline="middle" :style="{ 'transform-origin': `${20}px ${height - 20}px` }">Low</text>
+        <text :x="20" :y="height - 20" text-anchor="start" class="axis" :transform="`rotate(-45, ${20}, ${height - 20})`" dominant-baseline="middle">Low</text>
         <text :x="width - 20" :y="height - 20" text-anchor="end" class="axis">High</text>
 
         <line :x1="10" :x2="10" :y1="20" :y2="height - 20" class="axis" />
-        <text :x="20" :y="height / 2" text-anchor="middle" class="axis label" transform="rotate(-90)" dominant-baseline="hanging" :style="{ 'transform-origin': `${20}px ${height / 2}px` }">Challenges to mitigation</text>
-        <text :x="20" :y="20" text-anchor="end" class="axis" transform="rotate(-90)" dominant-baseline="hanging" :style="{ 'transform-origin': `${20}px ${20}px` }">High</text>
+        <text :x="20" :y="height / 2" text-anchor="middle" class="axis label" :transform="`rotate(-90, ${20}, ${height / 2})`" dominant-baseline="hanging">Challenges to mitigation</text>
+        <text :x="20" :y="20" text-anchor="end" class="axis" :transform="`rotate(-90, ${20}, ${20})`" dominant-baseline="hanging">High</text>
       </svg>
     </div>
     <figcaption class="cap figcaption">Figure 4: Conceptual mapping of SSP (Shared Socioeconomic Pathways)-based Dutch-adapted wildcards onto the uncertainty space (challenges to mitigation and adaptation) of the SSPs</figcaption>

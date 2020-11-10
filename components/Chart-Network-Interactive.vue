@@ -530,6 +530,7 @@ export default {
           cursor: pointer;
           height: 80px;
           border-radius: 20px;
+          padding: 0.7rem 0.4rem;
 
           &:hover {
             border-color: getColor(gray, 70);

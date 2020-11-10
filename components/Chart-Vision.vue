@@ -15,8 +15,8 @@
 
       <text :x="width / 2" :y="10" text-anchor="middle" class="sector">land use and agriculture</text>
       <text :x="width / 2" :y="height" text-anchor="middle" class="sector">nature</text>
-      <text :x="10" :y="height / 2" transform="rotate(-90)" :style="{ 'transform-origin': `${10}px ${height / 2}px` }" text-anchor="middle" class="sector">socioeconomic development</text>
-      <text :x="width - 10" :y="height / 2" transform="rotate(90)" :style="{ 'transform-origin': `${width - 10}px ${height / 2}px` }" text-anchor="middle" class="sector">climate & energy</text>
+      <text :x="10" :y="height / 2" :transform="`rotate(-90, ${10}, ${height / 2})`" text-anchor="middle" class="sector">socioeconomic development</text>
+      <text :x="width - 10" :y="height / 2" :transform="`rotate(90, ${width - 10}, ${height / 2})`" text-anchor="middle" class="sector">climate & energy</text>
 
       <g v-for="{ x, y, label, rotate, anchor } in points">
         <Point :x="x" :y="y" :label="label" />
