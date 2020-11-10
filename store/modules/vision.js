@@ -16,7 +16,7 @@ const visions = [
   ['Flood safety. Space for the river', 30, 30, 0, 0, 70, 'A half-natural Vecht river with large river banks to increase flood safety and natural value of the river while also increasing recreational possibilities alongside the river', 'Environmental vision Overijssel, 2017 (Omgevingsvisie overijssel, 2017)'],
   ['Dynamic banks-meanders', 20, 0, 0, 0, 100, '', ''],
   ['Increased water quality', 20, 20, 0, 0, 80, 'Ground water quality does not meet current standards, a quarter of the surface water does not meet current standards', 'Analysis sustainability targets rural area Overijssel 2050, 2018 (Analyse verduurzamingsopgaven landelijk gebied Overijssel richting 2050, 2018)'],
-  ['Less drought damage. Sponge function', 20, 0, 0, 0, 100, 'The soil-water system will be key to overcome drought episodes by using building with nature principles', 'Lumbricus goals (Lumbricus doelstellingen)'],
+  ['Less drought damage. Sponge function', 20, 0, 0, 0, 80, 'The soil-water system will be key to overcome drought episodes by using building with nature principles', 'Lumbricus goals (Lumbricus doelstellingen)'],
   ['Winter bed as large open space for agriculture, nature, recreation and landscape', 30, 0, 0, 30, 70, 'The potential of the winterbed of the Vecht river lies in the diversity of nature, water buffer area, tourism and agricultural land use.', 'Cross-border vision, 2009 & Vecht Vision (Grensoverschrijdende Vechtvisie 2009 & Vechtvisie 2000)'],
   ['Storage CO2 in soil, forest and nature', 40, 0, 0, 0, 100, '', ''],
   ['100000 hectares of forest built to capture CO2', 70, 0, 0, 0, 100, 'Part of the forestal area will be realised in Overijssel which requires additional space.', 'Analysis sustainability targets rural area Overijssel 2050, 2018 (Analyse verduurzamingsopgaven landelijk gebied Overijssel richting 2050, 2018)'],
@@ -24,7 +24,7 @@ const visions = [
   ['Space for wind and solar energy', 40, 0, 0, 100, 0, 'Renewable energy will not suffice by solar panels on houses alone, therefore space in Overijssel is needed for wind and solar power', 'Analysis sustainability targets rural area Overijssel 2050, 2018 (Analyse verduurzamingsopgaven landelijk gebied Overijssel richting 2050, 2018)'],
   ['CCU (greenhouse gases as raw material for greenhouse other sectors)', 50, 0, 0, 100, 0, 'Greenhouse gasses are used as a resource for industry', 'Analysis sustainability targets rural area Overijssel 2050, 2018 (Analyse verduurzamingsopgaven landelijk gebied Overijssel richting 2050, 2018)'],
   ['Circular industry', 80, 0, 0, 100, 0, 'Industry is carbon-neutral, indicating the use of clean energy and ending emmissions', ''],
-  ['Greenhouse gas emissions in 2050 by 95% compared to 1990', 100, 0, 0, 100, 0, 'In 2050, greenhouse gas emissions are reduced by 95% compared to 1990, focussing on electrification', 'Dutch climate law, 2019 (Klimaatwet)']
+  ['Greenhouse gas emissions in 2050 by 95% compared to 1990', 100, 0, 0, 90, 0, 'In 2050, greenhouse gas emissions are reduced by 95% compared to 1990, focussing on electrification', 'Dutch climate law, 2019 (Klimaatwet)']
 ]
 
 const state = () => {

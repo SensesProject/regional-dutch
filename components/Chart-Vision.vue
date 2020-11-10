@@ -118,15 +118,15 @@ export default {
 
         let location
         if (scope < 33 - t) {
-          location = 'It is situated in the Vecht.'
+          location = 'Vision in the Vecht.'
         } else if (scope >= 33 - t && scope < 33 + t) {
-          location = 'It is situated between the Vecht and the Overijssel.'
+          location = 'Vision between the Vecht and the Overijssel.'
         } else if (scope >= 33 + t && scope < 66 - t) {
-          location = 'It is situated in the Overijssel.'
+          location = 'Vision in the Overijssel.'
         } else if (scope >= 66 + t && scope < 66 + t) {
-          location = 'It is situated between the Overijssel and the Netherlands.'
+          location = 'Vision between the Overijssel and the Netherlands.'
         } else {
-          location = 'It is situated in the Netherlands.'
+          location = 'Vision in the Netherlands.'
         }
 
         let field
@@ -155,7 +155,7 @@ export default {
         let tooltip = [`<h5>${label}</h5>`]
 
         if (description) { tooltip.push(`<p>${description}`) }
-        if (source) { tooltip.push(`<br /><small>${source}</small>`) }
+        // if (source) { tooltip.push(`<br /><small>${source}</small>`) }
         if (description) { tooltip.push(`</p>`) }
         tooltip.push(`<small>${field} ${location}</small>`)
 
