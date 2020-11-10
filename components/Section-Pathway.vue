@@ -1,12 +1,12 @@
 <template>
   <div class="container">
     <section class="step">
-      <h4>Robust across socioeconomic scenarios</h4>
-      <p>The points raised by the wildcards resulted in the identification of synergies and challenges across four main systemic loops. These systemic loops relate to the clarifying the role of farmers as stewards; the development of regional land use policy, particularly related to energy and agricultural development; changes in the mentality and attitudes towards accepting variability; and the transformation of the agricultural sector as an energy supplier. The synergies and challenges are cross-cutting the SSP-based wildcards and are the most robust across broad socioeconomic scenarios.</p>
+      <h4>Robust pathways across socioeconomic scenarios with synergies and challenges between the four overarching vision themes</h4>
+      <p>The points raised by the wildcards resulted in the identification of robust synergies and challenges between the four vision themes. The synergies and challenges were captured by loops within the pathway. These loops relate to topics including: clarifying the role of farmers as land stewards; development of regional land use policy, particularly related to energy and agricultural development; changes in the mentality and attitudes towards accepting variability; and the transformation of the agricultural sector as an energy supplier. The synergies and challenges are cross-cutting  SSP-based wildcards and are therefore robust across broad socioeconomic scenarios.</p>
       <strong>Synergies</strong>
       <ul class="list-interactive">
-        <li @mouseenter="() => setLoop('farmer')" @mouseleave="setLoop">Agriculture and the farmer are at the centre of all themes and scenarios and are perceived crucial for transformation.</li>
-        <li @mouseenter="() => setLoop('agriculture')" @mouseleave="setLoop">Agriculture can be transformed if it is complemented with energy generation.</li>
+        <li @mouseenter="() => setLoop('farmer')" @mouseleave="setLoop">Agriculture and the farmer are at the centre of all themes and scenarios and are perceived to be crucial for transformation.</li>
+        <li @mouseenter="() => setLoop('agriculture')" @mouseleave="setLoop">Agriculture can be transformed if it is complemented with energy generation</li>
         <li @mouseenter="() => setLoop('strategies')" @mouseleave="setLoop">Solar panels and energy projects are considered to become a promising source of income for the region.</li>
         <li @mouseenter="() => setLoop('system')" @mouseleave="setLoop">A system perspective will enhance a mentality change towards a circular system.</li>
       </ul>
@@ -21,8 +21,8 @@
         <span class="caption caption--2">Step 2</span>
         <h3>Robust across climate impact scenarios</h3>
       </header>
-      <p>The synergies and challenges in the pathway' s systemic loops need to be robust also across climate change impacts. Climate change does not limit itself to borders and climate change might severely affect the Overijsselse Vecht, independently of the mitigation strategies in place locally.  In the Dutch case study, we enhanced this by interpreting IMAGE and MAgPIE impact model projections on crops and food production to guide the discussion on the implications of the pathways.</p>
-      <p>Questions from global climate and combined climate-socioeconomic impact models may include:</p>
+      <p>The synergies and challenges in the pathway's loops need to be robust also across climate change impacts. Climate change does not limit itself to borders and climate change might severely affect the Overijsselse Vecht, independently of the mitigation strategies in place locally. In the Dutch case study, we accomplished this by interpreting IMAGE and MAgPIE impact model projections on crops and food production to guide the discussion on the implications for the pathways. We furthermore elucidated the global SSP assumptions behind the model projections (input and output) and guided the discussion about these assumptions for the pathways. In order to facilitate the discussion, we developed questions aimed at translating the model information towards implications for the pathways. A few examples of these questions follow.</p>
+      <p>Questions from global climate and combined climate-socioeconomic impact models include:</p>
     </IntersectionObserver>
     <IntersectionObserver :step="7" :noStyling="true" classes="step question">
       <h4>Question 1</h4>
@@ -33,7 +33,7 @@
           <h6>Relative change projections of food price</h6>
         </template>
         <template v-slot:footer>
-          <span>Figure 4. MAGE projections of relative change in food price between 2000 and 2100 for different SSP scenarios. With the courtesy of Jonathan Doelman (PBL, The Netherlands)</span>
+          <span>Figure 5. IMAGE projections of relative change in food price between 2000 and 2100 for different SSP scenarios. With the courtesy of Jonathan Doelman (PBL, The Netherlands</span>
         </template>
       </ChartTime>
       <strong>Change in diet</strong>
@@ -46,25 +46,27 @@
     <IntersectionObserver :step="8" :noStyling="true" classes="step question wildcard">
       <h4>Question 2</h4>
       <p>Climate impacts: Grasslands might be affected negatively across Europe from climate change. What are the opportunities and challenges for the use of land for energy?</p>
-      <div class="graphic">
+      <div class="graphic" v-tooltip="{ content: 'Climate impacts will affect regions differently depending on both the magnitude of climate change and local conditions. Uncertainty about impacts relates also to climate model uncertainty, as visualised in the spatial variability of impacts modelled under 4 global climate models for RCP2.6 and RCP6.0. Visualisation of impacts should therefore be treated as an indication of broad trends.<br />In this case, the overall trend suggests that climate change could affect managed grassland adversely, particularly in Eastern and Central Europe. This might have effects on, for example, supply of forage and bioenergy energy production. Indirect effects might involve regulatory functions, such as soil fertility, erosion and flood prevention, particularly in the most impacted areas.', offset: 5 }">
         <h5>Managed grasslands (RCP2.6)</h5>
-        <video src="videos/pastures_in_rcp26soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop></video>
+        <video src="videos/pastures_in_rcp26soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop controls></video>
         <h5>Managed grasslands (RCP6.0)</h5>
-        <video src="videos/pastures_in_rcp60soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop></video>
-        <footer><span>Figure 4. MAgPIE projections of managed grassland cover for RCP 6.0. With the courtesy of Jan Volkholz (PIK, Germany).</span></footer>
+        <video src="videos/pastures_in_rcp60soc_gfdl-esm2m_landuse-15crops_annual.webm" autoplay muted loop controls></video>
+        <footer><span>Figure 6. MAgPIE projections of managed grassland cover for RCP 6.0. With the courtesy of Jan Volkholz (PIK, Germany).</span></footer>
       </div>
       <strong>Bio-energy</strong>
       <ul class="question-2">
-        <li><span>If farmers use their land to produce energy, for example by using their grassland for biofuel, <strong>energy prices need to rise</strong>. Grasslands can handle drought shocks better compared to other crops.</span></li>
+        <li><span>If farmers use their land to produce energy, for example by using their grassland for biofuel, <strong>energy prices need to rise</strong>. Grasslands can handle drought shocks better compared to other crops. </span></li>
       </ul>
     </IntersectionObserver>
     <IntersectionObserver :step="9" :noStyling="true" classes="step question wildcard">
       <h4>Question 3</h4>
       <p>Global mitigation policies: What are the effects of mitigation policies on land-use trade-offs?</p>
+      <p>The Dutch government has committed to the mitigation of climate change, which implies climate investments both nationally and internationally (especially in developing countries). This presents opportunities and challenges for local land-use, which are further complicated by the uncertainty in socioeconomic and climate impacts.</p>
+      <p>How can possible trade-offs between measures be addressed from a local perspective, accounting for measures such as reforestation, novel opportunities for agricultural development given climate impacts elsewhere, renewable energy (including bioenergy production) and changes in diets?</p>
       <strong>Land-use for mitigation</strong>
       <ul class="question-3">
-        <li><span>Converting land with fertile soils into solar fields is considered a waste of soil. <strong>Soil quality</strong> should be leading in this decision. The same holds for reforestation; soil quality should enable tree growing and not the other way around.</span></li>
-        <li><span>Trade-offs between <strong>buy-out or subsidising</strong> mitigation</span></li>
+        <li><span>Converting land with fertile soils into solar fields is considered a waste of soil. <strong>Soil quality</strong> should be leading in this decision. The same holds for reforestation; soil quality should enable tree growing and not the other way around. </span></li>
+        <li><span>Trade-offs between <strong>buy-out or subsidising</strong> mitigation.</span></li>
       </ul>
     </IntersectionObserver>
   </div>

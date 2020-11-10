@@ -1,5 +1,5 @@
 <template>
-  <section class="graphic layout--right graphic--wildcards" :style="styling">
+  <figure class="graphic layout--right graphic--wildcards" :style="styling">
     <div ref="vis" class="vis-container">
       <svg
         class="vis"
@@ -24,7 +24,8 @@
         <text :x="20" :y="20" text-anchor="end" class="axis" transform="rotate(-90)" dominant-baseline="hanging" :style="{ 'transform-origin': `${20}px ${20}px` }">High</text>
       </svg>
     </div>
-  </section>
+    <figcaption class="cap figcaption">Figure 4: Conceptual mapping of SSP (Shared Socioeconomic Pathways)-based Dutch-adapted wildcards onto the uncertainty space (challenges to mitigation and adaptation) of the SSPs</figcaption>
+  </figure>
 </template>
 
 <script>

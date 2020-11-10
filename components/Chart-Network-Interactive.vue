@@ -411,19 +411,19 @@ export default {
     interpretation () {
       const combinations = {
         '1111': 'Together, the drivers enhance climate smart land use to the highest state. Yet, current agricultural practices decline which negatively influences the growth of the local economy.',
-        '1000': 'Whit only new business models, the local economy will get a boost, even though current agricultural practices decline. Climate smart land use is not enhanced by this diver.',
+        '1000': 'With only new business models, the local economy will get a boost, even though current agricultural practices decline. Climate smart land use is not enhanced by this driver.',
         '0100': 'With a declining population, the local economy declines as well. Climate smart land use is not enhanced by this driver alone.',
-        '0010': 'With an increase in extreme climate events such as flooding and drought episodes, the public opinion will shift towards a more sustainable oriented mentality. This enhances environmental focussed policy and eventually leads to a decline in current agricultural practices. Climate smart land use increases slightly.',
+        '0010': 'With an increase in extreme climate events such as flooding and drought episodes, the public climate awareness will increase a more sustainable oriented mentality. This enhances environmental focussed policy and eventually leads to a decline in current agricultural practices. Climate smart land use increases slightly.',
         '0001': 'Technology investments enhance the energy transition which increases climate smart land use. With only technology investments, current agricultural practices remain and the local economy grows.',
-        '1100': 'New business models and population decline, current agricultural practices will also decline. Furthermore, the local economy shrinks while a sustainability focussed public opinion increases. Both slightly decrease climate smart land use.',
+        '1100': 'New business models and population decline, current agricultural practices will also decline. Furthermore, the local economy shrinks while public climate awareness increases. Both slightly decrease climate smart land use.',
         '1101': 'The three drivers enhance the energy transition which increases climate smart land use. Note that this is mostly due to climate mitigation.',
-        '1110': 'Business models, demography changes and extreme events increase a sustainability focussed public opinion. While current agricultural practices decline, climate smart land use increases. Note that this is mostly due to climate adaptation.',
+        '1110': 'Business models, demography changes and extreme events increase public climate awareness. While current agricultural practices decline, climate smart land use increases. Note that this is mostly due to climate adaptation.',
         '1001': 'New business models and technology investments give a boost to the local economy while current agricultural practices decline. Via the energy transition, climate smart land use increases.',
         '1010': 'Climate events and business models increase the local economy and increase a more sustainable oriented public opinion. Therefore, current agricultural practices decline strongly and climate smart land use increases slightly.',
         '1011': 'The three drivers together have the largest impact on climate smart land use. This is both climate adaptation and mitigation.',
         '0111': 'Although the local economy declines, technology investments increase current agricultural practices while also enhancing the energy transition.',
         '0101': 'Population decline and technology investments bring a continuation in current agricultural practices while climate smart land use increases. Note that this is mainly climate mitigation.',
-        '0110': 'By more extreme climate events, the sustainability oriented public opinion increases, leading to more environmentally focussed policy. The increase in landscape value slows the energy transition but increases climate smart land use. Note that this is mainly climate adaptation.',
+        '0110': 'By more extreme climate events, public climate awareness increases, leading to more environmentally focussed policy. The increase in landscape value slows the energy transition but increases climate smart land use. Note that this is mainly climate adaptation.',
         '0011': 'Technology investments and extreme climate events, climate smart land use increases while current agricultural practices also increase.'
       }
       return get(combinations, this.combination, false)

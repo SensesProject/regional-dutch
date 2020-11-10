@@ -73,7 +73,7 @@
 
       </svg>
     </div>
-    <figcaption class="cap figcaption">Figure x. Something</figcaption>
+    <figcaption class="cap figcaption">Figure 3: Pathways towards a multiscale vision. The base of the pathways are the four overarching vision themes. The loops describe developments over time in order to reach targets in the multiscale vision.</figcaption>
   </figure>
 </template>
 

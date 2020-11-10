@@ -24,10 +24,10 @@
           <g v-for="({ d, x, y, ssp }) in elements">
             <path :d="d" />
           </g>
-          <g v-for="({ d, x, y, isActive, ssp, value, label }) in elements">
+          <g v-for="({ d, x, y, isActive, ssp, value, label, tooltip }) in elements">
             <path :d="d" class="shadow" v-if="isActive" />
             <path :d="d" :class="[{ isActive }, ssp]" v-if="isActive" />
-            <text v-if="isActive" :x="x + 5" :y="y" dominant-baseline="middle" class="label">{{ label }}</text>
+            <text v-if="isActive" :x="x + 5" :y="y" dominant-baseline="middle" class="label" v-tooltip="{ content: tooltip, offset: 5 }">{{ label }}</text>
           </g>
         </g>
       </svg>
@@ -110,10 +110,13 @@ export default {
         const path = `M ${coords.map(c => c.join(' ')).join('L')}`
 
         let label = 'SSP2 Baseline'
+        let tooltip = 'SSP2 is the middle-of-the-road socio-economic baseline scenario.'
         if (ssp === 'SSP1_SPA1_450') {
           label = 'SSP1 2°'
+          tooltip = 'SSP1-2° is the mitigation 2°C scenario, which combines SSP1 socioeconomic scenario assumptions (e.g. a more sustainable world compared to current) in combination with global scale mitigation measures, including decreasing meat consumption and reforestation.'
         } else if (ssp === 'SSP2_SPA2_450') {
           label = 'SSP2 2°'
+          tooltip = 'SSP2-2° is the mitigation 2°C scenario, which combines SSP2 assumptions in combination with global scale mitigation measures, including bioenergy production with CO2 sequestration and decrease from agricultural emissions.'
         }
 
         return {
@@ -123,7 +126,8 @@ export default {
           y,
           ssp,
           value,
-          label
+          label,
+          tooltip
         }
       })
     },

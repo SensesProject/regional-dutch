@@ -4,7 +4,8 @@
       <header>
         <h2>A multiscale vision for the Vecht</h2>
       </header>
-      <p>The second part of this module explains how current policy objectives (relevant to the Overijsselse Vecht region and to the challenges identified in Part 1) have been assessed and integrated using the <a href="https://climatescenarios.org/finder/?name=VISIONING" target="_blank">vision technique</a>. Because several visions and long-term targets relevant to the Overijsselse Vecht already exist, the vision we present is indirectly participatory because it integrates existing visions and policy plans that have been developed already with stakeholders. The process includes adapting quality criteria from the visioning literature to include potential trade-offs across scales hence translating existing visions into a “multiscale vision”. Dutch policy documents and policy visions relevant for climate mitigation and adaptation targets were screened at three policy levels: local (Vecht), regional (province of Overijssel) and national (the Netherlands). The analysis of these documents resulted in the identification four cross-cutting themes: <span class="sector">land use and agriculture</span>, <span class="sector">climate & energy</span>, <span class="sector">socioeconomic development</span> and <span class="sector">nature</span>. Individual objectives are cross-referenced according to their policy-level and cross-cutting theme.</p>
+      <p>The second part of this module explains how current policy objectives (relevant to the Overijsselse Vecht region and to the challenges identified in Part 1) have been assessed and integrated using the <a href="https://climatescenarios.org/finder/techniques/?name=visioning" target="_blank">vision technique</a>. Since the Dutch case study covers an information rich area, multiple visions and policy plans, which are developed in a participatory process, already exist. Therefore, the presented vision is indirectly participatory because it integrates several existing visions and policy plans that have been developed  with stakeholders since 2000. The integration process includes adapting quality criteria from the visioning literature to include potential trade-offs across scales hence translating existing visions into a "multiscale vision". Dutch policy documents and policy visions relevant for climate mitigation and adaptation targets were screened at three policy levels: local (Vecht), regional (province of Overijssel) and national (the Netherlands). The analysis of these documents resulted in the identification four cross-cutting vision themes: (1) land use & agriculture, (2) climate & energy, (3) socioeconomic development and (4) nature. Individual objectives are cross-referenced according to their policy-level and cross-cutting theme.</p>
+      <p>List of consulted documents:</p>
       <h4>The Netherlands</h4>
       <ul>
         <li><a href="https://wetten.overheid.nl/BWBR0042394/2020-01-01#Hoofdstuk2" target="_blank">Dutch Climate Law, 2019 (Dutch: Klimaatwet)</a></li>
@@ -25,9 +26,10 @@
         <li><a href="https://www.programmalumbricus.nl/over/doelstellingen/" target="_blank">Lumbricus goals (lumbricus doelstellingen)</a></li>
       </ul>
     </section>
-    <section class="graphic layout--right-wide">
+    <figure class="graphic layout--right-wide">
       <ChartVision />
-    </section>
+      <figcaption class="cap figcaption">Figure 2: The multiscale vision organises normative statements  in four vision themes (land use & agriculture, climate and energy, nature, socioeconomic development) across three levels: national, regional and local.</figcaption>
+    </figure>
   </div>
 </template>
 
@@ -44,8 +46,12 @@ export default {
 <style lang="scss" scoped>
   @import "~@/assets/style/global";
 
+  h4, ul {
+    font-size: 0.8em;
+  }
+
   ul {
-    margin-bottom: 2rem;
+    margin-bottom: 1rem;
     padding-left: 0.5rem;
     margin-top: 0.3rem;
 
