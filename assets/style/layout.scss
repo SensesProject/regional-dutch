@@ -53,8 +53,11 @@
 
       .columns {
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-column-gap: 4rem;
+
+        @include query($medium) {
+          grid-template-columns: repeat(2, 1fr);
+          grid-column-gap: 4rem;
+        }
       }
     }
 
@@ -69,10 +72,15 @@
       grid-column-gap: 4rem;
 
       .content {
-        column-count: 2;
-        column-gap: 4rem;
         grid-column-start: 1;
-        grid-column-end: 5;
+        grid-column-end: 6;
+
+        @include query($medium) {
+          column-count: 2;
+          column-gap: 4rem;
+          grid-column-start: 1;
+          grid-column-end: 5;
+        }
       }
 
       .footnotes {

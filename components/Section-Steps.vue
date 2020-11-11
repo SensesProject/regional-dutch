@@ -157,12 +157,15 @@ export default {
 
         & > * {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
-          grid-column-gap: 1rem;
 
-          .content {
-            grid-column-start: 2;
-            grid-column-end: 4;
+          @include query($narrow) {
+            grid-template-columns: repeat(3, 1fr);
+            grid-column-gap: 1rem;
+
+            .content {
+              grid-column-start: 2;
+              grid-column-end: 4;
+            }
           }
         }
 
@@ -171,6 +174,7 @@ export default {
           align-items: center;
           justify-content: center;
           height: 10vw;
+          margin: 2rem 0;
 
           i.e {
             font-style: normal;
