@@ -10,11 +10,11 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
       >
         <g v-if="step < 7">
-          <Box :x="x(106)" :y="y(201)" :w="w * 1.3" :h="h" color="white" :text="['Nature &', 'Climate and', 'Energy']" font="big" />
-          <Box :x="x(106)" :y="y(417)" :w="w * 1.3" :h="h" color="white" :text="['Agriculture &', 'socio-', 'economics']" font="big" />
+          <Box :x="x(92)" :y="y(201)" :w="w * 1.3" :h="h" color="white" :text="['Nature &', 'Climate and', 'Energy']" font="big" />
+          <Box :x="x(92)" :y="y(417)" :w="w * 1.3" :h="h" color="white" :text="['Agriculture &', 'socio-', 'economics']" font="big" />
 
-          <Arc :x1="x(106 + 95)" :y1="y(417 + 30)" :x2="x(1150)" :y2="y(453)" :isArrow="true" :isThick="true" />
-          <Arc :x1="x(106 + 95)" :y1="y(201 - 30)" :x2="x(1150)" :y2="y(93)" :isArrow="true" :isTop="true" :isThick="true" />
+          <Arc :x1="x(92 + 95)" :y1="y(417 + 30)" :x2="x(1150)" :y2="y(453)" :isArrow="true" :isThick="true" />
+          <Arc :x1="x(92 + 95)" :y1="y(201 - 30)" :x2="x(1150)" :y2="y(93)" :isArrow="true" :isTop="true" :isThick="true" />
         </g>
 
         <Ball :x="x(384)" :y="y(93)" :w="w" :h="h" :text="['Regional energy', 'strategies']" :isHover="loop === 'strategies'" />
@@ -61,15 +61,16 @@
         <Loop v-if="step === 9" :x="x(160.5)" :y="y(165)" :n="2" color="blue" />
 
         <g v-if="step < 7">
-          <Dot :x="x(461)" :y="y(129)" label="In the near future, the development of regional energy strategies provide the opportunity to link various energy strategies, linked to small scale energy projects that fit into the landscape. This stimulates a change in concession rights to enhance, for instance, energy-smart and efficient farms. Various stakeholders reach the agreement that Natura 2000 nature conservation objectives are not feasible. At least not in its current form. Altogether, this stimulates a more systematic way of thinking. " />
-          <Dot :x="x(1019)" :y="y(236)" label="Crucially, this means that livestock farming was abandoned in 2050. It is also accepted that due to its variability, less navigation on the Vecht river is possible due to the variable depth and increase of extremes. The agricultural sector is strongly integrated in the energy sector (agriculture is the 2nd and 3rd energy supplier). The agricultural sector becomes a 'social buffer' for changes in population dynamics (i.e. inflows, depopulation to urban centers)." />
-          <Dot :x="x(673)" :y="y(272)" label="System thinking stimulates a mentality change towards a sustainable and agricultural inclusive landscape management. In general, variability becomes an accepted principle that encompasses nature and the landscape in general, also in view of the increasing climate change and effects. By 2030, all these transformations will result in circular systems that replace more intensive production and focus on expansion with efficiency and recycling (e.g. Fewer fertilizer imports, mineral imports recycled from sewage, from and energy production in farms)." />
-          <Dot :x="x(375)" :y="y(417)" label="Farmers play a central role as land stewards. The current pressure for intensification is being converted into a more holistic approach at landscape level, including both sustainability objectives and the interests of farmers, creating the opportunity for niche markets. The focus on the farmer as a factor with limitations is reversed to the farmer as a central factor of a systemic change that goes beyond the farm. New business models with new sources of profit and subsidies for landscape management are increasing." />
+          <Dot :x="x(461)" :y="y(129)" label="In the near future, the development of regional energy strategies provides the opportunity to connect various energy strategies, linked to small scale energy projects that fit into the landscape. This stimulates a change in concession rights to enhance, for instance, energy-smart and efficient farms. Stakeholders agree that Natura 2000 nature conservation objectives are not feasible; at least not in its current form. Altogether, this stimulates a more systematic way of thinking." />
+          <Dot :x="x(1019)" :y="y(236)" label="Crucially, this means that livestock farming was abandoned in 2050. It is also accepted that due to its variability, less navigation on the Vecht river is possible due to the variable depth and increase of extremes. The agricultural sector is strongly integrated in the energy sector (agriculture is the 2nd and 3rd energy supplier). The agricultural sector becomes a 'social buffer' for changes in population dynamics (e.g. inflows, depopulation to urban centers)." />
+          <Dot :x="x(673)" :y="y(272)" label="System thinking stimulates a mentality change towards a sustainable and agricultural inclusive landscape management. In general, variability becomes an accepted principle that encompasses nature and the landscape in general, also in view of the increasing climate change and effects. By 2030, all these transformations will result in circular systems that replace more intensive production and focus on expansion with efficiency and recycling (e.g. fewer fertilizer imports; mineral imports recycled from sewage, from and energy production in farms)." />
+          <Dot :x="x(375)" :y="y(417)" label="Farmers play a central role as stewards of the land. The current pressure for intensification is converted into a more holistic approach at landscape level, including both sustainability objectives and the interests of farmers, creating the opportunity for niche markets. The focus on the farmer as a limiting factor is reversed to the farmer as a central factor of a systemic change that goes beyond the farm. New business models with new sources of profit and subsidies for landscape management are increasing." />
         </g>
 
         <line :x1="20" :x2="width - 20" :y1="height - 10" :y2="height - 10" class="axis" />
         <text :x="20" :y="height - 20" text-anchor="start" class="axis">Now</text>
         <text :x="width - 20" :y="height - 20" text-anchor="end" class="axis">2050</text>
+        <text :x="width" :y="height / 2" :transform="`rotate(-90, ${width}, ${height / 2})`" text-anchor="middle" class="axis">Multiscale vision</text>
 
       </svg>
     </div>
