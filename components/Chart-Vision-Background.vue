@@ -49,7 +49,7 @@
       areas: function () {
         return _.map(this.data, area => {
           const { radius } = this
-          const radi = radius * area.r - 30
+          const radi = Math.max(radius * area.r - 30, 0)
           const start = { x: -radi, y: 0 }
           const end = { x: radi, y: 0 }
           const path = [
