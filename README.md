@@ -10,6 +10,10 @@ In this page, we demonstrate in three interactive parts how the development adap
 
 This repository contains the code for [*Co-producing robust adaptation pathways to address adaptation and mitigation to climate change*](https://climatescenarios.org/dutch/). It is part of the [SENSES Toolkit](https://climatescenarios.org/).
 
+![screenshot of the module](./screenshot_dutch_1.png)
+![screenshot of the module](./screenshot_dutch_2.png)
+![screenshot of the module](./screenshot_dutch_3.png)
+
 ## License
 
 The source code is licensed under the [ISC license](LICENSE.md). Text and graphics are licensed under [Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/). For licensing information on datasets please refer to the data sources section. Exceptions are listed below on a per-file basis.
