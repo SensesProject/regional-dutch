@@ -128,7 +128,6 @@ export default {
         const height = el.clientHeight || el.parentNode.clientHeight
         this.width = width
         this.height = height
-        console.log({ width })
         this.anime(this.values)
       }
     },
