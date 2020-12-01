@@ -66,16 +66,24 @@
     }
 
     &.step--columns {
-      grid-column-end: 6;
+      grid-column-end: 5;
       display: grid;
       grid-template-columns: repeat(5, 1fr);
       grid-column-gap: 4rem;
+
+      header {
+        grid-column-start: 1;
+      }
+
+      @include query($wide) {
+        grid-column-end: 6;
+      }
 
       .content {
         grid-column-start: 1;
         grid-column-end: 6;
 
-        @include query($medium) {
+        @include query($wide) {
           column-count: 2;
           column-gap: 4rem;
           grid-column-start: 1;
