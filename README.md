@@ -13,6 +13,7 @@ This repository contains the code for [*Co-producing robust adaptation pathways 
 ![screenshot of the module](./screenshot_dutch_1.png)
 ![screenshot of the module](./screenshot_dutch_2.png)
 ![screenshot of the module](./screenshot_dutch_3.png)
+![screenshot of the module](./screenshot_dutch_4.png)
 
 ## License
 
