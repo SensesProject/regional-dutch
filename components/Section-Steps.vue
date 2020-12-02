@@ -41,7 +41,7 @@
               <h2>Chicken epidemics</h2>
             </header>
             <h4>Event sketch</h4>
-            <p>On a sunny Sunday morning in Overijssel, Sanne gets up to feed her chickens, as she always does. When she arrives at the chicken coop, there is no movement. All chickens are dead. She looks at the fence to see if a marten may came through. "Oh," she thinks, "That is unfortunately how nature works, they must have been eaten." Unsuspectingly, she goes to visit the neighbour. All the chickens are dead there too. "Quite strange". After having made a tour through the living commune, the chickens are found dead everywhere. Also, with her sister, who lives in a residential group in Zeeland, all the chickens are dead.</p>
+            <p>On a sunny Sunday morning in Overijssel, Sanne gets up to feed her chickens, as she always does. When she arrives at the chicken coop, there is no movement. All chickens are dead. She looks at the fence to see if a marten may came through. “Oh,” she thinks, “That is unfortunately how nature works, they must have been eaten.” Unsuspectingly, she goes to visit the neighbour. All the chickens are dead there too. “Quite strange”. After having made a tour through the living commune, the chickens are found dead everywhere. Also, with her sister, who lives in a residential group in Zeeland, all the chickens are dead.</p>
             <h4>Impacts</h4>
             <p>Most people depend on their own (or in small groups) garden and animals for daily food supplies. The food supply is vulnerable because of the ban on pesticides. The death of the chickens is the first wave, after which it is discovered that crops will no longer generate a harvest.</p>
             <p>Most households count on their own food supply. The strong bond in neighbourhoods has led to joint production. After one day all supplies are exhausted and people are forced to look outside their area to get food.</p>
@@ -57,7 +57,7 @@
               <h2>Canary Islands volcano eruption</h2>
             </header>
             <h4>Event sketch</h4>
-            <p>Kirsten follows the news with interest. Her bed & breakfast in Overijssel is fully booked and all the extra beds that she could find are crammed into the rooms. The minister has just indicated that the Randstad will be evacuated. "Now those Randstatters want to come this way," she thinks, slightly frustrated. "They also benefit from our windmills".</p>
+            <p>Kirsten follows the news with interest. Her bed & breakfast in Overijssel is fully booked and all the extra beds that she could find are crammed into the rooms. The minister has just indicated that the Randstad will be evacuated. “Now those Randstatters want to come this way,” she thinks, slightly frustrated. “They also benefit from our windmills.”</p>
             <p>A few hours ago, the volcano erupted on one of the Canary Islands. This causes a huge tidal wave that is coming towards the Dutch coast. All new dike reinforcement projects in recent years are not designed for a tidal wave. After hours of tension, the advice is therefore given to evacuate the Randstad as much as possible and to regard the Randstad as lost.</p>
             <h4>Impacts</h4>
             <p>Overijssel is faced with a huge population increase. This makes land scarce and the housing market exploded. Refugees from the Randstad try to fight for a place with their few possessions.</p>
@@ -73,9 +73,9 @@
               <h2>The week with no wind</h2>
             </header>
             <h4>Event sketch</h4>
-            <p>Jan puts his hand out of the window, "still no wind" he tells his son Piet. The weather has been totally silent for a week. The Netherlands is in the eye of a large hurricane that is slowly weakening but not displaced. It feels sultry in Overijssel and the mosquitoes cannot be hardened. "I hope we will get the fridge back from the municipality soon."</p>
+            <p>Jan puts his hand out of the window, “still no wind” he tells his son Piet. The weather has been totally silent for a week. The Netherlands is in the eye of a large hurricane that is slowly weakening but not displaced. It feels sultry in Overijssel and the mosquitoes cannot be hardened. “I hope we will get the fridge back from the municipality soon.”</p>
             <h4>Impacts</h4>
-            <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other large power users have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, "Otherwise the Dutch economy collapses".</p>
+            <p>In this world, energy generation is mainly regulated from wind energy from Overijssel. The large green companies are in control of the energy supply and distribution. The power is phased out. Jan is in welfare, and because he is not working for his energy, the first austerity measures are applied to this group of people. The fridges and other large power users have already been collected. The large companies that keep the Netherlands stable and move the economy forward have the latest rights to energy, “Otherwise the Dutch economy collapses”.</p>
           </main>
         </IntersectionObserver>
         <IntersectionObserver :step="5" :noStyling="true" classes="wildcard" id="ssp5-wildcard">
@@ -88,9 +88,9 @@
               <h2>Google stopped working</h2>
             </header>
             <h4>Event sketch</h4>
-            <p>Lisa is on her way to a meeting in her self-driving car. "I should have gone to sleep a bit earlier," she thinks, while slightly indulging in the car. Suddenly she suddenly sees a car shooting to the left in front of her. Less than a second later, her navigation system makes a loud beep and it drops out.</p>
+            <p>Lisa is on her way to a meeting in her self-driving car. “I should have gone to sleep a bit earlier,” she thinks, while slightly indulging in the car. Suddenly she suddenly sees a car shooting to the left in front of her. Less than a second later, her navigation system makes a loud beep and it drops out.</p>
             <h4>Impacts</h4>
-            <p>Many systems depend on Google. The shutdown of Google causes chaos on the roads and public transport. Supermarket doors no longer work and people can only reach each other over the telephone, "but then again, who still has call minutes if everything can be done via Google".</p>
+            <p>Many systems depend on Google. The shutdown of Google causes chaos on the roads and public transport. Supermarket doors no longer work and people can only reach each other over the telephone, “but then again, who still has call minutes if everything can be done via Google”.</p>
             <p>Paying via Google-pay no longer works, luckily there are people who arrange their payments through other apps.</p>
           </main>
         </IntersectionObserver>
