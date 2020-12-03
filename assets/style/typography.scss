@@ -60,6 +60,14 @@ main {
 		font-weight: $font-weight-regular;
 		font-size: 0.8rem;
 	}
+
+	p {
+		margin-bottom: 1rem;
+	}
+
+	ul {
+		margin-left: 1em;
+	}
 }
 
 .caption {
@@ -72,10 +80,6 @@ main {
 		font-size: 0.6rem;
 		color: getColor(gray, 50);
 	}
-}
-
-p {
-	margin-bottom: 1rem;
 }
 
 #introduction p {
@@ -114,10 +118,6 @@ a {
 			top: 0;
 		}
 	}
-}
-
-ul {
-	margin-left: 1em;
 }
 
 .graphic {
