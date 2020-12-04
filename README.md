@@ -19,6 +19,14 @@ This repository contains the code for [*Co-producing robust adaptation pathways 
 
 The source code is licensed under the [ISC license](LICENSE.md). Text and graphics are licensed under [Attribution-ShareAlike 4.0 International](https://creativecommons.org/licenses/by-sa/4.0/). For licensing information on datasets please refer to the data sources section. Exceptions are listed below on a per-file basis.
 
+## Data Sources
+
+Data sources and if applicable licenses are listed below on a per-file basis.
+
+- `store/modules/driver.js` [Lotte de Jong (2020) Fuzzy Cognitive Maps for the Overijsselse Vecht](data/Lotte de Jong (2020) Fuzzy Cognitive Maps for the Overijsselse Vecht.xlsx)
+- `store/modules/vision.js` [Simona Pedde & Lotte de Jong (2020) Vision scoring](data/Simona Pedde & Lotte de Jong (2020) Vision scoring.xlsx)
+- `store/modules/time.js` Source: [ISIMIP Database](https://data.isimip.org/); [License for the ISIMIP scenario data](https://www.isimip.org/gettingstarted/terms-of-use/licenses-publicly-available-isimip-data/)
+
 ## Build Setup
 
 ```bash
